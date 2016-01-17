@@ -72,9 +72,6 @@
   </ProjectExtensions>
   <ItemGroup>
     <None Include="Configuration.cs" />
-    <None Include="Hook4.cs" />
-    <Compile Include="American Roads\RedirectCallsState.cs" />
-    <None Include="American Roads\RedirectionHelper.cs" />
   </ItemGroup>
   <PropertyGroup>
     <PostBuildEvent>del "%25LOCALAPPDATA%25\Colossal Order\Cities_Skylines\Addons\Mods\RoadsUnited\$(TargetFileName)"
