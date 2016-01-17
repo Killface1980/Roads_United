@@ -83,7 +83,6 @@ namespace RoadsUnited
             RoadsUnited.ReplaceNetTextures(modPath);
 
 //            RoadsUnited.ChangeProps(modPath, RoadsUnited.config.disable_optional_arrows);
-            RoadsUnited.ReplaceNetTextures(modPath);
 
 
             //              this.hookGo = new GameObject("RoadsUnited hook");
