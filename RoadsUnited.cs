@@ -2,167 +2,110 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
+using System.Xml.Serialization;
 using ColossalFramework;
 
 
 namespace RoadsUnited
 {
-
-
-	public class RoadsUnited : MonoBehaviour
-    
-	{
- //       public static Configuration config;
-  //      public static readonly string configPath = "RoadsUnitedConfig2.xml";
-
-        public int anisoLevel;
-
-        // American_Roads.AmericanRoads
-    
-        /*
-        NetCollection[] array3 = Object.FindObjectsOfType<NetCollection>();
-NetCollection[] array4 = array3;
-for (int i = 0; i < array4.Length; i++)
-{
-NetCollection netCollection = array4[i];
-if (netCollection != null)
-{
-NetInfo[] prefabs2 = netCollection.m_prefabs;
-for (int j = 0; j < prefabs2.Length; j++)
-{
-    NetInfo netInfo = prefabs2[j];
-    if (netInfo != null)
+    public class Configuration
     {
-        if (netInfo.m_class.get_name().Equals("Highway"))
+        public bool disable_optional_arrows = true;
+
+        public bool use_alternate_pavement_texture = false;
+
+        public bool use_cracked_roads = false;
+
+        public float crackIntensity = 1f;
+
+        public void OnPreSerialize()
         {
-            NetInfo.Lane[] lanes = netInfo.m_lanes;
-            for (int k = 0; k < lanes.Length; k++)
+        }
+
+        public void OnPostDeserialize()
+        {
+        }
+
+        public static void Serialize(string filename, Configuration config)
+        {
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
+            using (StreamWriter streamWriter = new StreamWriter(filename))
             {
-                NetInfo.Lane lane = lanes[k];
-                if (lane != null)
-                {
-                    FastList<NetLaneProps.Prop> fastList = new FastList<NetLaneProps.Prop>();
-                    NetLaneProps.Prop[] props = lane.m_laneProps.m_props;
-                    for (int l = 0; l < props.Length; l++)
-                    {
-                        NetLaneProps.Prop prop = props[l];
-                        if (prop != null)
-                        {
-                            if (remove_arrows)
-                            {
-                                if (!prop.m_prop.get_name().Equals("Road Arrow F") && !prop.m_prop.get_name().Equals("Manhole"))
-                                {
-                                    fastList.Add(prop);
-                                }
-                            }
-                            else if (!prop.m_prop.get_name().Equals("Manhole"))
-                            {
-                                fastList.Add(prop);
-                            }
-                        }
-                    }
-                    lane.m_laneProps.m_props = fastList.ToArray();
-                }
+                config.OnPreSerialize();
+                xmlSerializer.Serialize(streamWriter, config);
             }
         }
-        if (netInfo.m_class.get_name().Contains("Elevated") || netInfo.m_class.get_name().Contains("Bridge"))
+
+        public static Configuration Deserialize(string filename)
         {
-            NetInfo.Lane[] lanes = netInfo.m_lanes;
-            for (int k = 0; k < lanes.Length; k++)
+            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
+            Configuration result;
+            try
             {
-                NetInfo.Lane lane = lanes[k];
-                if (lane != null && lane.m_laneProps != null)
+                using (StreamReader streamReader = new StreamReader(filename))
                 {
-                    FastList<NetLaneProps.Prop> fastList = new FastList<NetLaneProps.Prop>();
-                    NetLaneProps.Prop[] props = lane.m_laneProps.m_props;
-                    for (int l = 0; l < props.Length; l++)
-                    {
-                        NetLaneProps.Prop prop = props[l];
-                        if (prop != null && !prop.m_prop.get_name().Equals("Manhole"))
-                        {
-                            fastList.Add(prop);
-                        }
-                    }
-                    lane.m_laneProps.m_props = fastList.ToArray();
+                    Configuration configuration = (Configuration)xmlSerializer.Deserialize(streamReader);
+                    configuration.OnPostDeserialize();
+                    result = configuration;
+                    return result;
                 }
             }
+            catch
+            {
+            }
+            result = null;
+            return result;
         }
     }
-}
-}
-}
-}
 
 
-/* NetCollection[] array3 = FindObjectsOfType<NetCollection>();
-NetCollection[] array4 = array3;
-for (int i = 0; i < array4.Length; i++)
-{
-NetCollection netCollection = array4[i];
+    public class RoadsUnited : MonoBehaviour
+    
+	{
 
-NetInfo[] prefabs2 = netCollection.m_prefabs;
-for (int j = 0; j < prefabs2.Length; j++)
-{
- NetInfo netInfo = prefabs2[j];
 
-     if (netInfo.m_class.name.Equals("Highway"))
-     {
-         NetInfo.Lane[] lanes = netInfo.m_lanes;
-         for (int k = 0; k < lanes.Length; k++)
-         {
-             NetInfo.Lane lane = lanes[k];
+    private static Texture2D cracksTex;
 
-                 FastList<NetLaneProps.Prop> fastList = new FastList<NetLaneProps.Prop>();
-                 NetLaneProps.Prop[] props = lane.m_laneProps.m_props;
-                 for (int l = 0; l < props.Length; l++)
-                 {
-                     NetLaneProps.Prop prop = props[l];
+        public static Configuration config;
 
-        //                 if (remove_arrows)
-          //               {
-                             if (!prop.m_prop.name.Equals("Road Arrow F") && !prop.m_prop.name.Equals("Manhole"))
-                             {
-                                 fastList.Add(prop);
-                             }
-                     //    }
-                         else if (!prop.m_prop.name.Equals("Manhole"))
-                         {
-                             fastList.Add(prop);
-                         }
-                     }
-                 }
-                 lane.m_laneProps.m_props = fastList.ToArray();
-             }
-         }
-     }
-     if (netInfo.m_class.name.Contains("Elevated") || netInfo.m_class.name.Contains("Bridge"))
-     {
-         NetInfo.Lane[] lanes = netInfo.m_lanes;
-         for (int k = 0; k < lanes.Length; k++)
-         {
-             NetInfo.Lane lane = lanes[k];
-             if (lane != null && lane.m_laneProps != null)
-             {
-                 FastList<NetLaneProps.Prop> fastList = new FastList<NetLaneProps.Prop>();
-                 NetLaneProps.Prop[] props = lane.m_laneProps.m_props;
-                 for (int l = 0; l < props.Length; l++)
-                 {
-                     NetLaneProps.Prop prop = props[l];
-                     if (prop != null && !prop.m_prop.name.Equals("Manhole"))
-                     {
-                         fastList.Add(prop);
-                     }
-                 }
-                 lane.m_laneProps.m_props = fastList.ToArray();
-             }
-         }
-     }
- }
-}
-}
-}
-*/
+        public static readonly string configPath = (Path.Combine(RoadsUnitedModLoader.getModPath(), "RoadsUnitedConfig.xml"));
 
+        private static PropInfo sl15 = new PropInfo();
+
+        private static PropInfo sl25 = new PropInfo();
+
+        private static PropInfo sl30 = new PropInfo();
+
+        private static PropInfo sl45 = new PropInfo();
+
+        private static PropInfo sl65 = new PropInfo();
+
+        private static PropInfo left_turn = new PropInfo();
+
+        private static PropInfo right_turn = new PropInfo();
+
+        private static PropInfo motorwaysign = new PropInfo();
+
+        private static bool motorwaypropfound = false;
+
+        private static int turnsignpropsfound = 0;
+
+        private static PropInfo parkingsign = new PropInfo();
+
+        private static bool parkingsignpropfound = false;
+
+        private static int slpropsfound = 0;
+
+        public static void SaveConfig()
+        {
+            Configuration.Serialize(RoadsUnited.configPath, RoadsUnited.config);
+        }
+
+
+        // American_Roads.RoadsUnited
+    
+    
 
         public static Texture2D LoadTexture(string texturePath)
 		{
@@ -172,12 +115,118 @@ for (int j = 0; j < prefabs2.Length; j++)
             return texture2D;
 		}
 
-        /*
-        public static void SaveConfig()
+        public static Texture2D LoadTextureDDS(string texturePath)
         {
-            Configuration.Serialize(configPath, config);
+            byte[] array = File.ReadAllBytes(texturePath);
+            int num = BitConverter.ToInt32(array, 12);
+            int num2 = BitConverter.ToInt32(array, 16);
+            Texture2D texture2D = new Texture2D(num2, num);
+            List<byte> list = new List<byte>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                if (i > 127)
+                {
+                    list.Add(array[i]);
+                }
+            }
+            texture2D.LoadRawTextureData(list.ToArray());
+            texture2D.Apply();
+            texture2D.anisoLevel = 8;
+            return texture2D;
         }
-        */
+
+
+        // American_Roads.RoadsUnited
+        public static void ChangeProps(string textureDir, bool remove_arrows)
+        {
+            var prop_collections = UnityEngine.Object.FindObjectsOfType<PropCollection>();
+            foreach (var pc in prop_collections)
+            {
+                foreach (var prefab in pc.m_prefabs)
+                {
+                    if (remove_arrows && (prefab.name.Equals("Road Arrow LFR") || prefab.name.Equals("Road Arrow LR")))
+                    {
+                        prefab.m_maxRenderDistance = 0f;
+                        prefab.m_maxScale = 0f;
+                        prefab.m_minScale = 0f;
+                    }
+
+                    if (prefab.name.Equals("Motorway Overroad Signs"))
+                    {
+                        //var tex = new Texture2D (1, 1);
+                        //tex.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "motorway-overroad-signs.png")));
+                        prefab.m_material.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(textureDir, "motorway-overroad-signs.dds")));
+                        //var tex2 = new Texture2D (1, 1);
+                        //tex2.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "motorway-overroad-signs-motorway-overroad-signs-aci.png")));
+                        prefab.m_material.SetTexture("_ACIMap", LoadTextureDDS(Path.Combine(textureDir, "motorway-overroad-signs-motorway-overroad-signs-aci.dds")));
+                        //var tex3 = new Texture2D (1, 1);
+                        //tex3.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "motorway-overroad-signs-motorway-overroad-signs-xys.png")));
+                        prefab.m_material.SetTexture("_XYSMap", LoadTextureDDS(Path.Combine(textureDir, "motorway-overroad-signs-motorway-overroad-signs-xys.dds")));
+                        prefab.m_lodRenderDistance = 100000;
+                        prefab.m_lodMesh = null;
+                        //prefab.m_maxRenderDistance = 12000;
+                        prefab.RefreshLevelOfDetail();
+                    }
+                    else if (prefab.name.Equals("Street Name Sign"))
+                    {
+                        //var tex = new Texture2D (1, 1);
+                        //tex.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "street-name-sign.png")));
+                        prefab.m_material.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(textureDir, "street-name-sign.dds")));
+                        prefab.m_lodRenderDistance = 100000;
+                        prefab.m_lodMesh = null;
+
+                        prefab.RefreshLevelOfDetail();
+                    }
+                }
+            }
+
+
+            var net_collections = UnityEngine.Object.FindObjectsOfType<NetCollection>();
+            foreach (var nc in net_collections)
+            {
+                foreach (var prefab in nc.m_prefabs)
+                {
+                    if (prefab.m_class.name.Equals("Highway"))
+                    {
+                        foreach (var lane in prefab.m_lanes)
+                        {
+                            var list = new FastList<NetLaneProps.Prop>();
+                            foreach (var prop in lane.m_laneProps.m_props)
+                            {
+                                if (remove_arrows)
+                                {
+                                    if (!prop.m_prop.name.Equals("Road Arrow F") && !prop.m_prop.name.Equals("Manhole"))
+                                    {
+                                        list.Add(prop);
+                                    }
+                                }
+                                else if (!prop.m_prop.name.Equals("Manhole"))
+                                {
+                                    list.Add(prop);
+                                }
+                            }
+                            lane.m_laneProps.m_props = list.ToArray();
+                        }
+
+                    }
+                    if (prefab.m_class.name.Contains("Elevated") || prefab.m_class.name.Contains("Bridge"))
+                    {
+                        foreach (var lane in prefab.m_lanes)
+                        {
+                            var list = new FastList<NetLaneProps.Prop>();
+                            foreach (var prop in lane.m_laneProps.m_props)
+                            {
+                                if (!prop.m_prop.name.Equals("Manhole"))
+                                {
+                                    list.Add(prop);
+                                }
+                            }
+                            lane.m_laneProps.m_props = list.ToArray();
+                        }
+                    }
+                }
+            }
+        }
 
         public static void ReplaceNetTextures(string textureDir)
 		{
@@ -502,9 +551,10 @@ for (int j = 0; j < prefabs2.Length; j++)
 
 
 
-	}
-
 
     }
+
+
+}
 
 

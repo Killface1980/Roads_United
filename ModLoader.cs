@@ -1,5 +1,6 @@
 ﻿using ColossalFramework;
 using ColossalFramework.IO;
+using ColossalFramework.Packaging;
 using ColossalFramework.Steamworks;
 using ICities;
 using System;
@@ -14,20 +15,8 @@ namespace RoadsUnited
 {
 
 
-
     public class RoadsUnitedModLoader : LoadingExtensionBase
 	{
-        //AR
-
- //           public static bool exor = false;
-
-//            private GameObject hookGo;
-
- //           private Hook4 hook;
-
-
-        //AR end
-    
 
         public static string getModPath()
 		{
@@ -58,8 +47,9 @@ namespace RoadsUnited
 			return result;
 		}
 
-        // Ameriacn %Roads begin
-        /*
+        public string modPath = getModPath();
+
+
         public override void OnCreated(ILoading loading)
         {
             RoadsUnited.config = Configuration.Deserialize(RoadsUnited.configPath);
@@ -68,10 +58,13 @@ namespace RoadsUnited
                 RoadsUnited.config = new Configuration();
             }
             RoadsUnited.SaveConfig();
-        
-        			base.OnCreated(loading);
+            base.OnCreated(loading);
+
+
+
+
         }
-        */
+
         //American Roads end
 
         public class EnableAchievementsLoad : LoadingExtensionBase
@@ -82,34 +75,31 @@ namespace RoadsUnited
             }
         }
 
+
         public override void OnLevelLoaded(LoadMode mode)
 		{
 
-  //              this.hookGo = new GameObject("RoadsUnited hook");
- //           this.hook = this.hookGo.AddComponent<Hook4>();
             string modPath = RoadsUnitedModLoader.getModPath();
             RoadsUnited.ReplaceNetTextures(modPath);
 
-                /*           if (RoadsUnited.config.use_alternate_pavement_texture)
-                           {
-                               RoadsUnited.ReplacePavement(modPath, RoadsUnited.config.use_cracked_roads, RoadsUnited.config.use_alternate_pavement_texture);
-                           }
-                           RoadsUnited.ReplaceProps();
-               */
+//            RoadsUnited.ChangeProps(modPath, RoadsUnited.config.disable_optional_arrows);
+            RoadsUnited.ReplaceNetTextures(modPath);
 
 
-                //			RoadsUnited.ReplaceNetTextures(modPath);
-                //			UKRoads.ReplacePropTextures(modPath);
-  //              RoadsUnitedModLoader.exor = false;
-
-    //        base.OnLevelLoaded(mode);
+            //              this.hookGo = new GameObject("RoadsUnited hook");
+            //           this.hook = this.hookGo.AddComponent<Hook4>();
+            /*           if (RoadsUnited.config.use_alternate_pavement_texture)
+                       {
+                           RoadsUnited.ReplacePavement(modPath, RoadsUnited.config.use_cracked_roads, RoadsUnited.config.use_alternate_pavement_texture);
+                       }
+            */
         }
-        /*
+
         public static void SaveConfig()
         {
             Configuration.Serialize(RoadsUnited.configPath, RoadsUnited.config);
         }
-        */
+        
     }
 }
 
