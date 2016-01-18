@@ -45,23 +45,6 @@ namespace RoadsUnited
         public string modPath = getModPath();
 
 
-        public override void OnCreated(ILoading loading)
-        {
-            RoadsUnited.config = Configuration.Deserialize(RoadsUnited.configPath);
-            if (RoadsUnited.config == null)
-            {
-                RoadsUnited.config = new Configuration();
-            }
-            RoadsUnited.SaveConfig();
-            base.OnCreated(loading);
-
-
-
-
-        }
-
-        //American Roads end
-
         public class EnableAchievementsLoad : LoadingExtensionBase
         {
             public override void OnLevelLoaded(LoadMode mode)
@@ -77,22 +60,8 @@ namespace RoadsUnited
             string modPath = RoadsUnitedModLoader.getModPath();
             RoadsUnited.ReplaceNetTextures(modPath);
 
-//            RoadsUnited.ChangeProps(modPath, RoadsUnited.config.disable_optional_arrows);
-
-
-            //              this.hookGo = new GameObject("RoadsUnited hook");
-            //           this.hook = this.hookGo.AddComponent<Hook4>();
-            /*           if (RoadsUnited.config.use_alternate_pavement_texture)
-                       {
-                           RoadsUnited.ReplacePavement(modPath, RoadsUnited.config.use_cracked_roads, RoadsUnited.config.use_alternate_pavement_texture);
-                       }
-            */
         }
 
-        public static void SaveConfig()
-        {
-            Configuration.Serialize(RoadsUnited.configPath, RoadsUnited.config);
-        }
         
     }
 }

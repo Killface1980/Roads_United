@@ -1,112 +1,14 @@
 ﻿using UnityEngine;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
-using System.Xml.Serialization;
-using ColossalFramework;
+
 
 
 namespace RoadsUnited
 {
-    public class Configuration
-    {
-        public bool disable_optional_arrows = true;
-
-        public bool use_alternate_pavement_texture = false;
-
-        public bool use_cracked_roads = false;
-
-        public float crackIntensity = 1f;
-
-        public void OnPreSerialize()
-        {
-        }
-
-        public void OnPostDeserialize()
-        {
-        }
-
-        public static void Serialize(string filename, Configuration config)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
-            using (StreamWriter streamWriter = new StreamWriter(filename))
-            {
-                config.OnPreSerialize();
-                xmlSerializer.Serialize(streamWriter, config);
-            }
-        }
-
-        public static Configuration Deserialize(string filename)
-        {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(Configuration));
-            Configuration result;
-            try
-            {
-                using (StreamReader streamReader = new StreamReader(filename))
-                {
-                    Configuration configuration = (Configuration)xmlSerializer.Deserialize(streamReader);
-                    configuration.OnPostDeserialize();
-                    result = configuration;
-                    return result;
-                }
-            }
-            catch
-            {
-            }
-            result = null;
-            return result;
-        }
-    }
-
 
     public class RoadsUnited : MonoBehaviour
     
 	{
-
-
-    private static Texture2D cracksTex;
-
-        public static Configuration config;
-
-        public static readonly string configPath = (Path.Combine(RoadsUnitedModLoader.getModPath(), "RoadsUnitedConfig.xml"));
-
-        private static PropInfo sl15 = new PropInfo();
-
-        private static PropInfo sl25 = new PropInfo();
-
-        private static PropInfo sl30 = new PropInfo();
-
-        private static PropInfo sl45 = new PropInfo();
-
-        private static PropInfo sl65 = new PropInfo();
-
-        private static PropInfo left_turn = new PropInfo();
-
-        private static PropInfo right_turn = new PropInfo();
-
-        private static PropInfo motorwaysign = new PropInfo();
-
-        private static bool motorwaypropfound = false;
-
-        private static int turnsignpropsfound = 0;
-
-        private static PropInfo parkingsign = new PropInfo();
-
-        private static bool parkingsignpropfound = false;
-
-        private static int slpropsfound = 0;
-
-        public static void SaveConfig()
-        {
-            Configuration.Serialize(RoadsUnited.configPath, RoadsUnited.config);
-        }
-
-
-        // American_Roads.RoadsUnited
-    
-    
-
         public static Texture2D LoadTexture(string texturePath)
 		{
 			Texture2D texture2D = new Texture2D(1, 1);
@@ -114,120 +16,7 @@ namespace RoadsUnited
             texture2D.anisoLevel = 8;
             return texture2D;
 		}
-
-        public static Texture2D LoadTextureDDS(string texturePath)
-        {
-            byte[] array = File.ReadAllBytes(texturePath);
-            int num = BitConverter.ToInt32(array, 12);
-            int num2 = BitConverter.ToInt32(array, 16);
-            Texture2D texture2D = new Texture2D(num2, num);
-            List<byte> list = new List<byte>();
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (i > 127)
-                {
-                    list.Add(array[i]);
-                }
-            }
-            texture2D.LoadRawTextureData(list.ToArray());
-            texture2D.Apply();
-            texture2D.anisoLevel = 8;
-            return texture2D;
-        }
-
-
-        // American_Roads.RoadsUnited
-        public static void ChangeProps(string textureDir, bool remove_arrows)
-        {
-            var prop_collections = UnityEngine.Object.FindObjectsOfType<PropCollection>();
-            foreach (var pc in prop_collections)
-            {
-                foreach (var prefab in pc.m_prefabs)
-                {
-                    if (remove_arrows && (prefab.name.Equals("Road Arrow LFR") || prefab.name.Equals("Road Arrow LR")))
-                    {
-                        prefab.m_maxRenderDistance = 0f;
-                        prefab.m_maxScale = 0f;
-                        prefab.m_minScale = 0f;
-                    }
-
-                    if (prefab.name.Equals("Motorway Overroad Signs"))
-                    {
-                        //var tex = new Texture2D (1, 1);
-                        //tex.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "motorway-overroad-signs.png")));
-                        prefab.m_material.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(textureDir, "motorway-overroad-signs.dds")));
-                        //var tex2 = new Texture2D (1, 1);
-                        //tex2.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "motorway-overroad-signs-motorway-overroad-signs-aci.png")));
-                        prefab.m_material.SetTexture("_ACIMap", LoadTextureDDS(Path.Combine(textureDir, "motorway-overroad-signs-motorway-overroad-signs-aci.dds")));
-                        //var tex3 = new Texture2D (1, 1);
-                        //tex3.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "motorway-overroad-signs-motorway-overroad-signs-xys.png")));
-                        prefab.m_material.SetTexture("_XYSMap", LoadTextureDDS(Path.Combine(textureDir, "motorway-overroad-signs-motorway-overroad-signs-xys.dds")));
-                        prefab.m_lodRenderDistance = 100000;
-                        prefab.m_lodMesh = null;
-                        //prefab.m_maxRenderDistance = 12000;
-                        prefab.RefreshLevelOfDetail();
-                    }
-                    else if (prefab.name.Equals("Street Name Sign"))
-                    {
-                        //var tex = new Texture2D (1, 1);
-                        //tex.LoadImage (System.IO.File.ReadAllBytes (Path.Combine (textureDir, "street-name-sign.png")));
-                        prefab.m_material.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(textureDir, "street-name-sign.dds")));
-                        prefab.m_lodRenderDistance = 100000;
-                        prefab.m_lodMesh = null;
-
-                        prefab.RefreshLevelOfDetail();
-                    }
-                }
-            }
-
-
-            var net_collections = UnityEngine.Object.FindObjectsOfType<NetCollection>();
-            foreach (var nc in net_collections)
-            {
-                foreach (var prefab in nc.m_prefabs)
-                {
-                    if (prefab.m_class.name.Equals("Highway"))
-                    {
-                        foreach (var lane in prefab.m_lanes)
-                        {
-                            var list = new FastList<NetLaneProps.Prop>();
-                            foreach (var prop in lane.m_laneProps.m_props)
-                            {
-                                if (remove_arrows)
-                                {
-                                    if (!prop.m_prop.name.Equals("Road Arrow F") && !prop.m_prop.name.Equals("Manhole"))
-                                    {
-                                        list.Add(prop);
-                                    }
-                                }
-                                else if (!prop.m_prop.name.Equals("Manhole"))
-                                {
-                                    list.Add(prop);
-                                }
-                            }
-                            lane.m_laneProps.m_props = list.ToArray();
-                        }
-
-                    }
-                    if (prefab.m_class.name.Contains("Elevated") || prefab.m_class.name.Contains("Bridge"))
-                    {
-                        foreach (var lane in prefab.m_lanes)
-                        {
-                            var list = new FastList<NetLaneProps.Prop>();
-                            foreach (var prop in lane.m_laneProps.m_props)
-                            {
-                                if (!prop.m_prop.name.Equals("Manhole"))
-                                {
-                                    list.Add(prop);
-                                }
-                            }
-                            lane.m_laneProps.m_props = list.ToArray();
-                        }
-                    }
-                }
-            }
-        }
-
+        
         public static void ReplaceNetTextures(string textureDir)
 		{
 			NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
@@ -276,8 +65,6 @@ namespace RoadsUnited
                                     text2 = Path.Combine(textureDir, "medium_road_n.png");
                                     text4 = Path.Combine(textureDir, "medium_road_n_map.png");
                                 }
-
-                                
                                 
                                     text2 = Path.Combine(textureDir, "basic_road_n.png");
                                     text4 = Path.Combine(textureDir, "basic_road_n_map.png");
