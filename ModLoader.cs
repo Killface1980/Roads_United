@@ -11,36 +11,36 @@ namespace RoadsUnited
 
 
     public class RoadsUnitedModLoader : LoadingExtensionBase
-	{
+    {
 
         public static string getModPath()
-		{
-			string text = ".";
-			PublishedFileId[] subscribedItems = Steam.workshop.GetSubscribedItems();
-			for (int i = 0; i < subscribedItems.Length; i++)
-			{
-				PublishedFileId id = subscribedItems[i];
-				if (id.AsUInt64 == 598151121)
-				{
-					text = Steam.workshop.GetSubscribedItemPath(id);
-					Debug.Log("Roads United: Workshop path: " + text);
-					break;
-				}
-			}
-			string text2 = DataLocation.modsPath + "/RoadsUnited";
-			Debug.Log("Roads United: " + text2);
-			string result;
-			if (Directory.Exists(text2))
-			{
-				Debug.Log("Roads United: Local path exists, looking for assets here: " + text2);
-				result = text2;
-			}
-			else
-			{
-				result = text;
-			}
-			return result;
-		}
+        {
+            string text = ".";
+            PublishedFileId[] subscribedItems = Steam.workshop.GetSubscribedItems();
+            for (int i = 0; i < subscribedItems.Length; i++)
+            {
+                PublishedFileId id = subscribedItems[i];
+                if (id.AsUInt64 == 598151121)
+                {
+                    text = Steam.workshop.GetSubscribedItemPath(id);
+                    Debug.Log("Roads United: Workshop path: " + text);
+                    break;
+                }
+            }
+            string text2 = DataLocation.modsPath + "/RoadsUnited";
+            Debug.Log("Roads United: " + text2);
+            string result;
+            if (Directory.Exists(text2))
+            {
+                Debug.Log("Roads United: Local path exists, looking for assets here: " + text2);
+                result = text2;
+            }
+            else
+            {
+                result = text;
+            }
+            return result;
+        }
 
         public string modPath = getModPath();
 
@@ -55,14 +55,14 @@ namespace RoadsUnited
 
 
         public override void OnLevelLoaded(LoadMode mode)
-		{
+        {
 
             string modPath = RoadsUnitedModLoader.getModPath();
             RoadsUnited.ReplaceNetTextures(modPath);
 
         }
 
-        
+
     }
 }
 
