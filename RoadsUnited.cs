@@ -13,36 +13,6 @@ namespace RoadsUnited
     public class RoadsUnited : MonoBehaviour
 
     {
-        static class Logger
-        {
-            private static readonly string Prefix = "Roads_United: ";
-            //private static readonly bool inGameDebug = Environment.OSVersion.Platform != PlatformID.Unix;
-
-            public static void LogInfo(string message, params object[] args)
-            {
-                var msg = Prefix + String.Format(message, args);
-                Debug.Log(msg);
-                //if (inGameDebug)
-                //    DebugOutputPanel.AddMessage(PluginManager.MessageType.Message, msg);
-            }
-
-            public static void LogWarning(string message, params object[] args)
-            {
-                var msg = Prefix + String.Format(message, args);
-                Debug.LogWarning(msg);
-                //if (inGameDebug)
-                //    DebugOutputPanel.AddMessage(PluginManager.MessageType.Warning, msg);
-            }
-
-            public static void LogError(string message, params object[] args)
-            {
-                var msg = Prefix + String.Format(message, args);
-                Debug.LogError(msg);
-                //if (inGameDebug)
-                //    DebugOutputPanel.AddMessage(PluginManager.MessageType.Error, msg);
-            }
-        }
-
         public static Texture2D LoadTexture(string texturePath)
         {
             Texture2D texture2D = new Texture2D(1, 1);
