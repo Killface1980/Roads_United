@@ -106,10 +106,10 @@ namespace RoadsUnited
                         NetInfo.Segment segment = segments[l];
                         string text5 = Path.Combine(textureDir, text + "_s.png");
                         string text6 = Path.Combine(textureDir, text + "_s_map.png");
-
+                        string text55 = Path.Combine(textureDir, text + "_s_lod.png");
                         string text7 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + ".png");
                         string text77 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_map.png");
-
+                        string text78 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_lod.png");
                         string text8 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco1_grass.png");
                         string text9 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco2_trees.png");
 
@@ -120,6 +120,11 @@ namespace RoadsUnited
                             segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
 
+                            if (File.Exists(text78))
+                
+                            {
+                                segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text78));
+                            }
 
                             if (File.Exists(text77))
                             {
@@ -170,6 +175,10 @@ namespace RoadsUnited
                         {
                             segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text5));
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text5));
+                            if (File.Exists(text55))
+                            {
+                                segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, text55)));
+                            }
 
 
                         }
@@ -198,16 +207,33 @@ namespace RoadsUnited
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
                         }
 
-                        if (text.Contains("large") && text.Contains("oneway") && text.Contains("decoration"))
+                        //       large_oneway_s2_busside.png
+
+                        if (text.Contains("large") && text.Contains("oneway"))
                         {
 
-                            if (segment.m_mesh.name.Equals("LargeRoadSegment2"))
+                            if (segment.m_mesh.name.Equals("LargeRoadSegmentBusSide"))
+                            {
+                                segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s_busside.png")));
+                                segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s_busside.png")));
+
+                            }
+
+                            if (segment.m_mesh.name.Equals("LargeRoadSegment2BusSide"))
+                            {
+                                segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s2_busside.png")));
+                                segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s2_busside.png")));
+
+                            }
+
+                            if (segment.m_mesh.name.Equals("LargeRoadSegment2") && text.Contains("decoration"))
 
                             {
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s2.png")));
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s2.png")));
 
                             }
+
                             /*
                             if (segment.m_mesh.name.Equals("LargeRoadSegmentBusBothBuslane"))
                             {
@@ -259,97 +285,93 @@ namespace RoadsUnited
                                 {
                                     bool flag14 = text.Contains("elevated") || text.Contains("bridge");
                                     if (flag14)
+
                                     {
-                                        text9 = Path.Combine(textureDir, "smallroadelevatednode.png");
-                                        text10 = Path.Combine(textureDir, "basic_road_elevated_n_map.png");
-                                    }
-                                    else
-                                    {
-                                        if (text.Equals("basic_road_bicycle"))
+                                        if (text.Contains("bicycle"))
                                         {
-                                            text9 = Path.Combine(textureDir, "basic_road_bicycle_n.png");
+                                            text9 = Path.Combine(textureDir, "smallroadelevatedbikenode.png");
                                         }
                                         else
                                         {
                                             text9 = Path.Combine(textureDir, "basic_road_n.png");
                                         }
-                                    }
 
-                                }
-                            }
-                            bool flag15 = text.Contains("medium");
-                            if (flag15)
-                            {
-                                bool flag16 = text.Contains("slope");
-                                if (flag16)
-                                {
-                                    text9 = Path.Combine(textureDir, "medium_road_n.png");
-                                    text10 = Path.Combine(textureDir, "medium_road_n_map.png");
-                                }
-                                else
-                                {
-                                    bool flag17 = text.Contains("elevated") || text.Contains("bridge");
-                                    if (flag17)
-                                    {
-                                        text9 = Path.Combine(textureDir, "roadmediumelevatednode.png");
-                                        text10 = Path.Combine(textureDir, "nan_map.png");
                                     }
-                                    else
+                                }
+                                bool flag15 = text.Contains("medium");
+                                if (flag15)
+                                {
+                                    bool flag16 = text.Contains("slope");
+                                    if (flag16)
                                     {
                                         text9 = Path.Combine(textureDir, "medium_road_n.png");
                                         text10 = Path.Combine(textureDir, "medium_road_n_map.png");
                                     }
-                                }
-                            }
-                            bool flag18 = text.Contains("large");
-                            if (flag18)
-                            {
-                                bool flag19 = text.Contains("slope");
-                                if (flag19)
-                                {
-                                    text9 = Path.Combine(textureDir, "large_road_decoration_n.png");
-                                    text10 = Path.Combine(textureDir, "large_road_decoration_n_map.png");
-                                }
-                                else
-                                {
-                                    bool flag20 = text.Contains("elevated") || text.Contains("bridge");
-                                    if (flag20)
+                                    else
                                     {
-                                        text9 = Path.Combine(textureDir, "largeroadelevatednode.png");
-                                        text10 = Path.Combine(textureDir, "large_road_elevated_n_map.png");
+                                        bool flag17 = text.Contains("elevated") || text.Contains("bridge");
+                                        if (flag17)
+                                        {
+                                            text9 = Path.Combine(textureDir, "roadmediumelevatednode.png");
+                                            text10 = Path.Combine(textureDir, "nan_map.png");
+                                        }
+                                        else
+                                        {
+                                            text9 = Path.Combine(textureDir, "medium_road_n.png");
+                                            text10 = Path.Combine(textureDir, "medium_road_n_map.png");
+                                        }
+                                    }
+                                }
+                                bool flag18 = text.Contains("large");
+                                if (flag18)
+                                {
+                                    bool flag19 = text.Contains("slope");
+                                    if (flag19)
+                                    {
+                                        text9 = Path.Combine(textureDir, "large_road_decoration_n.png");
+                                        text10 = Path.Combine(textureDir, "large_road_decoration_n_map.png");
                                     }
                                     else
                                     {
-                                        text9 = Path.Combine(textureDir, "large_road_n.png");
-                                        text10 = Path.Combine(textureDir, "large_road_n_map.png");
+                                        bool flag20 = text.Contains("elevated") || text.Contains("bridge");
+                                        if (flag20)
+                                        {
+                                            text9 = Path.Combine(textureDir, "largeroadelevatednode.png");
+                                            text10 = Path.Combine(textureDir, "large_road_elevated_n_map.png");
+                                        }
+                                        else
+                                        {
+                                            text9 = Path.Combine(textureDir, "large_road_n.png");
+                                            text10 = Path.Combine(textureDir, "large_road_n_map.png");
+                                        }
                                     }
                                 }
-                            }
-                            bool flag21 = File.Exists(text9);
-                            if (flag21)
-                            {
-                                node2.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text9));
-                                node2.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text9));
-                            }
-                            bool flag22 = File.Exists(text10);
-                            if (flag22)
-                            {
-                                node2.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(text10));
-                                node2.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(text10));
+                                bool flag21 = File.Exists(text9);
+                                if (flag21)
+                                {
+                                    node2.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text9));
+                                    node2.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text9));
+                                }
+                                bool flag22 = File.Exists(text10);
+                                if (flag22)
+                                {
+                                    node2.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(text10));
+                                    node2.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(text10));
+                                }
                             }
                         }
                     }
                 }
             }
+
+
+
+
+
         }
 
 
-
-
-
     }
-
-
 }
 
 
