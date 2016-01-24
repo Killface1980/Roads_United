@@ -21,6 +21,7 @@ namespace RoadsUnited
             return texture2D;
         }
 
+
         public static void ReplaceNetTextures(string textureDir)
         {
             NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
@@ -104,6 +105,8 @@ namespace RoadsUnited
 
                     // Look for segments
 
+
+
                     NetInfo.Segment[] segments = netInfo.m_segments;
                     for (int l = 0; l < segments.Length; l++)
                     {
@@ -117,6 +120,8 @@ namespace RoadsUnited
                         string text8 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco1_grass.png");
                         string text9 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco2_trees.png");
 
+
+                        
                         // Begin replacing segment textures
 
                         if ((!(text.Contains("tl") || text.Contains("3l") || text.Contains("4l") || text.Contains("avenue"))) && File.Exists(text7))
@@ -374,261 +379,6 @@ namespace RoadsUnited
 
         }
 
-        public enum TextureType
-        {
-            Default,
-            LOD,
-            UI
-        }
-
-        public class AssetManager : Singleton<AssetManager>
-        {
-            // TODO: Resources.Load("Textures/myTexture") might be usefull here
-
-#if DEBUG
-            private readonly ICollection<Texture2D> _specialTextures = new List<Texture2D>();
-            public ICollection<Texture2D> SpecialTextures { get { return _specialTextures; } }
-#endif
-
-            private readonly IDictionary<string, byte[]> _allTexturesRaw = new Dictionary<string, byte[]>(StringComparer.InvariantCultureIgnoreCase);
-            private readonly IDictionary<string, Texture2D> _allTextures = new Dictionary<string, Texture2D>(StringComparer.InvariantCultureIgnoreCase);
-            private readonly IDictionary<string, Mesh> _allMeshes = new Dictionary<string, Mesh>(StringComparer.InvariantCultureIgnoreCase);
-
-            public IEnumerable<Action> CreateLoadingSequence(string modPath)
-            {
-                var modDirectory = new DirectoryInfo(modPath);
-
-                var files = new List<FileInfo>();
-                files.AddRange(modDirectory.GetFiles("*.png", SearchOption.AllDirectories));
-                files.AddRange(modDirectory.GetFiles("*.obj", SearchOption.AllDirectories));
-
-                foreach (var assetFile in files)
-                {
-                    var assetFullPath = assetFile.FullName;
-                    var assetRelativePath = assetFile.FullName.Replace(modPath, "").TrimStart(new[] { '\\', '/' });
-                    var assetName = assetFile.Name;
-
-                    if (_allTexturesRaw.ContainsKey(assetRelativePath))
-                    {
-                        continue;
-                    }
-
-                    switch (assetFile.Extension.ToLower())
-                    {
-                        case ".png":
-                            yield return () =>
-                            {
-                                _allTexturesRaw[assetRelativePath] = LoadTexturePNG(assetFullPath);
-                            };
-                            break;
-
-                            /*
-                        case ".obj":
-                            yield return () =>
-                            {
-                                _allMeshes[assetRelativePath] = LoadMesh(assetFullPath, assetName);
-                            };
-                            break;
-                            */
-                    }
-                }
-            }
-
-            private static byte[] LoadTexturePNG(string fullPath)
-            {
-                return File.ReadAllBytes(fullPath);
-            }
-
-            private static Texture2D CreateTexture(byte[] textureBytes, string textureName, TextureType type)
-            {
-                switch (type)
-                {
-                    case TextureType.Default:
-                        {
-                            var texture = new Texture2D(1, 1, TextureFormat.ARGB32, true);
-                            texture.name = textureName;
-                            texture.LoadImage(textureBytes);
-                            texture.anisoLevel = 8;
-                            texture.filterMode = FilterMode.Bilinear;
-                            texture.Apply();
-                            return texture;
-                        }
-
-                    case TextureType.LOD:
-                        {
-                            var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                            texture.name = textureName;
-                            texture.LoadImage(textureBytes);
-                            texture.anisoLevel = 8;
-                            texture.filterMode = FilterMode.Bilinear;
-                            texture.Apply();
-                            texture.Compress(false);
-                            return texture;
-                        }
-
-                    case TextureType.UI:
-                        {
-                            var texture = new Texture2D(1, 1, TextureFormat.ARGB32, false);
-                            texture.name = textureName;
-                            texture.LoadImage(textureBytes);
-                            texture.Apply();
-                            return texture;
-                        }
-
-                    default:
-                        throw new ArgumentOutOfRangeException("type");
-                }
-            }
-
-            /*
-            private static Mesh LoadMesh(string fullPath, string meshName)
-            {
-                var mesh = new Mesh();
-                using (var fileStream = File.Open(fullPath, FileMode.Open))
-                {
-                    mesh.LoadOBJ(OBJLoader.LoadOBJ(fileStream));
-                }
-                mesh.Optimize();
-                mesh.name = Path.GetFileNameWithoutExtension(meshName);
-
-                return mesh;
-            }
-            */
-
-            public Texture2D GetTexture(string path, TextureType type)
-            {
-                if (path.IsNullOrWhiteSpace())
-                {
-                    return null;
-                }
-
-                var trimmedPath = path
-                    .Replace('\\', Path.DirectorySeparatorChar)
-                    .Replace('/', Path.DirectorySeparatorChar);
-
-                if (!_allTexturesRaw.ContainsKey(trimmedPath))
-                {
-                    throw new Exception(String.Format("TFW: Texture {0} not found", trimmedPath));
-                }
-
-                if (type == TextureType.Default)
-                {
-                    if (!_allTextures.ContainsKey(trimmedPath))
-                    {
-                        _allTextures[trimmedPath] = CreateTexture(_allTexturesRaw[trimmedPath], Path.GetFileNameWithoutExtension(trimmedPath), type);
-                    }
-
-                    return _allTextures[trimmedPath];
-                }
-
-                return CreateTexture(_allTexturesRaw[trimmedPath], Path.GetFileNameWithoutExtension(trimmedPath), type);
-            }
-
-            public Mesh GetMesh(string path)
-            {
-                if (path.IsNullOrWhiteSpace())
-                {
-                    return null;
-                }
-
-                var trimmedPath = path
-                    .Replace('\\', Path.DirectorySeparatorChar)
-                    .Replace('/', Path.DirectorySeparatorChar);
-
-                if (!_allMeshes.ContainsKey(trimmedPath))
-                {
-                    throw new Exception(String.Format("TFW: Mesh {0} not found", trimmedPath));
-                }
-
-                return _allMeshes[trimmedPath];
-            }
-            
-        }
-
-
-
-        public class TexturesSet
-        {
-            private Texture2D _mainTex;
-            public Texture2D MainTex
-            {
-                get
-                {
-                    if (_mainTex == null)
-                    {
-                        if (!_mainTexPath.IsNullOrWhiteSpace())
-                        {
-                            _mainTex = AssetManager.instance.GetTexture(_mainTexPath, _isLODSet ? TextureType.LOD : TextureType.Default);
-                        }
-                    }
-
-                    return _mainTex;
-                }
-            }
-
-            private Texture2D _aprMap;
-            public Texture2D APRMap
-            {
-                get
-                {
-                    if (_aprMap == null)
-                    {
-                        if (!_aprMapPath.IsNullOrWhiteSpace())
-                        {
-                            _aprMap = AssetManager.instance.GetTexture(_aprMapPath, _isLODSet ? TextureType.LOD : TextureType.Default);
-                        }
-                    }
-
-                    return _aprMap;
-                }
-            }
-
-            private Texture2D _xysMap;
-            public Texture2D XYSMap
-            {
-                get
-                {
-                    if (_xysMap == null)
-                    {
-                        if (!_xysMapPath.IsNullOrWhiteSpace())
-                        {
-                            _xysMap = AssetManager.instance.GetTexture(_xysMapPath, _isLODSet ? TextureType.LOD : TextureType.Default);
-                        }
-                    }
-
-                    return _xysMap;
-                }
-            }
-
-            private readonly string _mainTexPath;
-            private readonly string _aprMapPath;
-            private readonly string _xysMapPath;
-            private readonly bool _isLODSet;
-
-            public TexturesSet(string mainTexPath = null, string aprMapPath = null, string xysMapPath = null)
-            {
-                _mainTexPath = mainTexPath;
-                _aprMapPath = aprMapPath;
-                _xysMapPath = xysMapPath;
-            }
-
-            protected TexturesSet(string mainTexPath = null, string aprMapPath = null, string xysMapPath = null, bool isLODSet = false)
-            {
-                _mainTexPath = mainTexPath;
-                _aprMapPath = aprMapPath;
-                _xysMapPath = xysMapPath;
-
-                _isLODSet = isLODSet;
-            }
-        }
-
-        public class LODTexturesSet : TexturesSet
-        {
-            public LODTexturesSet(string mainTexPath = null, string aprMapPath = null, string xysMapPath = null)
-                : base(mainTexPath, aprMapPath, xysMapPath, true)
-            {
-            }
-        }
     }
 
 

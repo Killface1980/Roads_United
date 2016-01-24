@@ -58,15 +58,14 @@ namespace RoadsUnited
         }
 
 
-        /*        public override void OnLevelLoaded(LoadMode mode)
+                public override void OnLevelLoaded(LoadMode mode)
                 {
 
                     string modPath = RoadsUnitedModLoader.getModPath();
                     RoadsUnited.ReplaceNetTextures(modPath);
 
                 }
-                */
-
+        
 
 
 
