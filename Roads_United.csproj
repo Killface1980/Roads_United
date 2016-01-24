@@ -32,10 +32,17 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="FileManager.cs" />
+    <Compile Include="Initializer.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="OptionsManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModLoader.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="RoadsUnited.cs" />
+    <Compile Include="RoadTexturesGroupPanel.cs" />
+    <Compile Include="TypeExtensions.cs" />
+    <Compile Include="UIUtils.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

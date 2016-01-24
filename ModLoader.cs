@@ -12,6 +12,11 @@ namespace RoadsUnited
 
     public class RoadsUnitedModLoader : LoadingExtensionBase
     {
+        public static OptionsManager.ModOptions Options = OptionsManager.ModOptions.None;
+        static OptionsManager sm_optionsManager;
+
+        GameObject m_initializer;
+
 
         public static string getModPath()
         {
@@ -42,7 +47,7 @@ namespace RoadsUnited
             return result;
         }
 
-        public string modPath = getModPath();
+        public static string modPath = getModPath();
 
 
         public class EnableAchievementsLoad : LoadingExtensionBase
@@ -54,13 +59,47 @@ namespace RoadsUnited
         }
 
 
-        public override void OnLevelLoaded(LoadMode mode)
+        /*        public override void OnLevelLoaded(LoadMode mode)
+                {
+
+                    string modPath = RoadsUnitedModLoader.getModPath();
+                    RoadsUnited.ReplaceNetTextures(modPath);
+
+                }
+                */
+
+        public override void OnCreated(ILoading loading)
         {
+            base.OnCreated(loading);
 
-            string modPath = RoadsUnitedModLoader.getModPath();
-            RoadsUnited.ReplaceNetTextures(modPath);
+            if (sm_optionsManager != null)
+            {
+                sm_optionsManager.LoadOptions();
+            }
 
+            if (m_initializer == null)
+            {
+                m_initializer = new GameObject("CSL-Traffic Custom Prefabs");
+                m_initializer.AddComponent<Initializer>();
+            }
         }
+
+        public override void OnLevelUnloading()
+        {
+            base.OnLevelUnloading();
+
+            if (m_initializer != null)
+                m_initializer.GetComponent<Initializer>().OnLevelUnloading();
+        }
+
+        public override void OnReleased()
+        {
+            base.OnReleased();
+
+            GameObject.Destroy(m_initializer);
+        }
+
+
 
 
     }
