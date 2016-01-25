@@ -49,23 +49,19 @@ namespace RoadsUnited
         public static string modPath = getModPath();
 
 
-        public class EnableAchievementsLoad : LoadingExtensionBase
+
+
+
+        public override void OnLevelLoaded(LoadMode mode)
         {
-            public override void OnLevelLoaded(LoadMode mode)
-            {
-                Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
-            }
+
+            string modPath = RoadsUnitedModLoader.getModPath();
+            RoadsUnited.ReplaceNetTextures(modPath);
+            Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
+
+
         }
 
-
-                public override void OnLevelLoaded(LoadMode mode)
-                {
-
-                    string modPath = RoadsUnitedModLoader.getModPath();
-                    RoadsUnited.ReplaceNetTextures(modPath);
-
-                }
-        
 
 
 
