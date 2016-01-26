@@ -18,12 +18,15 @@ namespace RoadsUnited
             Texture2D texture2D = new Texture2D(1, 1);
             texture2D.LoadImage(File.ReadAllBytes(texturePath));
             texture2D.anisoLevel = 8;
+            texture2D.filterMode = FilterMode.Bilinear;
+            texture2D.Apply();
             return texture2D;
         }
 
 
         public static void ReplaceNetTextures(string textureDir)
         {
+            //Replace node textures
             NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
             NetCollection[] array2 = array;
             for (int i = 0; i < array2.Length; i++)
@@ -41,7 +44,7 @@ namespace RoadsUnited
 
                         NetInfo.Node node = nodes[k];
                         string text2 = Path.Combine(textureDir, text + "_n.png");
-                        string text3 = Path.Combine(textureDir, node.m_mesh.name.ToLowerInvariant() + ".png");
+                        string text3 = Path.Combine(textureDir, node.m_mesh.name.ToLowerInvariant() + "_n.png");
                         string text4 = Path.Combine(textureDir, text + "_n_map.png");
 
 
@@ -52,7 +55,6 @@ namespace RoadsUnited
                             bool flag220 = text.Contains("large");
                             bool flag221 = text.Contains("medium");
                             bool flag222 = text.Contains("basic") || text.Contains("small");
-                            //                                bool flag222 = text.Contains
 
                             if (flag220)
                             {
@@ -101,6 +103,8 @@ namespace RoadsUnited
 
                             Debug.Log("flag5 Roads United: Replaced n_map" + text4);
                         }
+                        node.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
+
                     }
 
                     // Look for segments
@@ -121,7 +125,7 @@ namespace RoadsUnited
                         string text9 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco2_trees.png");
 
 
-                        
+
                         // Begin replacing segment textures
 
                         if ((!(text.Contains("tl") || text.Contains("3l") || text.Contains("4l") || text.Contains("avenue"))) && File.Exists(text7))
@@ -129,8 +133,8 @@ namespace RoadsUnited
                             segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
 
-                            if (File.Exists(text78))
-                
+                           if (File.Exists(text78))
+
                             {
                                 segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text78));
                             }
@@ -184,11 +188,12 @@ namespace RoadsUnited
                         {
                             segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text5));
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text5));
+
                             if (File.Exists(text55))
                             {
                                 segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, text55)));
                             }
-
+                            
 
                         }
                         if (text.Equals("medium_road_bus"))
@@ -267,6 +272,9 @@ namespace RoadsUnited
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "largeroadelevatedsegmentbus.png")));
                             }
                         }
+
+                        segment.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
+
                     }
 
 
@@ -380,9 +388,9 @@ namespace RoadsUnited
         }
 
     }
-
-
 }
+
+
 
 
 

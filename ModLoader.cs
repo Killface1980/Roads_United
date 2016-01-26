@@ -8,6 +8,7 @@ using System.IO;
 
 using System.Collections.Generic;
 using UnityEngine;
+using ColossalFramework.UI;
 using System.Xml.Serialization;
 
 
@@ -48,25 +49,72 @@ namespace RoadsUnited
 
         public static string modPath = getModPath();
 
+        public override void OnCreated(ILoading loading)
+        {
+            base.OnCreated(loading);
+
+
+            // register event handlers
+//            NetInfoHook.OnPreInitialization += OnPreBuildingInit;
+//            NetInfoHook.OnPreInitialization += OnPostBuildingInit;
+
+            // deploy (after event handler registration!)
+        }
 
 
 
 
         public override void OnLevelLoaded(LoadMode mode)
         {
+            base.OnLevelLoaded(mode);
 
             string modPath = RoadsUnitedModLoader.getModPath();
-            RoadsUnited.ReplaceNetTextures(modPath);
             Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
+            RoadsUnited.ReplaceNetTextures(modPath);
+
+
+            var uiView = UIView.GetAView();
+
+            // Add a new button to the view.
+            var button = (UIButton)uiView.AddUIComponent(typeof(UIButton));
+
+            // Set the text to show on the button.
+            button.text = "Reload textures";
+
+            // Set the button dimensions.
+            button.width = 250;
+            button.height = 30;
+
+            // Style the button to look like a menu button.
+            button.normalBgSprite = "ButtonMenu";
+            button.disabledBgSprite = "ButtonMenuDisabled";
+            button.hoveredBgSprite = "ButtonMenuHovered";
+            button.focusedBgSprite = "ButtonMenuFocused";
+            button.pressedBgSprite = "ButtonMenuPressed";
+            button.textColor = new Color32(255, 255, 255, 255);
+            button.disabledTextColor = new Color32(7, 7, 7, 255);
+            button.hoveredTextColor = new Color32(7, 132, 255, 255);
+            button.focusedTextColor = new Color32(255, 255, 255, 255);
+            button.pressedTextColor = new Color32(30, 30, 44, 255);
+
+            // Enable button sounds.
+            button.playAudioEvents = true;
+
+            // Place the button.
+            button.transformPosition = new Vector3(-1.0f, 0.97f);
+
+            // Respond to button click.
+            // NOT GETTING CALLED
+            button.eventClick += ButtonClick;
+        }
+
+        public void ButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+        {
+ RoadsUnited.ReplaceNetTextures(modPath);
+        }
+    }
 
 
         }
 
-
-
-
-
-
-    }
-}
 
