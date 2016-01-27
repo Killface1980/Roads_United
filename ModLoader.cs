@@ -55,8 +55,8 @@ namespace RoadsUnited
 
 
             // register event handlers
-//            NetInfoHook.OnPreInitialization += OnPreBuildingInit;
-//            NetInfoHook.OnPreInitialization += OnPostBuildingInit;
+            //            NetInfoHook.OnPreInitialization += OnPreBuildingInit;
+            //            NetInfoHook.OnPreInitialization += OnPostBuildingInit;
 
             // deploy (after event handler registration!)
         }
@@ -73,6 +73,7 @@ namespace RoadsUnited
             RoadsUnited.ReplaceNetTextures(modPath);
 
 
+#if Debug
             var uiView = UIView.GetAView();
 
             // Add a new button to the view.
@@ -105,16 +106,19 @@ namespace RoadsUnited
 
             // Respond to button click.
             // NOT GETTING CALLED
-            button.eventClick += ButtonClick;
+            button.eventClick += ButtonClick; 
+#endif
         }
 
+#if Debug
         public void ButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
- RoadsUnited.ReplaceNetTextures(modPath);
-        }
+            RoadsUnited.ReplaceNetTextures(modPath);
+        } 
+#endif
     }
 
 
-        }
+}
 
 

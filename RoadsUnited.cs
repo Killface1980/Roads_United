@@ -38,6 +38,8 @@ namespace RoadsUnited
                     NetInfo netInfo = prefabs[j];
                     string text = netInfo.name.Replace(" ", "_").ToLowerInvariant().Trim();
 
+                    #region.Node Textures
+
                     NetInfo.Node[] nodes = netInfo.m_nodes;
                     for (int k = 0; k < nodes.Length; k++)
                     {
@@ -48,8 +50,11 @@ namespace RoadsUnited
                         string text4 = Path.Combine(textureDir, text + "_n_map.png");
 
 
+
                         // Begin replacing nodes
-                        bool flag22 = text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway");
+//                        bool flag22 = text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway");
+                        bool flag22 = text.Contains("oneway");
+
                         if (flag22)
                         {
                             bool flag220 = text.Contains("large");
@@ -78,6 +83,7 @@ namespace RoadsUnited
 
                         }
 
+                        //Setting the node textures
                         bool flag3 = File.Exists(text3);
                         if (flag3)
                         {
@@ -103,10 +109,14 @@ namespace RoadsUnited
 
                             Debug.Log("flag5 Roads United: Replaced n_map" + text4);
                         }
-                        node.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
+                   //     node.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
 
                     }
 
+
+                    #endregion
+
+                    #region.Segment Textures
                     // Look for segments
 
 
@@ -273,10 +283,12 @@ namespace RoadsUnited
                             }
                         }
 
-                        segment.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
-
+                        //     segment.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
+                        segment.m_lodRenderDistance = 2500;
                     }
+                    #endregion
 
+                    #region.Node Exceptions elevated
 
 
                     bool flag11 = (text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle")) && !text.Contains("tunnel");
@@ -310,7 +322,7 @@ namespace RoadsUnited
                                         }
                                         else
                                         {
-                                            text9 = Path.Combine(textureDir, "basic_road_n.png");
+                                            text9 = Path.Combine(textureDir, "basic_road_bicycle_n.png");
                                         }
 
                                     }
@@ -378,10 +390,11 @@ namespace RoadsUnited
                             }
                         }
                     }
+                    #endregion
                 }
             }
 
-
+            
 
 
 
