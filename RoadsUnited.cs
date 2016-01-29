@@ -13,6 +13,8 @@ namespace RoadsUnited
     public class RoadsUnited : MonoBehaviour
 
     {
+
+
         public static Texture2D LoadTexture(string texturePath)
         {
             Texture2D texture2D = new Texture2D(1, 1);
@@ -22,7 +24,6 @@ namespace RoadsUnited
             texture2D.Apply();
             return texture2D;
         }
-
 
         public static void ReplaceNetTextures(string textureDir)
         {
@@ -399,6 +400,7 @@ namespace RoadsUnited
 
 
         }
+
 
     }
 }

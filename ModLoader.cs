@@ -10,6 +10,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using ColossalFramework.UI;
 using System.Xml.Serialization;
+using RoadsUnited.Hook;
+
 
 
 namespace RoadsUnited
@@ -18,6 +20,16 @@ namespace RoadsUnited
 
     public class RoadsUnitedModLoader : LoadingExtensionBase
     {
+        public static Configuration config;
+
+        public static readonly string configPath = "RoadsUnitedConfig.xml";
+
+        private GameObject hookGo;
+
+        private NetInfoHook hook;
+
+
+
         public static string getModPath()
         {
             string text = ".";
@@ -54,9 +66,16 @@ namespace RoadsUnited
             base.OnCreated(loading);
 
 
-            // register event handlers
-            //            NetInfoHook.OnPreInitialization += OnPreBuildingInit;
-            //            NetInfoHook.OnPreInitialization += OnPostBuildingInit;
+
+            #region.Config
+            config = Configuration.Deserialize(configPath);
+            if (config == null)
+            {
+                config = new Configuration();
+            }
+            SaveConfig();
+            #endregion
+
 
             // deploy (after event handler registration!)
         }
@@ -67,10 +86,24 @@ namespace RoadsUnited
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
+            hookGo = new GameObject("RoadsUnited hook");
+            hook = hookGo.AddComponent<NetInfoHook>();
 
-            string modPath = RoadsUnitedModLoader.getModPath();
-            Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
+            string modPath = getModPath();
             RoadsUnited.ReplaceNetTextures(modPath);
+
+            #region.RoadColorChanger
+
+            RoadColorChanger.ChangeColor(config.large_road_red, config.large_road_green, config.large_road_blue, "Large Road", modPath);
+            RoadColorChanger.ChangeColor(config.medium_road_red, config.medium_road_green, config.medium_road_blue, "Medium Road", modPath);
+            RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Small Road", modPath);
+            RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Electricity Dam", modPath);
+            RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Train Track", modPath);
+            RoadColorChanger.ReplaceLodAprAtlas(modPath);
+            RoadColorChanger.ChangeColor(config.highway_red, config.highway_green, config.highway_blue, "Highway", modPath);
+            #endregion
+
+            //           Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
 
 
 #if Debug
@@ -109,6 +142,31 @@ namespace RoadsUnited
             button.eventClick += ButtonClick; 
 #endif
         }
+
+
+
+        public override void OnLevelUnloading()
+        {
+            if (this.hook != null)
+            {
+                this.hook.DisableHook();
+            }
+            if (this.hookGo != null)
+            {
+                UnityEngine.Object.Destroy(this.hookGo);
+            }
+            this.hook = null;
+            base.OnLevelUnloading();
+        }
+
+
+        public static void SaveConfig()
+        {
+            Configuration.Serialize(RoadsUnitedModLoader.configPath, RoadsUnitedModLoader.config);
+        }
+
+
+
 
 #if Debug
         public void ButtonClick(UIComponent component, UIMouseEventParameter eventParam)
