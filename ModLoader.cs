@@ -1,16 +1,12 @@
 ﻿using ColossalFramework;
 using ColossalFramework.IO;
-using ColossalFramework.Packaging;
 using ColossalFramework.Steamworks;
 using ICities;
-using System;
 using System.IO;
 
-using System.Collections.Generic;
 using UnityEngine;
-using ColossalFramework.UI;
-using System.Xml.Serialization;
-using RoadsUnited.Hook;
+
+
 
 
 
@@ -23,12 +19,6 @@ namespace RoadsUnited
         public static Configuration config;
 
         public static readonly string configPath = "RoadsUnitedConfig.xml";
-
-        private GameObject hookGo;
-
-        private NetInfoHook hook;
-
-
 
         public static string getModPath()
         {
@@ -61,10 +51,11 @@ namespace RoadsUnited
 
         public static string modPath = getModPath();
 
+
+
         public override void OnCreated(ILoading loading)
         {
             base.OnCreated(loading);
-
 
 
             #region.Config
@@ -86,22 +77,31 @@ namespace RoadsUnited
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
-            hookGo = new GameObject("RoadsUnited hook");
-            hook = hookGo.AddComponent<NetInfoHook>();
+
 
             string modPath = getModPath();
             RoadsUnited.ReplaceNetTextures(modPath);
 
             #region.RoadColorChanger
 
-            RoadColorChanger.ChangeColor(config.large_road_red, config.large_road_green, config.large_road_blue, "Large Road", modPath);
-            RoadColorChanger.ChangeColor(config.medium_road_red, config.medium_road_green, config.medium_road_blue, "Medium Road", modPath);
-            RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Small Road", modPath);
-            RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Electricity Dam", modPath);
-            RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Train Track", modPath);
-            RoadColorChanger.ReplaceLodAprAtlas(modPath);
-            RoadColorChanger.ChangeColor(config.highway_red, config.highway_green, config.highway_blue, "Highway", modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.basic_road_brightness, "Basic Road", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.basic_road_brightness, "Basic Road Elevated", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.basic_road_bicycle_brightness, "Basic Road Bicycle", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.basic_road_bicycle_brightness, "Basic Road Elevated Bike", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.basic_road_decoration_grass_brightness, "Basic Road Decoration Grass", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.basic_road_decoration_trees_brightness, "Basic Road Decoration Trees", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.medium_road_brightness, "Medium Road", RoadsUnitedModLoader.modPath);
+            RoadColorChanger.ChangeColor(RoadsUnitedModLoader.config.large_road_brightness, "Large Road", RoadsUnitedModLoader.modPath);
+            //            RoadColorChanger.ChangeColor(config.medium_road_red, config.medium_road_green, config.medium_road_blue, "Medium Road", modPath);
+            //          RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Small Road", modPath);
+            //        RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Electricity Dam", modPath);
+            //      RoadColorChanger.ChangeColor(config.small_road_red, config.small_road_green, config.small_road_blue, "Train Track", modPath);
+            //      RoadColorChanger.ReplaceLodAprAtlas(modPath);
+            //      RoadColorChanger.ChangeColor(config.highway_brightness, config.highway_red, config.highway_green, config.highway_blue, "Highway", modPath);
             #endregion
+
+
+
 
             //           Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
 
@@ -145,18 +145,12 @@ namespace RoadsUnited
 
 
 
-        public override void OnLevelUnloading()
+    public override void OnLevelUnloading()
         {
-            if (this.hook != null)
-            {
-                this.hook.DisableHook();
-            }
-            if (this.hookGo != null)
-            {
-                UnityEngine.Object.Destroy(this.hookGo);
-            }
-            this.hook = null;
+
             base.OnLevelUnloading();
+
+
         }
 
 
@@ -165,7 +159,11 @@ namespace RoadsUnited
             Configuration.Serialize(RoadsUnitedModLoader.configPath, RoadsUnitedModLoader.config);
         }
 
+        public override void OnReleased()
+        {
+            base.OnReleased();
 
+        }
 
 
 #if Debug

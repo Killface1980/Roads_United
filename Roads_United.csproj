@@ -39,13 +39,13 @@
     <Compile Include="RoadColorChanger\RoadColorChanger.cs" />
     <Compile Include="RoadsUnited.cs" />
     <Compile Include="RoadsUnitedHook\Configuration.cs" />
-    <Compile Include="RoadsUnitedHook\NetInfoHook.cs" />
-    <Compile Include="RoadsUnitedHook\PrefabEventHandler.cs" />
-    <None Include="RoadsUnitedHook\RedirectCallsState.cs" />
-    <Compile Include="RoadsUnitedHook\RedirectionHelper.cs" />
+    <Compile Include="Utilities\StringUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Reference Include="CimTools">
+      <HintPath>Libraries\CimTools.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="UnityEngine">
       <HintPath>..\..\..\..\..\..\Program Files %28x86%29\Steam\SteamApps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
@@ -64,6 +64,9 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup />
   <ProjectExtensions>

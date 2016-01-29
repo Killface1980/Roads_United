@@ -31,28 +31,31 @@ namespace RoadsUnited
             texture2D.Apply();
             Singleton<NetManager>.instance.m_lodAprAtlas = texture2D;
         }
-/*
-        public static Texture2D LoadTextureDDS(string texturePath)
-        {
-            byte[] array = File.ReadAllBytes(texturePath);
-            int num = BitConverter.ToInt32(array, 12);
-            int num2 = BitConverter.ToInt32(array, 16);
-            Texture2D texture2D = new Texture2D(num2, num, 12, true);
-            List<byte> list = new List<byte>();
-            for (int i = 0; i < array.Length; i++)
-            {
-                if (i > 127)
+        /*
+                public static Texture2D LoadTextureDDS(string texturePath)
                 {
-                    list.Add(array[i]);
+                    byte[] array = File.ReadAllBytes(texturePath);
+                    int num = BitConverter.ToInt32(array, 12);
+                    int num2 = BitConverter.ToInt32(array, 16);
+                    Texture2D texture2D = new Texture2D(num2, num, 12, true);
+                    List<byte> list = new List<byte>();
+                    for (int i = 0; i < array.Length; i++)
+                    {
+                        if (i > 127)
+                        {
+                            list.Add(array[i]);
+                        }
+                    }
+                    texture2D.LoadRawTextureData(list.ToArray());
+                    texture2D.Apply();
+                    texture2D.set_anisoLevel(8);
+                    return texture2D;
                 }
-            }
-            texture2D.LoadRawTextureData(list.ToArray());
-            texture2D.Apply();
-            texture2D.set_anisoLevel(8);
-            return texture2D;
-        }
-*/
-        public static void ChangeColor(float red, float green, float blue, string roadtype, string dir)
+        */
+
+//        public static void ChangeColor(float brightnees, float red, float green, float blue, string roadtype, string dir)
+
+        public static void ChangeColor(float brightness, string roadtype, string dir)
         {
             NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
             NetCollection[] array2 = array;
@@ -63,18 +66,28 @@ namespace RoadsUnited
                 for (int j = 0; j < prefabs.Length; j++)
                 {
                     NetInfo netInfo = prefabs[j];
-                    if (netInfo.m_class.name.Equals(roadtype))
+
+                    //if (netInfo.m_class.name.Equals(roadtype))
+                    if (netInfo.name.Contains(roadtype))
                     {
+                        #region.train
                         if (netInfo.m_class.name.Equals("Train Track"))
                         {
                             if (netInfo.name.Equals("Train Track"))
                             {
-                                netInfo.m_color = new Color(red, green, blue);
+                                netInfo.m_color = new Color(brightness, brightness, brightness);
+//                                netInfo.m_color = new Color(red, green, blue);
                             }
                         }
+                        #endregion
                         else
                         {
-                            netInfo.m_color = new Color(red, green, blue);
+                            if (netInfo.name.Equals(roadtype))
+                                {
+                                netInfo.m_color = new Color(brightness, brightness, brightness);
+                                }
+                            //                            netInfo.m_color = new Color(red, green, blue);
+
                         }
                         if (roadtype.Equals("Highway"))
                         {
@@ -136,12 +149,12 @@ namespace RoadsUnited
                 {
                     if (netNode.Info.name.Equals("Train Track"))
                     {
-                        netNode.Info.m_color = new Color(red, green, blue);
+                        netNode.Info.m_color = new Color(brightness, brightness, brightness);
                     }
                 }
                 else if (netNode.Info.m_class.name.Equals(roadtype))
                 {
-                    netNode.Info.m_color = new Color(red, green, blue);
+                    netNode.Info.m_color = new Color(brightness, brightness, brightness);
                 }
             }
             NetSegment[] buffer2 = Singleton<NetManager>.instance.m_segments.m_buffer;
@@ -152,12 +165,12 @@ namespace RoadsUnited
                 {
                     if (netSegment.Info.name.Equals("Train Track"))
                     {
-                        netSegment.Info.m_color = new Color(red, green, blue);
+                        netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                     }
                 }
                 else if (netSegment.Info.m_class.name.Equals(roadtype))
                 {
-                    netSegment.Info.m_color = new Color(red, green, blue);
+                    netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                 }
             }
         }

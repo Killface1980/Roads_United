@@ -6,37 +6,32 @@ namespace RoadsUnited
 {
     public class Configuration
     {
+        public float highway_brightness = 0.25f;
         public float highway_red = 0.25f;
-
         public float highway_green = 0.25f;
-
         public float highway_blue = 0.25f;
 
+        public float large_road_brightness = 0.25f;
         public float large_road_red = 0.25f;
-
         public float large_road_green = 0.25f;
-
         public float large_road_blue = 0.25f;
 
+        public float medium_road_brightness = 0.25f;
         public float medium_road_red = 0.25f;
-
         public float medium_road_green = 0.25f;
-
         public float medium_road_blue = 0.25f;
 
+        public float basic_road_brightness = 0.25f;
         public float small_road_red = 0.25f;
-
         public float small_road_green = 0.25f;
-
         public float small_road_blue = 0.25f;
 
-        public bool disable_optional_arrows = true;
+        public float basic_road_bicycle_brightness = 0.25f;
 
-        public bool use_alternate_pavement_texture = false;
+        public float basic_road_decoration_grass_brightness = 0.25f;
 
-        public bool use_cracked_roads = false;
+        public float basic_road_decoration_trees_brightness = 0.25f;
 
-        public float crackIntensity = 1f;
 
         public void OnPreSerialize()
         {
