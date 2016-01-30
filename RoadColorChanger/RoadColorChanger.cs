@@ -53,9 +53,9 @@ namespace RoadsUnited
                 }
         */
 
-//        public static void ChangeColor(float brightnees, float red, float green, float blue, string roadtype, string dir)
+        //        public static void ChangeColor(float brightnees, float red, float green, float blue, string prefab_road_name, string TextureDir)
 
-        public static void ChangeColor(float brightness, string roadtype, string dir)
+        public static void ChangeColor(float brightness, string prefab_road_name, string TextureDir)
         {
             NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
             NetCollection[] array2 = array;
@@ -67,8 +67,8 @@ namespace RoadsUnited
                 {
                     NetInfo netInfo = prefabs[j];
 
-                    //if (netInfo.m_class.name.Equals(roadtype))
-                    if (netInfo.name.Contains(roadtype))
+                    //if (netInfo.m_class.name.Equals(prefab_road_name))
+                    if (netInfo.name.Contains(prefab_road_name))
                     {
                         #region.train
                         if (netInfo.m_class.name.Equals("Train Track"))
@@ -76,47 +76,42 @@ namespace RoadsUnited
                             if (netInfo.name.Equals("Train Track"))
                             {
                                 netInfo.m_color = new Color(brightness, brightness, brightness);
-//                                netInfo.m_color = new Color(red, green, blue);
+                                //                                netInfo.m_color = new Color(red, green, blue);
                             }
                         }
                         #endregion
                         else
                         {
-                            if (netInfo.name.Equals(roadtype))
-                                {
+                            if (netInfo.name.Equals(prefab_road_name))
+                            {
                                 netInfo.m_color = new Color(brightness, brightness, brightness);
-                                }
+                            }
                             //                            netInfo.m_color = new Color(red, green, blue);
 
                         }
-                        if (roadtype.Equals("Highway"))
+                        if (prefab_road_name.Equals("Highway"))
                         {
 
                             NetInfo.Segment[] segments = netInfo.m_segments;
-                            for (int k = 0; k < segments.Length; k++)
+                            for (int l = 0; l < segments.Length; l++)
                             {
-                                NetInfo.Segment segment = segments[k];
 
-                                /*
+                                NetInfo.Segment segment = segments[l]; //das hier wieder zu color changer mit ausnahmen
                                 if (!segment.m_material.name.ToLower().Contains("cable"))
+                            {
+                                Texture2D texture2D = new Texture2D(1, 1);
+                                if (RoadsUnitedModLoader.config.use_custom_textures == false)
                                 {
-                                    Texture2D texture2D = new Texture2D(1, 1);
-                                    if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
                                     {
-                                        texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_ramp_segment_apr.dds"));
+                                        texture2D = RoadsUnited.LoadTexture(Path.Combine(TextureDir, "highwaybasesegment_vanilla_map.png"));
                                     }
-
-                                    else
-                                    {
-                                        texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_segment_apr.dds"));
-                                    }
-                                    texture2D.set_anisoLevel(8);
+                                    segment.m_material.SetTexture("_APRMap", texture2D);
                                     segment.m_segmentMaterial.SetTexture("_APRMap", texture2D);
                                     segment.m_lodMesh = null;
                                 }
-                                */
                             }
-                            
+                            }
+
                             NetInfo.Node[] nodes = netInfo.m_nodes;
                             for (int k = 0; k < nodes.Length; k++)
                             {
@@ -124,19 +119,19 @@ namespace RoadsUnited
                                 NetInfo.Node node = nodes[k];
                                 node.m_lodMesh = null;
 
-                                /*                                Texture2D texture2D = new Texture2D(1, 1);
-                                                                if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
-                                                                {
-                                                                    texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_ramp_node_apr.dds"));
-                                                                }
-                                                                else
-                                                                {
-                                                                    texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_node_apr.dds"));
-                                                                }
-                                                                texture2D.anisoLevel = 8;
-                                                                node.m_nodeMaterial.SetTexture("_APRMap", texture2D);
-                                                                node.m_lodMesh = null;
-                                                                */
+                                Texture2D texture2D = new Texture2D(1, 1);
+                                if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
+                                {
+                                    texture2D = RoadsUnited.LoadTexture(Path.Combine(TextureDir, "highwayrampnode_n_map.png"));
+                                }
+                                else
+                                {
+                                    texture2D = RoadsUnited.LoadTexture(Path.Combine(TextureDir, "highwaybasenode_n_map.png"));
+                                }
+                                texture2D.anisoLevel = 8;
+                                node.m_nodeMaterial.SetTexture("_APRMap", texture2D);
+                                node.m_lodMesh = null;
+
                             }
                             netInfo.RefreshLevelOfDetail();
                         }
@@ -147,14 +142,14 @@ namespace RoadsUnited
             for (int i = 0; i < buffer.Length; i++)
             {
                 NetNode netNode = buffer[i];
-                if (roadtype.Equals("Train Track"))
+                if (prefab_road_name.Equals("Train Track"))
                 {
                     if (netNode.Info.name.Equals("Train Track"))
                     {
                         netNode.Info.m_color = new Color(brightness, brightness, brightness);
                     }
                 }
-                else if (netNode.Info.m_class.name.Equals(roadtype))
+                else if (netNode.Info.m_class.name.Equals(prefab_road_name))
                 {
                     netNode.Info.m_color = new Color(brightness, brightness, brightness);
                 }
@@ -163,14 +158,14 @@ namespace RoadsUnited
             for (int i = 0; i < buffer2.Length; i++)
             {
                 NetSegment netSegment = buffer2[i];
-                if (roadtype.Equals("Train Track"))
+                if (prefab_road_name.Equals("Train Track"))
                 {
                     if (netSegment.Info.name.Equals("Train Track"))
                     {
                         netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                     }
                 }
-                else if (netSegment.Info.m_class.name.Equals(roadtype))
+                else if (netSegment.Info.m_class.name.Equals(prefab_road_name))
                 {
                     netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                 }

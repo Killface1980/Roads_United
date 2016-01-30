@@ -37,7 +37,7 @@ namespace RoadsUnited
                 for (int j = 0; j < prefabs.Length; j++)
                 {
                     NetInfo netInfo = prefabs[j];
-                    string text = netInfo.name.Replace(" ", "_").ToLowerInvariant().Trim();
+                    string prefab_road_name = netInfo.name.Replace(" ", "_").ToLowerInvariant().Trim();
 
                     #region.Node Textures
 
@@ -46,22 +46,22 @@ namespace RoadsUnited
                     {
 
                         NetInfo.Node node = nodes[k];
-                        string text2 = Path.Combine(textureDir, text + "_n.png");
+                        string text2 = Path.Combine(textureDir, prefab_road_name + "_n.png");
                         string text3 = Path.Combine(textureDir, node.m_mesh.name.ToLowerInvariant() + "_n.png");
                         string text31 = Path.Combine(textureDir, node.m_mesh.name.ToLowerInvariant() + "_n_map.png");
-                        string text4 = Path.Combine(textureDir, text + "_n_map.png");
+                        string text4 = Path.Combine(textureDir, prefab_road_name + "_n_map.png");
 
 
 
                         // Begin replacing nodes
                         //                        bool flag22 = text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway");
-                        bool flag22 = text.Contains("oneway");
+                        bool flag22 = prefab_road_name.Contains("oneway");
 
                         if (flag22)
                         {
-                            bool flag220 = text.Contains("large");
-                            bool flag221 = text.Contains("medium");
-                            bool flag222 = text.Contains("basic") || text.Contains("small");
+                            bool flag220 = prefab_road_name.Contains("large");
+                            bool flag221 = prefab_road_name.Contains("medium");
+                            bool flag222 = prefab_road_name.Contains("basic") || prefab_road_name.Contains("small");
 
                             if (flag220)
                             {
@@ -126,8 +126,48 @@ namespace RoadsUnited
                         }
                         //     node.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
 
-                        if (text.Contains("highway"))
+
+
+
+
+                        if (prefab_road_name.Contains("highway"))
                         {
+
+                            if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
+                            {
+                                Texture2D texture2D = new Texture2D(1, 1);
+                                texture2D = RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampnode_n.png"));
+                                node.m_nodeMaterial.SetTexture("_MainTex", texture2D);
+                                node.m_material.SetTexture("_MainTex", texture2D);
+                            }
+
+                            else
+                            {
+                                Texture2D texture2D = new Texture2D(1, 1);
+                                texture2D = RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasenode_n_map.png"));
+                                node.m_nodeMaterial.SetTexture("_APRMap", texture2D);
+                                node.m_material.SetTexture("_APRMap", texture2D);
+
+                            }
+
+                            if (node.m_mesh.name.Equals("HighwayBasePavement"))
+                            {
+                                node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasenode_n.png")));
+                                node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasenode_n.png")));
+                                node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasenode_n_map.png")));
+                                node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasenode_n_map.png")));
+                            }
+
+                            if (node.m_mesh.name.Equals("HighwayRampNode2"))
+                            {
+                                node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampnode_n.png")));
+                                node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampnode_n.png")));
+                                node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampnode_n_map.png")));
+                                node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampnode_n_map.png")));
+                            }
+
+
+
                             node.m_lodRenderDistance = 6500;
                             node.m_lodMesh = null;
 
@@ -150,88 +190,120 @@ namespace RoadsUnited
                     for (int l = 0; l < segments.Length; l++)
                     {
                         NetInfo.Segment segment = segments[l];
-                        string text5 = Path.Combine(textureDir, text + "_s.png");
-                        string text6 = Path.Combine(textureDir, text + "_s_map.png");
-                        string text55 = Path.Combine(textureDir, text + "_s_lod.png");
-                        string text7 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + ".png");
-                        string text77 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_map.png");
-                        string text78 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_lod.png");
-                        string text8 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco1_grass.png");
-                        string text9 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco2_trees.png");
+                        string roadname_segment_default = Path.Combine(textureDir, prefab_road_name + "_s.png");
+                        string roadname_segment_map = Path.Combine(textureDir, prefab_road_name + "_s_map.png");
+                        string roadname_segment_lod = Path.Combine(textureDir, prefab_road_name + "_s_lod.png");
+                        string meshname_segment_default = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + ".png");
+                        string meshname_segment_map = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_map.png");
+                        string meshname_segment_lod = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_lod.png");
+                        string meshname_segment_deco1 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco1_grass.png");
+                        string meshname_segment_deco2 = Path.Combine(textureDir, segment.m_mesh.name.ToLowerInvariant() + "_deco2_trees.png");
 
 
 
                         // Begin replacing segment textures
 
-                        if ((!(text.Contains("tl") || text.Contains("3l") || text.Contains("4l") || text.Contains("avenue"))) && File.Exists(text7))
+                        if ((!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("highway4l") ||  prefab_road_name.Contains("avenue"))) && File.Exists(meshname_segment_default))
                         {
-                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
-                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
+                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_default));
+                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_default));
 
-                            if (File.Exists(text78))
+                            if (File.Exists(meshname_segment_lod))
 
                             {
-                                segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text78));
+                                segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_lod));
                             }
 
-                            if (File.Exists(text77))
+                            if (File.Exists(meshname_segment_map))
                             {
-                                segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(text77));
-                                segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(text77));
+                                segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(meshname_segment_map));
+                                segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(meshname_segment_map));
                             }
-                            Debug.Log("Roads United: flag5 Replaced segment material: " + text7);
+
+                            if (prefab_road_name.Contains("highway") && !segment.m_material.name.ToLower().Contains("cable"))
+                            {
+                                if (prefab_road_name.Equals("highwayramp") || prefab_road_name.Equals("highwayrampelevated"))
+                                {
+                                    segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment_map.png")));
+                                    segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment_map.png")));
+                                }
+
+                                else
+                                {
+                                    segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasesegment_map.png")));
+                                    segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasesegment_map.png")));
+
+                                }
+
+                                segment.m_lodMesh = null;
+                            }
+
+
+
+
+                            Debug.Log("Roads United: flag5 Replaced segment material: " + meshname_segment_default);
+
+
+                        }
+                        if ((prefab_road_name.Equals("highway_barrier") || prefab_road_name.Equals("highway_bridge") || prefab_road_name.Equals("highway_elevated")))
+                        {
+                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasesegment.png")));
+                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasesegment.png")));
+                            segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasesegment_map.png")));
+                            segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwaybasesegment_map.png")));
+
                         }
 
-                        bool flag6 = text.Contains("decoration_grass") & File.Exists(text8);
+                        bool flag6 = prefab_road_name.Contains("decoration_grass") & File.Exists(meshname_segment_deco1);
                         if (flag6)
                         {
-                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text8));
-                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text8));
+                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_deco1));
+                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_deco1));
 
 
                         }
-                        bool flag66 = text.Contains("decoration_trees") & File.Exists(text9);
+                        bool flag66 = prefab_road_name.Contains("decoration_trees") & File.Exists(meshname_segment_deco2);
                         if (flag66)
                         {
-                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text9));
-                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text9));
+                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_deco2));
+                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_deco2));
 
                         }
 
 
 
-                        //                       bool flag8 = (!(text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway")) && !text.Contains("tunnel") && File.Exists(text6));
+                        //                       bool flag8 = (!(text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway")) && !text.Contains("tunnel") && File.Exists(roadname_segment_map));
                         //						if (flag8)
                         //					{
-                        if (File.Exists(text6))
+                        if (File.Exists(roadname_segment_map))
                         {
-                            segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(text6));
-                            segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(text6));
+                            segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(roadname_segment_map));
+                            segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(roadname_segment_map));
                         }
                         //              }
 
-                        /*							bool flag10 = (text == "medium_road_decoration_trees" || text == "medium_road_decoration_grass") & File.Exists(text8);
+                        /*							bool flag10 = (text == "medium_road_decoration_trees" || text == "medium_road_decoration_grass") & File.Exists(meshname_segment_deco1);
                                                     if (flag10)
                                                     {
-                                                        segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text8));
-                                                        segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text8));
+                                                        segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_deco1));
+                                                        segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_deco1));
                                                     }
                         */
 
-                        bool flag200 = (text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway")) && !text.Contains("tunnel") & File.Exists(text5);
+                        bool flag200 = (prefab_road_name.Contains("bus") || prefab_road_name.Contains("bike") || prefab_road_name.Contains("bicycle") || prefab_road_name.Contains("oneway")) && !prefab_road_name.Contains("tunnel") & File.Exists(roadname_segment_default);
                         if (flag200)
                         {
-                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text5));
-                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text5));
+                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(roadname_segment_default));
+                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(roadname_segment_default));
 
-                            if (File.Exists(text55))
+                            if (File.Exists(roadname_segment_lod))
                             {
-                                segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, text55)));
+                                segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, roadname_segment_lod)));
                             }
 
 
                         }
-                        if (text.Equals("medium_road_bus"))
+                        if (prefab_road_name.Equals("medium_road_bus"))
                         {
 
                             if (segment.m_mesh.name.Equals("RoadMediumSegmentBusSide"))
@@ -250,15 +322,15 @@ namespace RoadsUnited
                         }
 
                         //Exception for Large Bus Roads - Bus Stops
-                        if (text.Equals("large_road_bus") && text7.Contains("bus") && File.Exists(text7))
+                        if (prefab_road_name.Equals("large_road_bus") && meshname_segment_default.Contains("bus") && File.Exists(meshname_segment_default))
                         {
-                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
-                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
+                            segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_default));
+                            segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(meshname_segment_default));
                         }
 
                         //       large_oneway_s2_busside.png
 
-                        if (text.Contains("large") && text.Contains("oneway"))
+                        if (prefab_road_name.Contains("large") && prefab_road_name.Contains("oneway"))
                         {
 
                             if (segment.m_mesh.name.Equals("LargeRoadSegmentBusSide"))
@@ -275,7 +347,7 @@ namespace RoadsUnited
 
                             }
 
-                            if (segment.m_mesh.name.Equals("LargeRoadSegment2") && text.Contains("decoration"))
+                            if (segment.m_mesh.name.Equals("LargeRoadSegment2") && prefab_road_name.Contains("decoration"))
 
                             {
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "large_oneway_s2.png")));
@@ -293,15 +365,15 @@ namespace RoadsUnited
                         }
 
 
-                        if ((text.Contains("elevated") || text.Contains("bridge")) && text.Contains("bus"))
+                        if ((prefab_road_name.Contains("elevated") || prefab_road_name.Contains("bridge")) && prefab_road_name.Contains("bus"))
                         {
-                            if (text.Contains("medium"))
+                            if (prefab_road_name.Contains("medium"))
                             {
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "mediumroadelevatedsegmentbus.png")));
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "mediumroadelevatedsegmentbus.png")));
                             }
 
-                            if (text.Contains("large"))
+                            if (prefab_road_name.Contains("large"))
                             {
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "largeroadelevatedsegmentbus.png")));
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "largeroadelevatedsegmentbus.png")));
@@ -309,10 +381,17 @@ namespace RoadsUnited
                         }
 
                         //     segment.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
-                        if (text.Contains("highway"))
+
+
+
+
+
+
+
+                        if (prefab_road_name.Contains("highway"))
                         {
-                            if (text.Contains("ramp"))
-                                {
+                            if (prefab_road_name.Contains("ramp"))
+                            {
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment.png")));
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment.png")));
                                 segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment_map.png")));
@@ -333,20 +412,20 @@ namespace RoadsUnited
                     #region.Node Exceptions elevated
 
 
-                    bool flag11 = (text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle")) && !text.Contains("tunnel");
+                    bool flag11 = (prefab_road_name.Contains("bus") || prefab_road_name.Contains("bike") || prefab_road_name.Contains("bicycle")) && !prefab_road_name.Contains("tunnel");
                     if (flag11)
                     {
                         NetInfo.Node[] nodes2 = netInfo.m_nodes;
                         for (int m = 0; m < nodes2.Length; m++)
                         {
                             NetInfo.Node node2 = nodes2[m];
-                            string text9 = Path.Combine(textureDir, text.ToLowerInvariant() + ".png");
-                            string text10 = Path.Combine(textureDir, text.ToLowerInvariant() + ".png");
+                            string text9 = Path.Combine(textureDir, prefab_road_name.ToLowerInvariant() + ".png");
+                            string text10 = Path.Combine(textureDir, prefab_road_name.ToLowerInvariant() + ".png");
 
-                            bool flag12 = text.Contains("basic");
+                            bool flag12 = prefab_road_name.Contains("basic");
                             if (flag12)
                             {
-                                bool flag13 = text.Contains("slope");
+                                bool flag13 = prefab_road_name.Contains("slope");
                                 if (flag13)
                                 {
                                     text9 = Path.Combine(textureDir, "basic_road_decoration_n.png");
@@ -354,11 +433,11 @@ namespace RoadsUnited
                                 }
                                 else
                                 {
-                                    bool flag14 = text.Contains("elevated") || text.Contains("bridge");
+                                    bool flag14 = prefab_road_name.Contains("elevated") || prefab_road_name.Contains("bridge");
                                     if (flag14)
 
                                     {
-                                        if (text.Contains("bicycle"))
+                                        if (prefab_road_name.Contains("bicycle"))
                                         {
                                             text9 = Path.Combine(textureDir, "smallroadelevatedbikenode.png");
                                         }
@@ -369,10 +448,10 @@ namespace RoadsUnited
 
                                     }
                                 }
-                                bool flag15 = text.Contains("medium");
+                                bool flag15 = prefab_road_name.Contains("medium");
                                 if (flag15)
                                 {
-                                    bool flag16 = text.Contains("slope");
+                                    bool flag16 = prefab_road_name.Contains("slope");
                                     if (flag16)
                                     {
                                         text9 = Path.Combine(textureDir, "medium_road_n.png");
@@ -380,7 +459,7 @@ namespace RoadsUnited
                                     }
                                     else
                                     {
-                                        bool flag17 = text.Contains("elevated") || text.Contains("bridge");
+                                        bool flag17 = prefab_road_name.Contains("elevated") || prefab_road_name.Contains("bridge");
                                         if (flag17)
                                         {
                                             text9 = Path.Combine(textureDir, "roadmediumelevatednode.png");
@@ -393,10 +472,10 @@ namespace RoadsUnited
                                         }
                                     }
                                 }
-                                bool flag18 = text.Contains("large");
+                                bool flag18 = prefab_road_name.Contains("large");
                                 if (flag18)
                                 {
-                                    bool flag19 = text.Contains("slope");
+                                    bool flag19 = prefab_road_name.Contains("slope");
                                     if (flag19)
                                     {
                                         text9 = Path.Combine(textureDir, "large_road_decoration_n.png");
@@ -404,7 +483,7 @@ namespace RoadsUnited
                                     }
                                     else
                                     {
-                                        bool flag20 = text.Contains("elevated") || text.Contains("bridge");
+                                        bool flag20 = prefab_road_name.Contains("elevated") || prefab_road_name.Contains("bridge");
                                         if (flag20)
                                         {
                                             text9 = Path.Combine(textureDir, "largeroadelevatednode.png");

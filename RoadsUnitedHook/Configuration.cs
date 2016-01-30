@@ -7,21 +7,36 @@ namespace RoadsUnited
     public class Configuration
     {
 
+        public bool use_custom_textures = true;
+        public bool use_custom_colours = true;
+
+
         public float basic_road_brightness = 0.3f;
+        public float basic_road_elevated_brightness = 0.3f;
+        public float basic_road_bridge_brightness = 0.3f;
+
         public float basic_road_decoration_grass_brightness = 0.3f;
         public float basic_road_decoration_trees_brightness = 0.3f;
         public float basic_road_bicycle_brightness = 0.3f;
+        public float basic_road_bicycle_elevated_brightness = 0.3f;
+        public float basic_road_bicycle_bridge_brightness = 0.3f;
+
 
         public float oneway_road_brightness = 0.3f;
+        public float oneway_road_elevated_brightness = 0.3f;
+        public float oneway_road_bridge_brightness = 0.3f;
         public float oneway_road_decoration_grass_brightness = 0.3f;
         public float oneway_road_decoration_trees_brightness = 0.3f;
-        public float oneway_road_bicycle_brightness = 0.3f;
 
 
         public float medium_road_brightness = 0.3f;
+        public float medium_road_elevated_brightness = 0.3f;
+        public float medium_road_bridge_brightness = 0.3f;
         public float medium_road_decoration_grass_brightness = 0.3f;
         public float medium_road_decoration_trees_brightness = 0.3f;
         public float medium_road_bicycle_brightness = 0.3f;
+        public float medium_road_bicycle_elevated_brightness = 0.3f;
+        public float medium_road_bicycle_bridge_brightness = 0.3f;
         public float medium_road_bus_brightness = 0.3f;
 
 

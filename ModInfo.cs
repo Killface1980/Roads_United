@@ -24,115 +24,247 @@ namespace RoadsUnited
             }
         }
 
+        #region Small road config
 
         private void EventSmallRoadBrightness(float c)
         {
             RoadsUnitedModLoader.config.basic_road_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
+        private void EventSmallRoadElevatedBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.basic_road_elevated_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventSmallRoadBridgeBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.basic_road_bridge_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
+        }
+
 
         private void EventSmallRoadBicycleBrightness(float c)
         {
             RoadsUnitedModLoader.config.basic_road_bicycle_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
+        }
+        private void EventSmallRoadBicycleElevatedBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.basic_road_bicycle_elevated_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
+        }
+
+        private void EventSmallRoadBicycleBridgeBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.basic_road_bicycle_bridge_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventSmallRoadDecorationGrassBrightness(float c)
         {
             RoadsUnitedModLoader.config.basic_road_decoration_grass_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventSmallRoadDecorationTreesBrightness(float c)
         {
             RoadsUnitedModLoader.config.basic_road_decoration_trees_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
+        #endregion
 
-
+        #region Oneway config
         private void EventOnewayRoadBrightness(float c)
         {
             RoadsUnitedModLoader.config.oneway_road_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventOnewayRoadElevatedBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.oneway_road_elevated_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventOnewayRoadBridgeBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.oneway_road_bridge_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
         }
 
         private void EventOnewayRoadDecorationGrassBrightness(float c)
         {
             RoadsUnitedModLoader.config.oneway_road_decoration_grass_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
         }
 
         private void EventOnewayRoadDecorationTreesBrightness(float c)
         {
             RoadsUnitedModLoader.config.oneway_road_decoration_trees_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
         }
 
+        #endregion
 
-
+        #region Medium roads config
         private void EventMediumRoadBrightness(float c)
         {
             RoadsUnitedModLoader.config.medium_road_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadElevatedBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.medium_road_elevated_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadBridgeBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.medium_road_bridge_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
         }
 
         private void EventMediumRoadBicycleBrightness(float c)
         {
             RoadsUnitedModLoader.config.medium_road_bicycle_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadBicycleElevatedBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.medium_road_bicycle_elevated_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadBicycleBridgeBrightness(float c)
+        {
+            RoadsUnitedModLoader.config.medium_road_bicycle_bridge_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
         }
 
         private void EventMediumRoadBusBrightness(float c)
         {
             RoadsUnitedModLoader.config.medium_road_bus_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
 
         private void EventMediumRoadDecorationGrassBrightness(float c)
         {
             RoadsUnitedModLoader.config.medium_road_decoration_grass_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventMediumRoadDecorationTreesBrightness(float c)
         {
             RoadsUnitedModLoader.config.medium_road_decoration_trees_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
+
+        #endregion
+
+        #region Large road config
 
         private void EventLargeRoadBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_road_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventLargeRoadBicycleBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_road_bicycle_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventLargeRoadBusBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_road_bus_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
 
         private void EventLargeRoadDecorationGrassBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_road_decoration_grass_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventLargeRoadDecorationTreesBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_road_decoration_trees_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
+
+        #endregion
+
+        #region Large oneway
 
         private void EventLargeOnewayBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_oneway_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventLargeOnewayDecorationGrassBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_oneway_decoration_grass_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventLargeOnewayDecorationTreesBrightness(float c)
         {
             RoadsUnitedModLoader.config.large_oneway_decoration_trees_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
+
+        #endregion
+
+        #region Highway config
 
         private void EventHighwayBrightness(float c)
         {
             RoadsUnitedModLoader.config.highway_brightness = c;
+            RoadsUnitedModLoader.SaveConfig();
+
+        }
+
+        #endregion
+
+        #region Config stuff
+
+        private void EventCheckUseCustomTextures(bool c)
+        {
+            RoadsUnitedModLoader.config.use_custom_textures = c;
+            RoadsUnitedModLoader.SaveConfig();
+
+        }
+
+        private void EventCheckUseCustomColours(bool c)
+        {
+            RoadsUnitedModLoader.config.use_custom_colours = c;
+            RoadsUnitedModLoader.SaveConfig();
+
         }
 
         private void EventReloadColor()
@@ -194,11 +326,7 @@ namespace RoadsUnited
             RoadsUnitedModLoader.SaveConfig();
         }
 
-        private void EventSaveSettings()
-        {
-            RoadsUnitedModLoader.SaveConfig();
-        }
-
+        #endregion
 
         public void OnSettingsUI(UIHelperBase helper)
         {
@@ -208,22 +336,39 @@ namespace RoadsUnited
                 RoadsUnitedModLoader.config = new Configuration();
             }
             RoadsUnitedModLoader.SaveConfig();
+
+            UIHelperBase uIHelperGeneralSettings = helper.AddGroup("General Settings");
+            uIHelperGeneralSettings.AddCheckbox("Use mods Vanilla roads texture replacements", RoadsUnitedModLoader.config.use_custom_textures, EventCheckUseCustomTextures);
+            uIHelperGeneralSettings.AddCheckbox("Use mods road brightness sliders", RoadsUnitedModLoader.config.use_custom_colours, EventCheckUseCustomColours);
+            helper.AddButton("Reload roads", EventReloadColor);
+
             UIHelperBase uIHelperSmallRoads = helper.AddGroup("Small Roads Brightness Settings");
             uIHelperSmallRoads.AddSlider("Basic Road", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_brightness, new OnValueChanged(EventSmallRoadBrightness));
+            uIHelperSmallRoads.AddSlider("Basic Elevated", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_elevated_brightness, new OnValueChanged(EventSmallRoadElevatedBrightness));
+            uIHelperSmallRoads.AddSlider("Basic Bridge", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_bridge_brightness, new OnValueChanged(EventSmallRoadBridgeBrightness));
             uIHelperSmallRoads.AddSlider("Decoration Grass", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_decoration_grass_brightness, new OnValueChanged(EventSmallRoadDecorationGrassBrightness));
             uIHelperSmallRoads.AddSlider("Decoration Trees", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_decoration_trees_brightness, new OnValueChanged(EventSmallRoadDecorationTreesBrightness));
             uIHelperSmallRoads.AddSlider("Basic Road Bikelane", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_bicycle_brightness, new OnValueChanged(EventSmallRoadBicycleBrightness));
+            uIHelperSmallRoads.AddSlider("Bikelane Elevated", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_bicycle_elevated_brightness, new OnValueChanged(EventSmallRoadBicycleElevatedBrightness));
+            uIHelperSmallRoads.AddSlider("Bikelane Bridge", 0, 1f, 0.1f, RoadsUnitedModLoader.config.basic_road_bicycle_bridge_brightness, new OnValueChanged(EventSmallRoadBicycleBridgeBrightness));
+
 
             UIHelperBase uIHelperOnewayRoads = helper.AddGroup("Oneway Brightness Settings");
             uIHelperOnewayRoads.AddSlider("Oneway Road", 0, 1f, 0.1f, RoadsUnitedModLoader.config.oneway_road_brightness, new OnValueChanged(EventOnewayRoadBrightness));
+            uIHelperOnewayRoads.AddSlider("Oneway Elevated", 0, 1f, 0.1f, RoadsUnitedModLoader.config.oneway_road_elevated_brightness, new OnValueChanged(EventOnewayRoadElevatedBrightness));
+            uIHelperOnewayRoads.AddSlider("Oneway Bridge", 0, 1f, 0.1f, RoadsUnitedModLoader.config.oneway_road_bridge_brightness, new OnValueChanged(EventOnewayRoadBridgeBrightness));
             uIHelperOnewayRoads.AddSlider("Decoration Grass", 0, 1f, 0.1f, RoadsUnitedModLoader.config.oneway_road_decoration_grass_brightness, new OnValueChanged(EventOnewayRoadDecorationGrassBrightness));
             uIHelperOnewayRoads.AddSlider("Decoration Trees ", 0, 1f, 0.1f, RoadsUnitedModLoader.config.oneway_road_decoration_trees_brightness, new OnValueChanged(EventOnewayRoadDecorationTreesBrightness));
 
             UIHelperBase uIHelperMediumRoads = helper.AddGroup("Medium Roads Brightness Settings");
             uIHelperMediumRoads.AddSlider("Medium Road", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_brightness, new OnValueChanged(EventMediumRoadBrightness));
+            uIHelperMediumRoads.AddSlider("Medium Elevated", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_elevated_brightness, new OnValueChanged(EventMediumRoadElevatedBrightness));
+            uIHelperMediumRoads.AddSlider("Medium Bridge", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_bridge_brightness, new OnValueChanged(EventMediumRoadBridgeBrightness));
             uIHelperMediumRoads.AddSlider("Decoration Grass", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_decoration_grass_brightness, new OnValueChanged(EventMediumRoadDecorationGrassBrightness));
             uIHelperMediumRoads.AddSlider("Decoration Trees", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_decoration_trees_brightness, new OnValueChanged(EventMediumRoadDecorationTreesBrightness));
             uIHelperMediumRoads.AddSlider("Medium Road Bikelane", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_bicycle_brightness, new OnValueChanged(EventMediumRoadBicycleBrightness));
+            uIHelperMediumRoads.AddSlider("Medium Bike Elevated", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_bicycle_elevated_brightness, new OnValueChanged(EventMediumRoadBicycleElevatedBrightness));
+            uIHelperMediumRoads.AddSlider("Medium Road Bikelane", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_bicycle_bridge_brightness, new OnValueChanged(EventMediumRoadBicycleBridgeBrightness));
             uIHelperMediumRoads.AddSlider("Medium Road Buslane", 0, 1f, 0.1f, RoadsUnitedModLoader.config.medium_road_bus_brightness, new OnValueChanged(EventMediumRoadBusBrightness));
 
             UIHelperBase uIHelperLargeRoads = helper.AddGroup("Large Roads Settings");
@@ -244,8 +389,7 @@ namespace RoadsUnited
 
 
 
-            helper.AddButton("Reload roads", EventReloadColor);
-            helper.AddButton("Save Settings", EventSaveSettings);
+
 
             //           helper.AddButton("Revert to default on next level loading (sliders will not move)", EventResetColor);
 
