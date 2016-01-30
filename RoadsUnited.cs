@@ -48,12 +48,13 @@ namespace RoadsUnited
                         NetInfo.Node node = nodes[k];
                         string text2 = Path.Combine(textureDir, text + "_n.png");
                         string text3 = Path.Combine(textureDir, node.m_mesh.name.ToLowerInvariant() + "_n.png");
+                        string text31 = Path.Combine(textureDir, node.m_mesh.name.ToLowerInvariant() + "_n_map.png");
                         string text4 = Path.Combine(textureDir, text + "_n_map.png");
 
 
 
                         // Begin replacing nodes
-//                        bool flag22 = text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway");
+                        //                        bool flag22 = text.Contains("bus") || text.Contains("bike") || text.Contains("bicycle") || text.Contains("oneway");
                         bool flag22 = text.Contains("oneway");
 
                         if (flag22)
@@ -84,15 +85,28 @@ namespace RoadsUnited
 
                         }
 
+                        if (node.m_mesh.name.Equals("highwayrampnode1"))
+                        {
+                            text3 = Path.Combine(textureDir, "highwayrampnode_n.png");
+                            text31 = Path.Combine(textureDir, "highwayrampnode_n_map.png");
+                        }
+
                         //Setting the node textures
                         bool flag3 = File.Exists(text3);
                         if (flag3)
                         {
                             node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text3));
                             node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text3));
-
+                            if (File.Exists(text31))
+                            {
+                                node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(text31));
+                                node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(text31));
+                            }
                             Debug.Log("flag3 Roads United: Replaced mesh node: " + text3);
                         }
+
+
+
 
                         bool flag4 = File.Exists(text2);
                         if (flag4)
@@ -110,8 +124,18 @@ namespace RoadsUnited
 
                             Debug.Log("flag5 Roads United: Replaced n_map" + text4);
                         }
-                   //     node.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
+                        //     node.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
 
+                        if (text.Contains("highway"))
+                        {
+                            node.m_lodRenderDistance = 6500;
+                            node.m_lodMesh = null;
+
+                        }
+                        else
+                        {
+                            node.m_lodRenderDistance = 2500;
+                        }
                     }
 
 
@@ -144,7 +168,7 @@ namespace RoadsUnited
                             segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text7));
 
-                           if (File.Exists(text78))
+                            if (File.Exists(text78))
 
                             {
                                 segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(text78));
@@ -204,7 +228,7 @@ namespace RoadsUnited
                             {
                                 segment.m_lodMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, text55)));
                             }
-                            
+
 
                         }
                         if (text.Equals("medium_road_bus"))
@@ -285,7 +309,24 @@ namespace RoadsUnited
                         }
 
                         //     segment.m_combinedMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "RoadLOD.png")));
-                        segment.m_lodRenderDistance = 2500;
+                        if (text.Contains("highway"))
+                        {
+                            if (text.Contains("ramp"))
+                                {
+                                segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment.png")));
+                                segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment.png")));
+                                segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment_map.png")));
+                                segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTexture(Path.Combine(textureDir, "highwayrampsegment_map.png")));
+
+                            }
+                            segment.m_lodRenderDistance = 6500;
+                            segment.m_lodMesh = null;
+
+                        }
+                        else
+                        {
+                            segment.m_lodRenderDistance = 2500;
+                        }
                     }
                     #endregion
 
@@ -395,7 +436,7 @@ namespace RoadsUnited
                 }
             }
 
-            
+
 
 
 

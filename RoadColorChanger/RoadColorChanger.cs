@@ -91,10 +91,12 @@ namespace RoadsUnited
                         }
                         if (roadtype.Equals("Highway"))
                         {
+
                             NetInfo.Segment[] segments = netInfo.m_segments;
                             for (int k = 0; k < segments.Length; k++)
                             {
                                 NetInfo.Segment segment = segments[k];
+
                                 /*
                                 if (!segment.m_material.name.ToLower().Contains("cable"))
                                 {
@@ -103,10 +105,7 @@ namespace RoadsUnited
                                     {
                                         texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_ramp_segment_apr.dds"));
                                     }
-                                    else if (ar_enabled)
-                                    {
-                                        texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_segment_apr_ar.dds"));
-                                    }
+
                                     else
                                     {
                                         texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_segment_apr.dds"));
@@ -117,25 +116,28 @@ namespace RoadsUnited
                                 }
                                 */
                             }
-                            /*
+                            
                             NetInfo.Node[] nodes = netInfo.m_nodes;
                             for (int k = 0; k < nodes.Length; k++)
                             {
+
                                 NetInfo.Node node = nodes[k];
-                                Texture2D texture2D = new Texture2D(1, 1);
-                                if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
-                                {
-                                    texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_ramp_node_apr.dds"));
-                                }
-                                else
-                                {
-                                    texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_node_apr.dds"));
-                                }
-                                texture2D.anisoLevel = 8;
-                                node.m_nodeMaterial.SetTexture("_APRMap", texture2D);
                                 node.m_lodMesh = null;
+
+                                /*                                Texture2D texture2D = new Texture2D(1, 1);
+                                                                if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
+                                                                {
+                                                                    texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_ramp_node_apr.dds"));
+                                                                }
+                                                                else
+                                                                {
+                                                                    texture2D = RoadColorChanger2.LoadTextureDDS(Path.Combine(dir, "highway_node_apr.dds"));
+                                                                }
+                                                                texture2D.anisoLevel = 8;
+                                                                node.m_nodeMaterial.SetTexture("_APRMap", texture2D);
+                                                                node.m_lodMesh = null;
+                                                                */
                             }
-                            */
                             netInfo.RefreshLevelOfDetail();
                         }
                     }
