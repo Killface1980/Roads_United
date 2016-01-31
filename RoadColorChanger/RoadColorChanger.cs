@@ -31,27 +31,29 @@ namespace RoadsUnited
             texture2D.Apply();
             Singleton<NetManager>.instance.m_lodAprAtlas = texture2D;
         }
-        /*
-                public static Texture2D LoadTextureDDS(string texturePath)
+
+        public static void ReplaceRgbAprAtlas(string dir)
+        {
+            Texture2D texture2D = new Texture2D(Singleton<NetManager>.instance.m_lodRgbAtlas.width, Singleton<NetManager>.instance.m_lodRgbAtlas.height);
+            texture2D.anisoLevel = 8;
+            for (int i = 0; i < texture2D.height; i++)
+            {
+                for (int j = 0; j < texture2D.width; j++)
                 {
-                    byte[] array = File.ReadAllBytes(texturePath);
-                    int num = BitConverter.ToInt32(array, 12);
-                    int num2 = BitConverter.ToInt32(array, 16);
-                    Texture2D texture2D = new Texture2D(num2, num, 12, true);
-                    List<byte> list = new List<byte>();
-                    for (int i = 0; i < array.Length; i++)
+                    if (Singleton<NetManager>.instance.m_lodRgbAtlas.GetPixel(j, i).b > 0f)
                     {
-                        if (i > 127)
-                        {
-                            list.Add(array[i]);
-                        }
+                        texture2D.SetPixel(j, i, new Color(Singleton<NetManager>.instance.m_lodRgbAtlas.GetPixel(j, i).r, Singleton<NetManager>.instance.m_lodRgbAtlas.GetPixel(j, i).g, 1f));
                     }
-                    texture2D.LoadRawTextureData(list.ToArray());
-                    texture2D.Apply();
-                    texture2D.set_anisoLevel(8);
-                    return texture2D;
+                    else
+                    {
+                        texture2D.SetPixel(j, i, Singleton<NetManager>.instance.m_lodRgbAtlas.GetPixel(j, i));
+                    }
                 }
-        */
+            }
+            texture2D.Apply();
+            Singleton<NetManager>.instance.m_lodRgbAtlas = texture2D;
+        }
+
 
         //        public static void ChangeColor(float brightnees, float red, float green, float blue, string prefab_road_name, string TextureDir)
 
@@ -68,7 +70,7 @@ namespace RoadsUnited
                     NetInfo netInfo = prefabs[j];
 
                     //if (netInfo.m_class.name.Equals(prefab_road_name))
-                    if (netInfo.name.Contains(prefab_road_name))
+                    if (netInfo.name.Equals(prefab_road_name))
                     {
                         #region.train
                         if (netInfo.m_class.name.Equals("Train Track"))
@@ -98,18 +100,18 @@ namespace RoadsUnited
 
                                 NetInfo.Segment segment = segments[l]; //das hier wieder zu color changer mit ausnahmen
                                 if (!segment.m_material.name.ToLower().Contains("cable"))
-                            {
-                                Texture2D texture2D = new Texture2D(1, 1);
-                                if (RoadsUnitedModLoader.config.use_custom_textures == false)
                                 {
+                                    Texture2D texture2D = new Texture2D(1, 1);
+                                    if (RoadsUnitedModLoader.config.use_custom_textures == false)
                                     {
+
                                         texture2D = RoadsUnited.LoadTexture(Path.Combine(TextureDir, "highwaybasesegment_vanilla_map.png"));
+
+                                        segment.m_material.SetTexture("_APRMap", texture2D);
+                                        segment.m_segmentMaterial.SetTexture("_APRMap", texture2D);
+                                        segment.m_lodMesh = null;
                                     }
-                                    segment.m_material.SetTexture("_APRMap", texture2D);
-                                    segment.m_segmentMaterial.SetTexture("_APRMap", texture2D);
-                                    segment.m_lodMesh = null;
                                 }
-                            }
                             }
 
                             NetInfo.Node[] nodes = netInfo.m_nodes;
@@ -149,7 +151,7 @@ namespace RoadsUnited
                         netNode.Info.m_color = new Color(brightness, brightness, brightness);
                     }
                 }
-                else if (netNode.Info.m_class.name.Equals(prefab_road_name))
+                else if (netNode.Info.name.Equals(prefab_road_name))
                 {
                     netNode.Info.m_color = new Color(brightness, brightness, brightness);
                 }
@@ -165,7 +167,7 @@ namespace RoadsUnited
                         netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                     }
                 }
-                else if (netSegment.Info.m_class.name.Equals(prefab_road_name))
+                else if (netSegment.Info.name.Equals(prefab_road_name))
                 {
                     netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                 }
