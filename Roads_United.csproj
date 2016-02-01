@@ -39,10 +39,7 @@
     <Compile Include="RoadColorChanger\RoadColorChanger.cs" />
     <Compile Include="RoadsUnited.cs" />
     <Compile Include="RoadsUnitedHook\Configuration.cs" />
-    <Compile Include="RoadsUnitedHook\NetInfoHook.cs" />
-    <Compile Include="RoadsUnitedHook\PrefabEventHandler.cs" />
-    <Compile Include="RoadsUnitedHook\RedirectionHelper.cs" />
-    <Compile Include="Utilities\StringUtilities.cs" />
+    <None Include="Utilities\StringUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

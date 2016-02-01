@@ -25,8 +25,8 @@ namespace RoadsUnited
             return texture2D;
         }
         */
-//        private static Texture2D LoadTextureDDS(string fullPath, string textureName)
-       public static Texture2D LoadTextureDDS(string fullPath)
+        //        private static Texture2D LoadTextureDDS(string fullPath, string textureName)
+        public static Texture2D LoadTextureDDS(string fullPath)
         {
             var numArray = File.ReadAllBytes(fullPath);
             var width = BitConverter.ToInt32(numArray, 16);
@@ -43,11 +43,11 @@ namespace RoadsUnited
 
             texture.LoadRawTextureData(list.ToArray());
             texture.anisoLevel = 8;
- //           texture.name = Path.GetFileNameWithoutExtension(textureName);
+            //           texture.name = Path.GetFileNameWithoutExtension(textureName);
             texture.Apply();
             return texture;
         }
-        
+
         public static void ReplaceNetTextures(string textureDir)
         {
             //Replace node textures
@@ -174,17 +174,10 @@ namespace RoadsUnited
                             {
                                 node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwaybasenode_n.dds")));
                                 node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwaybasenode_n.dds")));
+                                node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds")));
+                                node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds")));
 
-                                if (node.m_mesh.name.Equals("HighwayBridgeNode1"))
-                                {
-                                    node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds")));
-                                    node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds")));
-                                }
-                                else
-                                {
-                                    node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode2_n_map.dds")));
-                                    node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode2_n_map.dds")));
-                                }
+
                             }
 
                             if ((node.m_mesh.name.Equals("HighwayRampNode1") || (node.m_mesh.name.Equals("HighwayRampNode2"))))
@@ -207,7 +200,7 @@ namespace RoadsUnited
                         {
                             node.m_lodMesh = null;
 
-                                                        node.m_lodRenderDistance = 2500;
+                            node.m_lodRenderDistance = 2500;
                         }
                     }
 
@@ -236,7 +229,7 @@ namespace RoadsUnited
 
                         // Begin replacing segment textures
 
-                        if ((!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("highway4l") ||  prefab_road_name.Contains("avenue"))) && File.Exists(meshname_segment_default))
+                        if ((!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("highway4l") || prefab_road_name.Contains("avenue"))) && File.Exists(meshname_segment_default))
                         {
                             segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(meshname_segment_default));
                             segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(meshname_segment_default));
@@ -439,7 +432,7 @@ namespace RoadsUnited
                         {
                             segment.m_lodMesh = null;
 
-                                                        segment.m_lodRenderDistance = 2500;
+                            segment.m_lodRenderDistance = 2500;
                         }
                     }
                     #endregion
