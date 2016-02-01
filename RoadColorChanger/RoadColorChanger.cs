@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace RoadsUnited
 {
-    public class RoadColorChanger : MonoBehaviour
+    public class RoadColourChanger : MonoBehaviour
     {
         public static Configuration config;
 
@@ -57,7 +57,7 @@ namespace RoadsUnited
 
         //        public static void ChangeColor(float brightnees, float red, float green, float blue, string prefab_road_name, string TextureDir)
 
-        public static void ChangeColor(float brightness, string prefab_road_name, string TextureDir)
+        public static void ChangeColour(float brightness, string prefab_road_name, string TextureDir)
         {
             NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
             NetCollection[] array2 = array;
@@ -177,5 +177,56 @@ namespace RoadsUnited
                 }
             }
         }
+
+        // RoadsUnited.RoadColourChanger
+        public static void ChangeColourNetExt(float brightness, string Prefab_Class_Name, string TextureDir)
+        {
+            NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
+            for (int i = 0; i < array.Length; i++)
+            {
+                NetInfo[] prefabs = array[i].m_prefabs;
+                for (int j = 0; j < prefabs.Length; j++)
+                {
+                    NetInfo netInfo = prefabs[j];
+                    if (netInfo.m_class.name.Equals(Prefab_Class_Name))
+                    {
+                        netInfo.m_color = new Color(brightness, brightness, brightness);
+                    }
+                    if (netInfo.name.Contains(Prefab_Class_Name))
+                    {
+                        netInfo.m_color = new Color(brightness, brightness, brightness);
+                    }
+                }
+            }
+            NetNode[] buffer = Singleton<NetManager>.instance.m_nodes.m_buffer;
+            for (int k = 0; k < buffer.Length; k++)
+            {
+                NetNode netNode = buffer[k];
+                if (netNode.Info.m_class.name.Equals(Prefab_Class_Name))
+                {
+                    netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                }
+                if (netNode.Info.name.Contains(Prefab_Class_Name))
+                {
+                    netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                }
+            }
+            NetSegment[] buffer2 = Singleton<NetManager>.instance.m_segments.m_buffer;
+            for (int l = 0; l < buffer2.Length; l++)
+            {
+                NetSegment netSegment = buffer2[l];
+                if (netSegment.Info.m_class.name.Equals(Prefab_Class_Name))
+                {
+                    netSegment.Info.m_color = new Color(brightness, brightness, brightness);
+                }
+                if (netSegment.Info.name.Contains(Prefab_Class_Name))
+                {
+                    netSegment.Info.m_color = new Color(brightness, brightness, brightness);
+                }
+            }
+        }
+
+
+
     }
 }

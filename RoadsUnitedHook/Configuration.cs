@@ -11,44 +11,44 @@ namespace RoadsUnited
         public bool use_custom_colours = true;
 
 
-        public float basic_road_brightness = 0.375f;
+        public float basic_road_ground_brightness = 0.375f;
         public float basic_road_elevated_brightness = 0.375f;
         public float basic_road_bridge_brightness = 0.375f;
 
         public float basic_road_decoration_grass_brightness = 0.375f;
         public float basic_road_decoration_trees_brightness = 0.375f;
-        public float basic_road_bicycle_brightness = 0.375f;
+        public float basic_road_bicycle_ground_brightness = 0.375f;
         public float basic_road_bicycle_elevated_brightness = 0.375f;
         public float basic_road_bicycle_bridge_brightness = 0.375f;
 
 
-        public float oneway_road_brightness = 0.375f;
+        public float oneway_road_ground_brightness = 0.375f;
         public float oneway_road_elevated_brightness = 0.375f;
         public float oneway_road_bridge_brightness = 0.375f;
         public float oneway_road_decoration_grass_brightness = 0.375f;
         public float oneway_road_decoration_trees_brightness = 0.375f;
 
 
-        public float medium_road_brightness = 0.375f;
+        public float medium_road_ground_brightness = 0.375f;
         public float medium_road_elevated_brightness = 0.375f;
         public float medium_road_bridge_brightness = 0.375f;
         public float medium_road_decoration_grass_brightness = 0.375f;
         public float medium_road_decoration_trees_brightness = 0.375f;
-        public float medium_road_bicycle_brightness = 0.375f;
+        public float medium_road_bicycle_ground_brightness = 0.375f;
         public float medium_road_bicycle_elevated_brightness = 0.375f;
         public float medium_road_bicycle_bridge_brightness = 0.375f;
-        public float medium_road_bus_brightness = 0.375f;
+        public float medium_road_bus_ground_brightness = 0.375f;
         public float medium_road_bus_elevated_brightness = 0.375f;
         public float medium_road_bus_bridge_brightness = 0.375f;
 
 
 
-        public float large_road_brightness = 0.375f;
+        public float large_road_ground_brightness = 0.375f;
         public float large_road_elevated_brightness = 0.375f;
         public float large_road_bridge_brightness = 0.375f;
         public float large_road_decoration_grass_brightness = 0.375f;
         public float large_road_decoration_trees_brightness = 0.375f;
-        public float large_road_bicycle_brightness = 0.375f;
+        public float large_road_bicycle_ground_brightness = 0.375f;
         public float large_road_bicycle_elevated_brightness = 0.375f;
         public float large_road_bicycle_bridge_brightness = 0.375f;
         public float large_road_bus_brightness = 0.375f;
@@ -61,12 +61,12 @@ namespace RoadsUnited
         public float large_oneway_decoration_grass_brightness = 0.375f;
         public float large_oneway_decoration_trees_brightness = 0.375f;
 
-        public float highway_ramp_ground_brightness = 0.375f;
-        public float highway_ramp_elevated_brightness = 0.375f;
-        public float highway_ground_brightness = 0.375f;
-        public float highway_elevated_brightness = 0.375f;
-        public float highway_bridge_brightness = 0.375f;
-        public float highway_barrier_brightness = 0.375f;
+        public float highway_ramp_ground_brightness = 0.5f;
+        public float highway_ramp_elevated_brightness = 0.5f;
+        public float highway_ground_brightness = 0.5f;
+        public float highway_elevated_brightness = 0.5f;
+        public float highway_bridge_brightness = 0.5f;
+        public float highway_barrier_brightness = 0.5f;
 
 
         public void OnPreSerialize()
