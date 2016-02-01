@@ -3,7 +3,7 @@ using ColossalFramework.IO;
 using ColossalFramework.Steamworks;
 using ICities;
 using System.IO;
-
+using System;
 using UnityEngine;
 
 
@@ -16,6 +16,7 @@ namespace RoadsUnited
 
     public class ModLoader : LoadingExtensionBase
     {
+
         public static Configuration config;
 
         public static readonly string configPath = "RoadsUnitedConfig.xml";
@@ -60,7 +61,6 @@ namespace RoadsUnited
         public override void OnCreated(ILoading loading)
         {
             base.OnCreated(loading);
-
 
             #region.Config
             config = Configuration.Deserialize(configPath);
@@ -126,7 +126,7 @@ namespace RoadsUnited
                 RoadColourChanger.ChangeColour(ModLoader.config.large_road_bicycle_ground_brightness, "Large Road Bicycle", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.large_road_bicycle_elevated_brightness, "Large Road Elevated Bike", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.large_road_bicycle_bridge_brightness, "Large Road Bridge Bike", ModLoader.modPath);
-                RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_brightness, "Large Road Bus", ModLoader.modPath);
+                RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_ground_brightness, "Large Road Bus", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_elevated_brightness, "Large Road Elevated Bus", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_bridge_brightness, "Large Road Bridge Bus", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_ground_brightness, "Large Oneway", ModLoader.modPath);
@@ -166,14 +166,7 @@ namespace RoadsUnited
 
             RoadColourChanger.ReplaceLodAprAtlas(currentTexturesPath_apr_maps);
 
-            Resources.UnloadUnusedAssets();
 
-
-            //            RoadColorChanger.ReplaceLodRgbAtlas(currentTexturesPath_lod_rgb);
-
-
-
-            //           Singleton<SimulationManager>.instance.m_metaData.m_disableAchievements = SimulationMetaData.MetaBool.False;
 
 
 #if Debug
@@ -231,7 +224,6 @@ namespace RoadsUnited
 
         public override void OnReleased()
         {
-            base.OnReleased();
 
         }
 

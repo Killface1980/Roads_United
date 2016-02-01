@@ -51,7 +51,7 @@ namespace RoadsUnited
         public float large_road_bicycle_ground_brightness = 0.375f;
         public float large_road_bicycle_elevated_brightness = 0.375f;
         public float large_road_bicycle_bridge_brightness = 0.375f;
-        public float large_road_bus_brightness = 0.375f;
+        public float large_road_bus_ground_brightness = 0.375f;
         public float large_road_bus_elevated_brightness = 0.375f;
         public float large_road_bus_bridge_brightness = 0.375f;
 
