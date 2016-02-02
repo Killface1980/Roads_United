@@ -5,6 +5,7 @@ using ICities;
 using System.IO;
 using System;
 using UnityEngine;
+using RoadsUnited.Framework;
 
 namespace RoadsUnited
 {
@@ -52,19 +53,35 @@ namespace RoadsUnited
 
         public static string modPath = getModPath();
 
-        public static string currentTexturesPath = Path.Combine(modPath, "BaseTextures");
-        public static string currentTexturesPath_apr_maps = Path.Combine(currentTexturesPath, "apr_maps");
-        //        public static string currentTexturesPath_apr_maps = currentTexturesPath;
-        public static string currentTexturesPath_lod_rgb = Path.Combine(currentTexturesPath, "lod_rgb");
+        public static string currentTexturesPath_default = Path.Combine(modPath, "BaseTextures");
+        public static string currentTexturesPath_apr_maps = Path.Combine(currentTexturesPath_default, "apr_maps");
+        public static string currentTexturesPath_lod_rgb = Path.Combine(currentTexturesPath_default, "lod_rgb");
 
 
         public override void OnCreated(ILoading loading)
         {
             base.OnCreated(loading);
 
-            //           RenderManagerDetour.Deploy();
-            //           NetManagerDetour.Deploy();
             RoadsUnitedHook.Hook();
+
+            foreach (var action in AssetManager.instance.CreateLoadingSequence(ModLoader.currentTexturesPath_default))
+            {
+                var localAction = action;
+
+                Loading.QueueAction(() =>
+                {
+                    try
+                    {
+                        localAction();
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log("REx: Crashed-AssetsInstaller");
+                        Debug.Log("REx: " + ex.Message);
+                        Debug.Log("REx: " + ex.ToString());
+                    }
+                });
+            }
 
 
             config = Configuration.Deserialize(configPath);
@@ -87,16 +104,13 @@ namespace RoadsUnited
             this.hookGo = new GameObject("Roads United hook");
             this.hook = this.hookGo.AddComponent<RoadsUnitedHook>();
 
-
-
-            //     SegmentDataManager.Instance.OnLevelLoaded();
-
-
             string modPath = getModPath();
+
+
 
             if (ModLoader.config.use_custom_textures == true)
             {
-                RoadsUnited.ReplaceNetTextures(currentTexturesPath);
+                RoadsUnited.ReplaceNetTextures(currentTexturesPath_default);
             }
 
             #region.RoadColorChanger
@@ -242,8 +256,7 @@ namespace RoadsUnited
 
         public override void OnReleased()
         {
-   //         RenderManagerDetour.Revert();
-   //         NetManagerDetour.Revert();
+
         }
 
 

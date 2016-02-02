@@ -33,6 +33,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assetloader\Assetloader.cs" />
+    <Compile Include="Assetloader\Loading.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModLoader.cs" />
     <Compile Include="ModInfo.cs" />

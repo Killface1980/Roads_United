@@ -4,7 +4,6 @@ using ColossalFramework;
 using System.Xml.Serialization;
 using ColossalFramework.Steamworks;
 using ColossalFramework.IO;
-
 using System;
 using System.IO;
 using System.Collections.Generic;
@@ -20,8 +19,6 @@ namespace RoadsUnited
         public static int CrossingFlag = (int)NetNode.Flags.OneWayIn << 1; // Largest item in the enum moved one bit
         public static bool hooked = false;
         static private Dictionary<MethodInfo, RedirectCallsState> redirects = new Dictionary<MethodInfo, RedirectCallsState>();
-
-
 
         public static void Hook()
         {
