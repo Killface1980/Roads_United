@@ -88,9 +88,11 @@ namespace RoadsUnited
                                     prefab_node_name_n = Path.Combine(textureDir, "basic_road_n.dds");
                                     prefab_node_name_n_map = Path.Combine(ModLoader.currentTexturesPath_apr_maps, "basic_road_n_map.dds");
                                 }
+                                goto set_nodes;
+
                             }
 
-                            
+
                             if (prefab_road_name.Contains("highway"))
                             {
 
@@ -112,6 +114,7 @@ namespace RoadsUnited
                                 node.m_lodMesh = null;
                             }
 
+                            set_nodes:
 
                             if (File.Exists(prefab_node_name_n))
                             {
