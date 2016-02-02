@@ -39,6 +39,8 @@
     <Compile Include="RoadColorChanger\RoadColorChanger.cs" />
     <Compile Include="RoadsUnited.cs" />
     <Compile Include="RoadsUnitedHook\Configuration.cs" />
+    <Compile Include="RoadsUnitedHook\Detours.cs" />
+    <Compile Include="RoadsUnitedHook\Hook 4.cs" />
     <None Include="Utilities\StringUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

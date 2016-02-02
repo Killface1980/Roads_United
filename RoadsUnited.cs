@@ -124,10 +124,10 @@ namespace RoadsUnited
                                     node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds")));
                                     node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds")));
                                 }
-                                
+                                node.m_lodMesh = null;
                             }
 
-                            
+
                             if (File.Exists(prefab_node_name_n))
                             {
                                 node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(prefab_node_name_n));
@@ -155,7 +155,6 @@ namespace RoadsUnited
 
                             nodes_end:
 
-                            node.m_lodMesh = null;
 
                             node.m_lodRenderDistance = 2500;
 
@@ -364,8 +363,6 @@ namespace RoadsUnited
 
 
                         finished:
-
-                            segment.m_lodMesh = null;
 
                             segment.m_lodRenderDistance = 2500;
 

@@ -6,16 +6,16 @@ using System.IO;
 using System;
 using UnityEngine;
 
-
-
-
-
 namespace RoadsUnited
 {
 
 
     public class ModLoader : LoadingExtensionBase
     {
+
+        private GameObject hookGo;
+
+        private RoadsUnitedHook hook;
 
         public static Configuration config;
 
@@ -62,14 +62,17 @@ namespace RoadsUnited
         {
             base.OnCreated(loading);
 
-            #region.Config
+            //           RenderManagerDetour.Deploy();
+            //           NetManagerDetour.Deploy();
+            RoadsUnitedHook.Hook();
+
+
             config = Configuration.Deserialize(configPath);
             if (config == null)
             {
                 config = new Configuration();
             }
             SaveConfig();
-            #endregion
 
 
             // deploy (after event handler registration!)
@@ -81,6 +84,13 @@ namespace RoadsUnited
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
+            this.hookGo = new GameObject("Roads United hook");
+            this.hook = this.hookGo.AddComponent<RoadsUnitedHook>();
+
+
+
+            //     SegmentDataManager.Instance.OnLevelLoaded();
+
 
             string modPath = getModPath();
 
@@ -166,8 +176,7 @@ namespace RoadsUnited
 
             RoadColourChanger.ReplaceLodAprAtlas(currentTexturesPath_apr_maps);
 
-            Resources.UnloadUnusedAssets();
-            System.GC.Collect();
+
 
 
 #if Debug
@@ -211,10 +220,18 @@ namespace RoadsUnited
 
         public override void OnLevelUnloading()
         {
-
             base.OnLevelUnloading();
+            if (hook != null)
+            {
+  //              hook.Hook;
+            }
+            if (hookGo != null)
+            {
+               UnityEngine.Object.Destroy(this.hookGo);
+            }
+            hook = null;
 
-
+            //       SegmentDataManager.Instance.OnLevelUnloaded();
         }
 
 
@@ -225,7 +242,8 @@ namespace RoadsUnited
 
         public override void OnReleased()
         {
-
+   //         RenderManagerDetour.Revert();
+   //         NetManagerDetour.Revert();
         }
 
 
