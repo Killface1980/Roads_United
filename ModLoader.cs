@@ -6,6 +6,8 @@ using System.IO;
 using System;
 using UnityEngine;
 using RoadsUnited.Framework;
+using RoadsUnited;
+
 
 namespace RoadsUnited
 {
@@ -62,28 +64,6 @@ namespace RoadsUnited
         {
             base.OnCreated(loading);
 
-            RoadsUnitedHook.Hook();
-
-            foreach (var action in AssetManager.instance.CreateLoadingSequence(ModLoader.currentTexturesPath_default))
-            {
-                var localAction = action;
-
-                Loading.QueueAction(() =>
-                {
-                    try
-                    {
-                        localAction();
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.Log("REx: Crashed-AssetsInstaller");
-                        Debug.Log("REx: " + ex.Message);
-                        Debug.Log("REx: " + ex.ToString());
-                    }
-                });
-            }
-
-
             config = Configuration.Deserialize(configPath);
             if (config == null)
             {
@@ -110,7 +90,8 @@ namespace RoadsUnited
 
             if (ModLoader.config.use_custom_textures == true)
             {
-                RoadsUnited.ReplaceNetTextures(currentTexturesPath_default);
+                AssetManager.instance.CreateLoadingSequence(currentTexturesPath_default);
+                RoadsUnited.ReplaceNetTextures(currentTexturesPath_default);               
             }
 
             #region.RoadColorChanger

@@ -7,7 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Roads_United</RootNamespace>
     <AssemblyName>Roads_United</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -41,8 +41,9 @@
     <Compile Include="RoadColorChanger\RoadColorChanger.cs" />
     <Compile Include="RoadsUnited.cs" />
     <Compile Include="RoadsUnitedHook\Configuration.cs" />
-    <Compile Include="RoadsUnitedHook\Detours.cs" />
-    <Compile Include="RoadsUnitedHook\Hook 4.cs" />
+    <None Include="__not used\Detours.cs" />
+    <Compile Include="RoadsUnitedHook\RoadsUnitedHook.cs" />
+    <None Include="__not used\Hook 4.cs" />
     <None Include="Utilities\StringUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
