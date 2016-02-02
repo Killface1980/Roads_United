@@ -13,23 +13,6 @@ namespace RoadsUnited
     public class RoadsUnited : MonoBehaviour
 
     {
-
-        /*
-        public static Texture2D LoadTexturePNG(string texturePath)
-        {
-            Texture2D texture2D = new Texture2D(1, 1);
-            texture2D.LoadImage(File.ReadAllBytes(texturePath));
-            texture2D.anisoLevel = 8;
-            texture2D.filterMode = FilterMode.Bilinear;
-            texture2D.Apply();
-            return texture2D;
-        }
-        */
-        //        private static Texture2D LoadTextureDDS(string fullPath, string textureName)
-
-
-
-
         public static Texture2D LoadTextureDDS(string fullPath)
         {
             var numArray = File.ReadAllBytes(fullPath);
@@ -48,7 +31,6 @@ namespace RoadsUnited
             texture.LoadRawTextureData(list.ToArray());
             texture.name = Path.GetFileName(fullPath);
             texture.anisoLevel = 8;
-            //           texture.name = Path.GetFileNameWithoutExtension(textureName);
             texture.Apply();
             return texture;
         }
@@ -106,7 +88,6 @@ namespace RoadsUnited
                                     prefab_node_name_n = Path.Combine(textureDir, "basic_road_n.dds");
                                     prefab_node_name_n_map = Path.Combine(ModLoader.currentTexturesPath_apr_maps, "basic_road_n_map.dds");
                                 }
-                                goto nodes_end;
                             }
 
                             

@@ -5,8 +5,7 @@ using ICities;
 using System.IO;
 using System;
 using UnityEngine;
-using RoadsUnited.Framework;
-using RoadsUnited;
+
 
 
 namespace RoadsUnited
@@ -86,11 +85,8 @@ namespace RoadsUnited
 
             string modPath = getModPath();
 
-
-
             if (ModLoader.config.use_custom_textures == true)
             {
-                AssetManager.instance.CreateLoadingSequence(currentTexturesPath_default);
                 RoadsUnited.ReplaceNetTextures(currentTexturesPath_default);               
             }
 
@@ -225,6 +221,8 @@ namespace RoadsUnited
                UnityEngine.Object.Destroy(this.hookGo);
             }
             hook = null;
+
+            Resources.UnloadUnusedAssets();
 
             //       SegmentDataManager.Instance.OnLevelUnloaded();
         }
