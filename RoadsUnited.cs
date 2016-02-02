@@ -13,8 +13,15 @@ namespace RoadsUnited
     public class RoadsUnited : MonoBehaviour
 
     {
+        private static Dictionary<string, Texture> textureCache
+
+
         public static Texture2D LoadTextureDDS(string fullPath)
         {
+            Texture tex;
+            if (textureCache.TryGetValue(der_pfad, out tex)) return tex;
+
+
             var numArray = File.ReadAllBytes(fullPath);
             var width = BitConverter.ToInt32(numArray, 16);
             var height = BitConverter.ToInt32(numArray, 12);
