@@ -1,9 +1,7 @@
-﻿using ColossalFramework;
-using ColossalFramework.IO;
+﻿using ColossalFramework.IO;
 using ColossalFramework.Steamworks;
 using ICities;
 using System.IO;
-using System;
 using UnityEngine;
 
 
@@ -58,6 +56,8 @@ namespace RoadsUnited
         public static string currentTexturesPath_apr_maps = Path.Combine(currentTexturesPath_default, "apr_maps");
         public static string currentTexturesPath_lod_rgb = Path.Combine(currentTexturesPath_default, "lod_rgb");
 
+        public RoadsUnited textureManager;
+
 
         public override void OnCreated(ILoading loading)
         {
@@ -71,7 +71,7 @@ namespace RoadsUnited
             SaveConfig();
 
 
-            // deploy (after event handler registration!)
+
         }
 
 
@@ -169,7 +169,6 @@ namespace RoadsUnited
 
 
 
-
 #if Debug
             var uiView = UIView.GetAView();
 
@@ -222,9 +221,6 @@ namespace RoadsUnited
             }
             hook = null;
 
-            Resources.UnloadUnusedAssets();
-
-            //       SegmentDataManager.Instance.OnLevelUnloaded();
         }
 
 

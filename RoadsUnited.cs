@@ -13,20 +13,22 @@ namespace RoadsUnited
     public class RoadsUnited : MonoBehaviour
 
     {
-        private static Dictionary<string, Texture> textureCache
 
+
+        private static Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
 
         public static Texture2D LoadTextureDDS(string fullPath)
         {
-            Texture tex;
-            if (textureCache.TryGetValue(der_pfad, out tex)) return tex;
+            // Testen ob Textur bereits geladen, in dem Fall geladene Textur zurückgeben
+            Texture2D texture;
+            if (textureCache.TryGetValue(fullPath, out texture)) return texture;
 
-
+            // Nein? Textur laden
             var numArray = File.ReadAllBytes(fullPath);
             var width = BitConverter.ToInt32(numArray, 16);
             var height = BitConverter.ToInt32(numArray, 12);
 
-            var texture = new Texture2D(width, height, TextureFormat.DXT5, true);
+            texture = new Texture2D(width, height, TextureFormat.DXT5, true);
             var list = new List<byte>();
 
             for (int index = 0; index < numArray.Length; ++index)
@@ -39,6 +41,9 @@ namespace RoadsUnited
             texture.name = Path.GetFileName(fullPath);
             texture.anisoLevel = 8;
             texture.Apply();
+
+            textureCache.Add(fullPath, texture); // Neu geladene Textur in den Cache packen
+
             return texture;
         }
 
@@ -105,10 +110,11 @@ namespace RoadsUnited
 
                                 if ((node.m_mesh.name.Equals("HighwayRampNode1") || node.m_mesh.name.Equals("HighwayRampNode2") || netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated")))
                                 {
-                                    node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
-                                    node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
-                                    node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
-                                    node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
+
+                                             node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
+                                             node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
+                                             node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
+                                             node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
                                 }
 
                                 else // ((node.m_mesh.name.Equals("HighwayBarrierNode") || node.m_mesh.name.Equals("HighwayBarrierPavement") || node.m_mesh.name.Equals("HighwayBasePavement") || node.m_mesh.name.Equals("HighwayBridgeNode1") || (node.m_mesh.name.Equals("HighwayBridgeNode2"))))
@@ -121,7 +127,7 @@ namespace RoadsUnited
                                 node.m_lodMesh = null;
                             }
 
-                            set_nodes:
+                        set_nodes:
 
                             if (File.Exists(prefab_node_name_n))
                             {
@@ -148,7 +154,7 @@ namespace RoadsUnited
                                 }
                             }
 
-                            nodes_end:
+                        nodes_end:
 
 
                             node.m_lodRenderDistance = 2500;
@@ -159,8 +165,8 @@ namespace RoadsUnited
 
                         #endregion
                     }
-                #region.Segment Textures
-                // Look for segments
+                    #region.Segment Textures
+                    // Look for segments
 
 
                     NetInfo.Segment[] segments = netInfo.m_segments;
@@ -243,7 +249,7 @@ namespace RoadsUnited
                             }
 
                             //Exception for Large Bus Roads - Bus Stops
-                            
+
                             if (prefab_road_name.Equals("large_road_bus") && meshname_segment_default.Contains("bus") && File.Exists(meshname_segment_default))
                             {
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(meshname_segment_default));
@@ -251,7 +257,7 @@ namespace RoadsUnited
                                 goto finished;
                             }
 
-                            
+
                             if (prefab_road_name.Contains("large") && prefab_road_name.Contains("oneway"))
                             {
                                 if (segment.m_mesh.name.Equals("LargeRoadSegmentBusSide"))
