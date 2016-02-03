@@ -167,6 +167,7 @@ namespace RoadsUnited
 
             RoadColourChanger.ReplaceLodAprAtlas(currentTexturesPath_apr_maps);
 
+            Resources.UnloadUnusedAssets();
 
 
 #if Debug

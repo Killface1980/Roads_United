@@ -111,10 +111,10 @@ namespace RoadsUnited
                                 if ((node.m_mesh.name.Equals("HighwayRampNode1") || node.m_mesh.name.Equals("HighwayRampNode2") || netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated")))
                                 {
 
-                                             node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
-                                             node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
-                                             node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
-                                             node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
+                                    node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
+                                    node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampnode_n.dds")));
+                                    node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
+                                    node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds")));
                                 }
 
                                 else // ((node.m_mesh.name.Equals("HighwayBarrierNode") || node.m_mesh.name.Equals("HighwayBarrierPavement") || node.m_mesh.name.Equals("HighwayBasePavement") || node.m_mesh.name.Equals("HighwayBridgeNode1") || (node.m_mesh.name.Equals("HighwayBridgeNode2"))))
@@ -131,11 +131,14 @@ namespace RoadsUnited
 
                             if (File.Exists(prefab_node_name_n))
                             {
+
+
                                 node.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(prefab_node_name_n));
                                 node.m_nodeMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(prefab_node_name_n));
 
                                 if (File.Exists(prefab_node_name_n_map))
                                 {
+
                                     node.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(prefab_node_name_n_map));
                                     node.m_nodeMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(prefab_node_name_n_map));
                                 }
@@ -186,8 +189,9 @@ namespace RoadsUnited
                         // Begin replacing segment textures
                         if (!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("rural") || prefab_road_name.Contains("four-lane") || prefab_road_name.Contains("five-lane") || prefab_road_name.Contains("avenue") || prefab_road_name.Contains("large_highway")))
                         {
-                            if (prefab_road_name.Contains("highway") && !segment.m_material.name.ToLower().Contains("cable"))
+                            if ((prefab_road_name.Contains("highway") && !segment.m_material.name.ToLower().Contains("cable")))
                             {
+
                                 if (prefab_road_name.Equals("highwayramp") || prefab_road_name.Equals("highwayrampelevated"))
                                 {
                                     segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayrampsegment.dds")));
@@ -195,15 +199,30 @@ namespace RoadsUnited
                                     segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampsegment_map.dds")));
                                     segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampsegment_map.dds")));
                                 }
+                                else if (prefab_road_name.Equals("highwayramp_slope"))
+                                {
+                                    segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayramp_tunnel.dds")));
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwayramp_tunnel.dds")));
+                                    segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayramp_tunnel_slope_map.dds")));
+                                    segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayramp_tunnel_slope_map.dds")));
+                                }
 
-                                //if ((prefab_road_name.Equals("highway_barrier") || prefab_road_name.Equals("highway_bridge") || prefab_road_name.Equals("highway_elevated")))
-                                else
+                                else if ((prefab_road_name.Equals("highway_barrier") || prefab_road_name.Equals("highway_bridge") || prefab_road_name.Equals("highway_elevated")))
                                 {
                                     segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwaybasesegment.dds")));
                                     segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highwaybasesegment.dds")));
                                     segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasesegment_map.dds")));
                                     segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasesegment_map.dds")));
                                 }
+                                else if (prefab_road_name.Equals("highway_slope"))
+                                {
+                                    segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highway_tunnel.dds")));
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "highway_tunnel.dds")));
+                                    segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highway_tunnel_slope_map.dds")));
+                                    segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highway_tunnel_slope_map.dds")));
+                                }
+
+                                else goto use_segment_name;
 
                                 segment.m_lodMesh = null;
                                 goto finished;
@@ -325,21 +344,26 @@ namespace RoadsUnited
                                 }
                             }
 
+                        use_segment_name:
                             if (File.Exists(roadname_segment_default))
                             {
+
                                 segment.m_material.SetTexture("_Maintex", RoadsUnited.LoadTextureDDS(roadname_segment_default));
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(roadname_segment_default));
+
 
                                 if (File.Exists(roadname_segment_map))
                                 {
                                     segment.m_material.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(roadname_segment_map));
                                     segment.m_segmentMaterial.SetTexture("_APRMap", RoadsUnited.LoadTextureDDS(roadname_segment_map));
                                 }
+
                                 goto finished;
                             }
-                            else
-                            if (File.Exists(meshname_segment_default))
+
+                            else if (File.Exists(meshname_segment_default))
                             {
+
                                 segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(meshname_segment_default));
                                 segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(meshname_segment_default));
 
