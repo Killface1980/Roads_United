@@ -53,6 +53,7 @@ namespace RoadsUnited
         public static string modPath = getModPath();
 
         public static string currentTexturesPath_default = Path.Combine(modPath, "BaseTextures");
+        public static string currentTexturesPath_noParking = Path.Combine(currentTexturesPath_default, "noParking");
         public static string currentTexturesPath_apr_maps = Path.Combine(currentTexturesPath_default, "apr_maps");
         public static string currentTexturesPath_lod_rgb = Path.Combine(currentTexturesPath_default, "lod_rgb");
 

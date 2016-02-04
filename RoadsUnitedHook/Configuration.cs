@@ -10,6 +10,12 @@ namespace RoadsUnited
         public bool use_custom_textures = true;
         public bool use_custom_colours = true;
 
+        public int basic_road_parking = 0;
+        public int medium_road_parking = 0;
+        public int medium_road_grass_parking = 0;
+        public int medium_road_trees_parking = 0;
+        public int medium_road_bus_parking = 0;
+
 
         public float basic_road_ground_brightness = 0.375f;
         public float basic_road_elevated_brightness = 0.375f;

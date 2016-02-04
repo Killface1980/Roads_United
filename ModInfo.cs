@@ -26,12 +26,13 @@ namespace RoadsUnited
 
         #region Small road config
 
+
         private void EventSmallRoadBrightness(float c)
         {
             ModLoader.config.basic_road_ground_brightness = c;
             ModLoader.SaveConfig();
-
         }
+
         private void EventSmallRoadElevatedBrightness(float c)
         {
             ModLoader.config.basic_road_elevated_brightness = c;
@@ -331,13 +332,43 @@ namespace RoadsUnited
 
         #endregion
 
+        private void EventSmallRoadParking(int c)
+        {
+            ModLoader.config.basic_road_parking = c;
+            ModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadParking(int c)
+        {
+            ModLoader.config.medium_road_parking = c;
+            ModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadGrassParking(int c)
+        {
+            ModLoader.config.medium_road_grass_parking = c;
+            ModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadTreesParking(int c)
+        {
+            ModLoader.config.medium_road_trees_parking = c;
+            ModLoader.SaveConfig();
+        }
+
+        private void EventMediumRoadBusParking(int c)
+        {
+            ModLoader.config.medium_road_bus_parking = c;
+            ModLoader.SaveConfig();
+        }
+
+
         #region Config stuff
 
         private void EventCheckUseCustomTextures(bool c)
         {
             ModLoader.config.use_custom_textures = c;
             ModLoader.SaveConfig();
-
         }
 
         private void EventCheckUseCustomColours(bool c)
@@ -438,6 +469,14 @@ namespace RoadsUnited
             uIHelperGeneralSettings.AddCheckbox("Activate the brightness sliders below. Slider to the right for a lighter colour.", ModLoader.config.use_custom_colours, EventCheckUseCustomColours);
             //            helper.AddButton("Reload roads", EventReloadColor);
             uIHelperGeneralSettings.AddButton("Reset all sliders and configuration next level load. ", EventResetConfig);
+
+            UIHelperBase uIHelperParkingSpaceSettings = helper.AddGroup("Parking space marking");
+
+            uIHelperParkingSpaceSettings.AddDropdown("Small roads", new string[] { "No marking", "Use default marking" }, ModLoader.config.basic_road_parking, EventSmallRoadParking);
+            uIHelperParkingSpaceSettings.AddDropdown("Medium roads", new string[] { "No marking", "Use default marking" }, ModLoader.config.medium_road_parking, EventMediumRoadParking);
+            uIHelperParkingSpaceSettings.AddDropdown("Medium roads grass", new string[] { "No marking", "Use default marking" }, ModLoader.config.medium_road_grass_parking, EventMediumRoadGrassParking);
+            uIHelperParkingSpaceSettings.AddDropdown("Medium roads trees", new string[] { "No marking", "Use default marking" }, ModLoader.config.medium_road_trees_parking, EventMediumRoadTreesParking);
+            uIHelperParkingSpaceSettings.AddDropdown("Medium roads buslane", new string[] { "No marking", "Use default marking" }, ModLoader.config.medium_road_bus_parking, EventMediumRoadBusParking);
 
 
             UIHelperBase uIHelperSmallRoads = helper.AddGroup("Small Roads");

@@ -13,6 +13,7 @@ namespace RoadsUnited
     public class RoadsUnited : MonoBehaviour
 
     {
+        public static Configuration config;
 
         private static Dictionary<string, Texture2D> textureCache = new Dictionary<string, Texture2D>();
 
@@ -315,13 +316,8 @@ namespace RoadsUnited
 
                         #endregion
                     }
-                #region.Segment Textures
-                // Look for segments
-
-
-
-
-
+                    #region.Segment Textures
+                    // Look for segments
 
 
                     NetInfo.Segment[] segments = netInfo.m_segments;
@@ -336,6 +332,87 @@ namespace RoadsUnited
                         string meshname_segment_lod = Path.Combine(ModLoader.currentTexturesPath_lod_rgb, segment.m_mesh.name.ToLowerInvariant() + "_lod.dds");
                         string meshname_segment_deco1 = Path.Combine(ModLoader.currentTexturesPath_default, segment.m_mesh.name.ToLowerInvariant() + "_deco1_grass.dds");
                         string meshname_segment_deco2 = Path.Combine(ModLoader.currentTexturesPath_default, segment.m_mesh.name.ToLowerInvariant() + "_deco2_trees.dds");
+
+                        //exceptions for config no parking small
+                        if (ModLoader.config.basic_road_parking == 0)
+                        {
+                            if (meshname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "smallroadsegment.dds")))
+                            {
+                                meshname_segment_default = Path.Combine(ModLoader.currentTexturesPath_noParking, "smallroadsegment_noParking.dds");
+                            }
+
+                            if (meshname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("smallroadsegmentbusside.dds"))))
+                            {
+                                meshname_segment_default = Path.Combine(ModLoader.currentTexturesPath_noParking, "smallroadsegmentbusside_noParking.dds");
+                            }
+                        }
+
+                        if (ModLoader.config.medium_road_parking == 0)
+                        {
+                            if (meshname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegment.dds")))
+                            {
+                                meshname_segment_default = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_noParking.dds");
+                            }
+
+                            if (meshname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("roadmediumsegmentbusside.dds"))))
+                            {
+                                meshname_segment_default = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_noParking.dds");
+                            }
+
+                            if (meshname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("roadmediumsegmentbusboth.dds"))))
+                            {
+                                meshname_segment_default = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_noParking.dds");
+                            }
+                        }
+
+                        if (ModLoader.config.medium_road_grass_parking == 0)
+                        {
+                            if (meshname_segment_deco1.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegment_deco1_grass.dds")))
+                            {
+                                meshname_segment_deco1 = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_noParking.dds");
+                            }
+
+                            if (meshname_segment_deco1.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("roadmediumsegmentbusside_deco1_grass.dds"))))
+                            {
+                                meshname_segment_deco1 = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_noParking.dds");
+                            }
+
+                            if (meshname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("roadmediumsegmentbusboth_deco1_grass.dds"))))
+                            {
+                                meshname_segment_deco1 = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_noParking.dds");
+                            }
+                        }
+
+                        if (ModLoader.config.medium_road_trees_parking == 0)
+                        {
+                            if (meshname_segment_deco2.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegment_deco2_trees.dds")))
+                            {
+                                meshname_segment_deco2 = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_deco2_trees_noParking.dds");
+                            }
+
+                            if (meshname_segment_deco2.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("roadmediumsegmentbusside_deco2_trees.dds"))))
+                            {
+                                meshname_segment_deco2 = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_deco2_trees_noParking.dds");
+                            }
+
+                            if (meshname_segment_deco2.Equals(Path.Combine(ModLoader.currentTexturesPath_default, ("roadmediumsegmentbusboth_deco2_trees.dds"))))
+                            {
+                                meshname_segment_deco2 = Path.Combine(ModLoader.currentTexturesPath_noParking, "roadmediumsegment_deco2_trees_noParking.dds");
+                            }
+                        }
+
+                        if (ModLoader.config.medium_road_bus_parking == 0)
+                        {
+                            if (roadname_segment_default.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "medium_road_bus_s.dds")))
+                            {
+                                roadname_segment_default = Path.Combine(ModLoader.currentTexturesPath_noParking, "medium_road_bus_s_noParking.dds");
+                            }
+
+                        }
+
+
+
+
 
                         prefabSegProperties.Clear();
                         prefabSegMatProperties.Clear();
@@ -352,6 +429,7 @@ namespace RoadsUnited
                         // Begin replacing segment textures
                         if (!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("rural") || prefab_road_name.Contains("four-lane") || prefab_road_name.Contains("five-lane") || prefab_road_name.Contains("avenue") || prefab_road_name.Contains("large_highway")))
                         {
+
                             if ((prefab_road_name.Contains("highway") && !segment.m_material.name.ToLower().Contains("cable")))
                             {
                                 if (prefab_road_name.Equals("highwayramp") || prefab_road_name.Equals("highwayrampelevated"))
@@ -527,37 +605,79 @@ namespace RoadsUnited
                                 {
                                     if (segment.m_mesh.name.Equals("RoadMediumSegmentBusSide"))
                                     {
-                                        if (prefabSegProperties.ContainsKey("_MainTex"))
+                                        if (ModLoader.config.medium_road_bus_parking == 0)
                                         {
-                                            prefabSegProperties.Remove("_MainTex");
-                                            prefabSegProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusside-buslane.dds")));
+                                            if (prefabSegProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegProperties.Remove("_MainTex");
+                                                prefabSegProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_noParking, "medium_road_bus_s_noParking.dds")));
+                                            }
+
+                                            if (prefabSegMatProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegMatProperties.Remove("_MainTex");
+                                                prefabSegMatProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_noParking, "medium_road_bus_s_noParking.dds")));
+                                            }
+                                            goto SetSegmentMaterial;
                                         }
 
-                                        if (prefabSegMatProperties.ContainsKey("_MainTex"))
+                                        if (ModLoader.config.medium_road_bus_parking == 1)
                                         {
-                                            prefabSegMatProperties.Remove("_MainTex");
-                                            prefabSegMatProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusside-buslane.dds")));
-                                        }
+                                            if (prefabSegProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegProperties.Remove("_MainTex");
+                                                prefabSegProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusside-buslane.dds")));
+                                            }
 
-                                        goto SetSegmentMaterial;
+                                            if (prefabSegMatProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegMatProperties.Remove("_MainTex");
+                                                prefabSegMatProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusside-buslane.dds")));
+                                            }
+
+                                            goto SetSegmentMaterial;
+
+                                        }
                                     }
 
-                                    else if (segment.m_mesh.name.Equals("RoadMediumSegmentBusBoth"))
+                                    if (segment.m_mesh.name.Equals("RoadMediumSegmentBusBoth"))
                                     {
-                                        if (prefabSegProperties.ContainsKey("_MainTex"))
+                                        if (ModLoader.config.medium_road_bus_parking == 0)
                                         {
-                                            prefabSegProperties.Remove("_MainTex");
-                                            prefabSegProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusboth-buslane.dds")));
+                                            if (prefabSegProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegProperties.Remove("_MainTex");
+                                                prefabSegProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_noParking, "medium_road_bus_s_noParking.dds")));
+                                            }
+
+                                            if (prefabSegMatProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegMatProperties.Remove("_MainTex");
+                                                prefabSegMatProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_noParking, "medium_road_bus_s_noParking.dds")));
+                                            }
+                                            goto SetSegmentMaterial;
                                         }
 
-                                        if (prefabSegMatProperties.ContainsKey("_MainTex"))
+                                        if (ModLoader.config.medium_road_bus_parking == 1)
                                         {
-                                            prefabSegMatProperties.Remove("_MainTex");
-                                            prefabSegMatProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusboth-buslane.dds")));
-                                        }
+                                            if (prefabSegProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegProperties.Remove("_MainTex");
+                                                prefabSegProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusboth-buslane.dds")));
+                                            }
 
-                                        goto SetSegmentMaterial;
+                                            if (prefabSegMatProperties.ContainsKey("_MainTex"))
+                                            {
+                                                prefabSegMatProperties.Remove("_MainTex");
+                                                prefabSegMatProperties.Add("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_default, "roadmediumsegmentbusboth-buslane.dds")));
+                                            }
+
+                                            goto SetSegmentMaterial;
+
+                                        }
                                     }
+
+
                                 }
                             }
 
@@ -599,7 +719,8 @@ namespace RoadsUnited
 
                                     goto SetSegmentMaterial;
                                 }
-                                else if (segment.m_mesh.name.Equals("LargeRoadSegment2BusSide"))
+
+                                if (segment.m_mesh.name.Equals("LargeRoadSegment2BusSide"))
                                 {
                                     if (prefabSegProperties.ContainsKey("_MainTex"))
                                     {
@@ -616,7 +737,7 @@ namespace RoadsUnited
                                     goto SetSegmentMaterial;
                                 }
 
-                                else if (segment.m_mesh.name.Equals("LargeRoadSegment2") && prefab_road_name.Contains("decoration"))
+                                if (segment.m_mesh.name.Equals("LargeRoadSegment2") && prefab_road_name.Contains("decoration"))
                                 {
                                     if (prefabSegProperties.ContainsKey("_MainTex"))
                                     {
@@ -633,14 +754,6 @@ namespace RoadsUnited
                                     goto SetSegmentMaterial;
                                 }
 
-
-                                /*
-                                if (segment.m_mesh.name.Equals("LargeRoadSegmentBusBothBuslane"))
-                                {
-                                    segment.m_material.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "largeroadsegmentbusboth-bus.dds")));
-                                    segment.m_segmentMaterial.SetTexture("_MainTex", RoadsUnited.LoadTextureDDS(Path.Combine(textureDir, "largeroadsegmentbusboth-bus.dds")));
-                                }
-                                */
                             }
 
                             if ((prefab_road_name.Contains("bus") || prefab_road_name.Contains("bike") || prefab_road_name.Contains("bicycle") || prefab_road_name.Contains("oneway")) && !prefab_road_name.Contains("tunnel") & File.Exists(roadname_segment_default))
@@ -735,7 +848,7 @@ namespace RoadsUnited
                                     prefabSegMatProperties.Add("_APRMap", RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, roadname_segment_map)));
                                 }
 
-                                goto finished;
+                                goto SetSegmentMaterial;
                             }
 
                             if (File.Exists(meshname_segment_default))
@@ -789,7 +902,6 @@ namespace RoadsUnited
 
 
 
-                            finished:;
 
                             segment.m_lodRenderDistance = 2500;
 
