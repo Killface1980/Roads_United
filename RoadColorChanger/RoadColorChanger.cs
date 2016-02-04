@@ -87,7 +87,7 @@ namespace RoadsUnited
                             if (netInfo.name.Equals(prefab_road_name))
                             {
                                 if (netInfo.m_color != null)
-                                netInfo.m_color = new Color(brightness, brightness, brightness);
+                                    netInfo.m_color = new Color(brightness, brightness, brightness);
                             }
                             //                            netInfo.m_color = new Color(red, green, blue);
 

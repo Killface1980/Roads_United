@@ -213,15 +213,16 @@ namespace RoadsUnited
         public override void OnLevelUnloading()
         {
             base.OnLevelUnloading();
-            if (hook != null)
+            if (this.hook != null)
             {
-  //              hook.Hook;
+                this.hook.DisableHook();
             }
-            if (hookGo != null)
+
+            if (this.hookGo != null)
             {
                UnityEngine.Object.Destroy(this.hookGo);
             }
-            hook = null;
+            this.hook = null;
 
         }
 
