@@ -92,89 +92,47 @@ namespace RoadsUnited
                             //                            netInfo.m_color = new Color(red, green, blue);
 
                         }
-                        if (prefab_road_name.Equals("Highway"))
-                        {
-
-                            NetInfo.Segment[] segments = netInfo.m_segments;
-                            for (int l = 0; l < segments.Length; l++)
-                            {
-
-                                NetInfo.Segment segment = segments[l]; //das hier wieder zu color changer mit ausnahmen
-                                if (!segment.m_material.name.ToLower().Contains("cable"))
-                                {
-                                    Texture2D texture2D = new Texture2D(1, 1);
-                                    if (ModLoader.config.use_custom_textures == false)
-                                    {
-
-                                        texture2D = RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasesegment_vanilla_map.dds"));
-
-                                        segment.m_material.SetTexture("_APRMap", texture2D);
-                                        segment.m_segmentMaterial.SetTexture("_APRMap", texture2D);
-                                        segment.m_lodMesh = null;
-                                        segment.m_lodRenderDistance = 2500;
-
-                                    }
-                                }
-                            }
-
-                            NetInfo.Node[] nodes = netInfo.m_nodes;
-                            for (int k = 0; k < nodes.Length; k++)
-                            {
-
-                                NetInfo.Node node = nodes[k];
-                                node.m_lodMesh = null;
-
-                                Texture2D texture2D = new Texture2D(1, 1);
-                                if (netInfo.name.Equals("HighwayRamp") || netInfo.name.Equals("HighwayRampElevated"))
-                                {
-                                    texture2D = RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwayrampnode_n_map.dds"));
-                                }
-                                else
-                                {
-                                    texture2D = RoadsUnited.LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_apr_maps, "highwaybasenode_n_map.dds"));
-                                }
-                                texture2D.anisoLevel = 8;
-                                node.m_nodeMaterial.SetTexture("_APRMap", texture2D);
-                                node.m_lodMesh = null;
-                                node.m_lodRenderDistance = 2500;
-
-
-                            }
-                            netInfo.RefreshLevelOfDetail();
-                        }
-                    }
+                                            }
                 }
             }
+
             NetNode[] buffer = Singleton<NetManager>.instance.m_nodes.m_buffer;
             for (int i = 0; i < buffer.Length; i++)
             {
                 NetNode netNode = buffer[i];
-                if (prefab_road_name.Equals("Train Track"))
+                if (netNode.Info.m_color != null)
                 {
-                    if (netNode.Info.name.Equals("Train Track"))
+                    if (prefab_road_name.Equals("Train Track"))
                     {
-                        netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                        if (netNode.Info.name.Equals("Train Track"))
+                        {
+                            netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                        }
                     }
-                }
-                else if (netNode.Info.name.Equals(prefab_road_name))
-                {
-                    netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                    else if (netNode.Info.name.Equals(prefab_road_name))
+                    {
+                        if (netNode.Info.m_color != null)
+                            netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                    }
                 }
             }
             NetSegment[] buffer2 = Singleton<NetManager>.instance.m_segments.m_buffer;
             for (int i = 0; i < buffer2.Length; i++)
             {
                 NetSegment netSegment = buffer2[i];
-                if (prefab_road_name.Equals("Train Track"))
+                if (netSegment.Info.m_color != null)
                 {
-                    if (netSegment.Info.name.Equals("Train Track"))
+                    if (prefab_road_name.Equals("Train Track"))
+                    {
+                        if (netSegment.Info.name.Equals("Train Track"))
+                        {
+                            netSegment.Info.m_color = new Color(brightness, brightness, brightness);
+                        }
+                    }
+                    else if (netSegment.Info.name.Equals(prefab_road_name))
                     {
                         netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                     }
-                }
-                else if (netSegment.Info.name.Equals(prefab_road_name))
-                {
-                    netSegment.Info.m_color = new Color(brightness, brightness, brightness);
                 }
             }
         }
@@ -210,6 +168,7 @@ namespace RoadsUnited
                 if (netNode.Info.name.Contains(Prefab_Class_Name))
                 {
                     netNode.Info.m_color = new Color(brightness, brightness, brightness);
+
                 }
             }
             NetSegment[] buffer2 = Singleton<NetManager>.instance.m_segments.m_buffer;

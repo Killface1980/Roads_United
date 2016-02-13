@@ -3,8 +3,7 @@ using ColossalFramework.Steamworks;
 using ICities;
 using System.IO;
 using UnityEngine;
-
-
+using ColossalFramework.UI;
 
 namespace RoadsUnited
 {
@@ -56,6 +55,7 @@ namespace RoadsUnited
         public static string currentTexturesPath_noParking = Path.Combine(currentTexturesPath_default, "noParking");
         public static string currentTexturesPath_apr_maps = Path.Combine(currentTexturesPath_default, "apr_maps");
         public static string currentTexturesPath_lod_rgb = Path.Combine(currentTexturesPath_default, "lod_rgb");
+        public static string UIPath = Path.Combine(modPath, "UI");
 
         public RoadsUnited textureManager;
 
@@ -70,9 +70,6 @@ namespace RoadsUnited
                 config = new Configuration();
             }
             SaveConfig();
-
-
-
         }
 
 
@@ -86,16 +83,26 @@ namespace RoadsUnited
 
             string modPath = getModPath();
 
-            if (ModLoader.config.use_custom_textures == true)
+            if (ModLoader.config.create_vanilla_dictionary == true)
             {
-                RoadsUnited.ReplaceNetTextures(currentTexturesPath_default);               
+                bool isEmpty;
+                using (var dictionaryEnum = RoadsUnited.vanillaPrefabProperties.GetEnumerator())
+                    isEmpty = !dictionaryEnum.MoveNext();
+
+                if (isEmpty)
+                {
+                    RoadsUnited.CreateVanillaDictionary();
+                } 
             }
+
+            if (ModLoader.config.use_custom_textures == true)
+                RoadsUnited.ReplaceNetTextures();
+
 
             #region.RoadColorChanger
 
             if (ModLoader.config.use_custom_colours == true)
             {
-
                 RoadColourChanger.ChangeColour(ModLoader.config.basic_road_ground_brightness, "Basic Road", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.basic_road_elevated_brightness, "Basic Road Elevated", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.basic_road_bridge_brightness, "Basic Road Bridge", ModLoader.modPath);
@@ -138,7 +145,11 @@ namespace RoadsUnited
                 RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_decoration_trees_brightness, "Large Oneway Decoration Trees", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.highway_ramp_ground_brightness, "HighwayRamp", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.highway_ramp_elevated_brightness, "HighwayRampElevated", ModLoader.modPath);
+                RoadColourChanger.ChangeColour(ModLoader.config.highway_ramp_elevated_brightness, "HighwayRamp Slope", ModLoader.modPath);
+                RoadColourChanger.ChangeColour(ModLoader.config.highway_ramp_elevated_brightness, "HighwayRamp Tunnel", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.highway_ground_brightness, "Highway", ModLoader.modPath);
+                RoadColourChanger.ChangeColour(ModLoader.config.highway_ground_brightness, "Highway Slope", ModLoader.modPath);
+                RoadColourChanger.ChangeColour(ModLoader.config.highway_ground_brightness, "Highway Tunnel", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.highway_elevated_brightness, "Highway Elevated", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.highway_bridge_brightness, "Highway Bridge", ModLoader.modPath);
                 RoadColourChanger.ChangeColour(ModLoader.config.highway_barrier_brightness, "Highway Barrier", ModLoader.modPath);
@@ -171,47 +182,87 @@ namespace RoadsUnited
             Resources.UnloadUnusedAssets();
 
 
-#if Debug
-            var uiView = UIView.GetAView();
+            if (false)
+            {
+                // Get the UIView object. This seems to be the top-level object for most
+                // of the UI.
+                var uiView = UIView.GetAView();
 
-            // Add a new button to the view.
-            var button = (UIButton)uiView.AddUIComponent(typeof(UIButton));
+                // Add a new button to the view.
+                var button = (UIButton)uiView.AddUIComponent(typeof(UIButton));
+                var button2 = (UIButton)uiView.AddUIComponent(typeof(UIButton));
 
-            // Set the text to show on the button.
-            button.text = "Reload textures";
 
-            // Set the button dimensions.
-            button.width = 250;
-            button.height = 30;
+                // Set the text to show on the button.
+                button.text = "Reload textures";
 
-            // Style the button to look like a menu button.
-            button.normalBgSprite = "ButtonMenu";
-            button.disabledBgSprite = "ButtonMenuDisabled";
-            button.hoveredBgSprite = "ButtonMenuHovered";
-            button.focusedBgSprite = "ButtonMenuFocused";
-            button.pressedBgSprite = "ButtonMenuPressed";
-            button.textColor = new Color32(255, 255, 255, 255);
-            button.disabledTextColor = new Color32(7, 7, 7, 255);
-            button.hoveredTextColor = new Color32(7, 132, 255, 255);
-            button.focusedTextColor = new Color32(255, 255, 255, 255);
-            button.pressedTextColor = new Color32(30, 30, 44, 255);
+                button2.text = "Revert to vanilla";
 
-            // Enable button sounds.
-            button.playAudioEvents = true;
 
-            // Place the button.
-            button.transformPosition = new Vector3(-1.0f, 0.97f);
+                // Set the button dimensions.
+                button.width = 250;
+                button.height = 30;
 
-            // Respond to button click.
-            // NOT GETTING CALLED
-            button.eventClick += ButtonClick; 
-#endif
+                button2.width = 250;
+                button2.height = 30;
+
+                // Style the button to look like a menu button.
+                button.normalBgSprite = "ButtonMenu";
+                button.disabledBgSprite = "ButtonMenuDisabled";
+                button.hoveredBgSprite = "ButtonMenuHovered";
+                button.focusedBgSprite = "ButtonMenuFocused";
+                button.pressedBgSprite = "ButtonMenuPressed";
+                button.textColor = new Color32(255, 255, 255, 255);
+                button.disabledTextColor = new Color32(7, 7, 7, 255);
+                button.hoveredTextColor = new Color32(7, 132, 255, 255);
+                button.focusedTextColor = new Color32(255, 255, 255, 255);
+                button.pressedTextColor = new Color32(30, 30, 44, 255);
+
+                button2.normalBgSprite = "ButtonMenu";
+                button2.disabledBgSprite = "ButtonMenuDisabled";
+                button2.hoveredBgSprite = "ButtonMenuHovered";
+                button2.focusedBgSprite = "ButtonMenuFocused";
+                button2.pressedBgSprite = "ButtonMenuPressed";
+                button2.textColor = new Color32(255, 255, 255, 255);
+                button2.disabledTextColor = new Color32(7, 7, 7, 255);
+                button2.hoveredTextColor = new Color32(7, 132, 255, 255);
+                button2.focusedTextColor = new Color32(255, 255, 255, 255);
+                button2.pressedTextColor = new Color32(30, 30, 44, 255);
+
+                // Enable button sounds.
+                button.playAudioEvents = true;
+
+                button2.playAudioEvents = true;
+
+                // Place the button.
+                button.transformPosition = new Vector3(-1.0f, 0.97f);
+
+                button2.transformPosition = new Vector3(-1.0f, 0.87f);
+
+                // Respond to button click.
+                // NOT GETTING CALLED
+                button.eventClick += ButtonClick;
+
+                button2.eventClick += Button2Click; 
+            }
+
         }
 
+        public void ButtonClick(UIComponent component, UIMouseEventParameter eventParam)
+        {
+                       RoadsUnited.ReplaceNetTextures();
 
+        }
+
+        public void Button2Click(UIComponent component, UIMouseEventParameter eventParam)
+        {
+            RoadsUnited.ApplyVanillaDictionary();
+        }
 
         public override void OnLevelUnloading()
         {
+            RoadsUnited.ApplyVanillaDictionary();
+
             base.OnLevelUnloading();
             if (this.hook != null)
             {
@@ -220,9 +271,11 @@ namespace RoadsUnited
 
             if (this.hookGo != null)
             {
-               UnityEngine.Object.Destroy(this.hookGo);
+                UnityEngine.Object.Destroy(this.hookGo);
             }
             this.hook = null;
+
+
 
         }
 

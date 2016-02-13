@@ -8,6 +8,9 @@ namespace RoadsUnited
     {
         public const UInt64 workshop_id = 598151121;
 
+        public const String VersionName = "Update 4";
+
+
         public string Name
         {
             get
@@ -383,6 +386,14 @@ namespace RoadsUnited
 
         #region Config stuff
 
+
+
+        private void EventCheckCreateVanillaDictionary(bool c)
+        {
+            ModLoader.config.create_vanilla_dictionary = c;
+            ModLoader.SaveConfig();
+        }
+
         private void EventCheckUseCustomTextures(bool c)
         {
             ModLoader.config.use_custom_textures = c;
@@ -393,62 +404,12 @@ namespace RoadsUnited
         {
             ModLoader.config.use_custom_colours = c;
             ModLoader.SaveConfig();
-
         }
 
-        private void EventReloadColor()
+        private void EventRevertVanillaTextures()
         {
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_ground_brightness, "Basic Road", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_elevated_brightness, "Basic Road Elevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_bridge_brightness, "Basic Road Bridge", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_bicycle_ground_brightness, "Basic Road Bicycle", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_bicycle_elevated_brightness, "Basic Road Elevated Bike", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_bicycle_bridge_brightness, "Basic Road Bridge Bike", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_decoration_grass_brightness, "Basic Road Decoration Grass", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.basic_road_decoration_trees_brightness, "Basic Road Decoration Trees", ModLoader.modPath);
+            RoadsUnited.ApplyVanillaDictionary();
 
-            RoadColourChanger.ChangeColour(ModLoader.config.oneway_road_ground_brightness, "Oneway Road", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.oneway_road_elevated_brightness, "Oneway Road Elevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.oneway_road_bridge_brightness, "Oneway Road Bridge", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.oneway_road_decoration_grass_brightness, "Oneway Road Decoration Grass", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.oneway_road_decoration_trees_brightness, "Oneway Road Decoration Trees", ModLoader.modPath);
-
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_ground_brightness, "Medium Road", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_elevated_brightness, "Medium Road Elevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bridge_brightness, "Medium Road Bridge", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bicycle_ground_brightness, "Medium Road Bicycle", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bicycle_elevated_brightness, "Medium Road Elevated Bike", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bicycle_bridge_brightness, "Medium Road Bridge Bike", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_decoration_grass_brightness, "Medium Road Decoration Grass", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_decoration_trees_brightness, "Medium Road Decoration Trees", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bus_ground_brightness, "Medium Road Bus", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bus_elevated_brightness, "Medium Road Elevated Bus", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.medium_road_bus_bridge_brightness, "Medium Road Bridge Bus", ModLoader.modPath);
-
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_ground_brightness, "Large Road", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_elevated_brightness, "Large Road Elevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bridge_brightness, "Large Road Bridge", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_decoration_grass_brightness, "Large Road Decoration Grass", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_decoration_trees_brightness, "Large Road Decoration Trees", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bicycle_ground_brightness, "Large Road Bicycle", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bicycle_elevated_brightness, "Large Road Elevated Bike", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bicycle_bridge_brightness, "Large Road Bridge Bike", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_ground_brightness, "Large Road Bus", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_elevated_brightness, "Large Road Elevated Bus", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_road_bus_bridge_brightness, "Large Road Bridge Bus", ModLoader.modPath);
-
-            RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_ground_brightness, "Large Oneway", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_elevated_brightness, "Large Oneway Elevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_bridge_brightness, "Large Oneway Bridge", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_decoration_grass_brightness, "Large Oneway Decoration Grass", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.large_oneway_decoration_trees_brightness, "Large Oneway Decoration Trees", ModLoader.modPath);
-
-            RoadColourChanger.ChangeColour(ModLoader.config.highway_ramp_ground_brightness, "HighwayRamp", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.highway_ramp_elevated_brightness, "HighwayRampElevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.highway_ground_brightness, "Highway", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.highway_elevated_brightness, "Highway Elevated", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.highway_bridge_brightness, "Highway Bridge", ModLoader.modPath);
-            RoadColourChanger.ChangeColour(ModLoader.config.highway_barrier_brightness, "Highway Barrier", ModLoader.modPath);
         }
 
         private void EventResetColor()
@@ -466,7 +427,8 @@ namespace RoadsUnited
 
         private void EventReloadTextures()
         {
-            RoadsUnited.ReplaceNetTextures(ModLoader.currentTexturesPath_default);
+            RoadsUnited.ApplyVanillaDictionary();
+            RoadsUnited.ReplaceNetTextures();
 
             ModLoader.SaveConfig();
         }
@@ -491,9 +453,12 @@ namespace RoadsUnited
             ModLoader.SaveConfig();
 
             UIHelperBase uIHelperGeneralSettings = helper.AddGroup("General Settings");
-//            uIHelperGeneralSettings.AddCheckbox("Use mods Vanilla roads texture replacements", ModLoader.config.use_custom_textures, EventCheckUseCustomTextures);
+            //            uIHelperGeneralSettings.AddCheckbox("Use mods Vanilla roads texture replacements", ModLoader.config.use_custom_textures, EventCheckUseCustomTextures);
             uIHelperGeneralSettings.AddCheckbox("Activate the brightness sliders below. Slider to the right for a lighter colour.", ModLoader.config.use_custom_colours, EventCheckUseCustomColours);
- //           uIHelperGeneralSettings.AddButton("Reload road colours now", EventReloadColor);
+            uIHelperGeneralSettings.AddCheckbox("Create Vanilla road texture backup on level load.", ModLoader.config.create_vanilla_dictionary, EventCheckCreateVanillaDictionary);
+            uIHelperGeneralSettings.AddButton("Revert to Vanilla textures (in-game only)", EventRevertVanillaTextures);
+            uIHelperGeneralSettings.AddButton("Reload all mod textures (in-game only)", EventReloadTextures);
+
 
             uIHelperGeneralSettings.AddButton("Reset all sliders and configuration next level load. ", EventResetConfig);
 
@@ -507,7 +472,7 @@ namespace RoadsUnited
             uIHelperParkingSpaceSettings.AddDropdown("Large roads", new string[] { "No marking", "Use default" }, ModLoader.config.large_road_parking, EventLargeRoadParking);
             uIHelperParkingSpaceSettings.AddDropdown("Large roads buslane", new string[] { "No marking", "Use default" }, ModLoader.config.large_road_bus_parking, EventLargeRoadBusParking);
             uIHelperParkingSpaceSettings.AddDropdown("Large Oneways", new string[] { "No marking", "Use default" }, ModLoader.config.large_oneway_parking, EventLargeOnewayParking);
-            uIHelperParkingSpaceSettings.AddButton("Apply changes (in-game only)", EventReloadTextures);
+            uIHelperParkingSpaceSettings.AddSpace(10);
 
 
             UIHelperBase uIHelperSmallRoads = helper.AddGroup("Small Roads");

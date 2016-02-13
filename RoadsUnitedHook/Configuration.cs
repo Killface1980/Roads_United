@@ -6,6 +6,7 @@ namespace RoadsUnited
 {
     public class Configuration
     {
+        public bool create_vanilla_dictionary = true;
 
         public bool use_custom_textures = true;
         public bool use_custom_colours = true;
@@ -19,6 +20,8 @@ namespace RoadsUnited
         public int large_road_bus_parking = 1;
         public int large_oneway_parking = 1;
 
+        public float ToolbarButtonX;
+        public float ToolbarButtonY;
 
 
         public float basic_road_ground_brightness = 0.375f;
@@ -78,6 +81,9 @@ namespace RoadsUnited
         public float highway_bridge_brightness = 0.5f;
         public float highway_barrier_brightness = 0.5f;
 
+        public bool ShowToolbarButton = true;
+        public bool FixateToolbarButton = false;
+        
 
         public void OnPreSerialize()
         {
