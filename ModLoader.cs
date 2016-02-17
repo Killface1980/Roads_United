@@ -12,9 +12,9 @@ namespace RoadsUnited
     public class ModLoader : LoadingExtensionBase
     {
 
-        private GameObject hookGo;
+//        private GameObject hookGo;
 
-        private RoadsUnitedHook hook;
+//        private RoadsUnitedHook hook;
 
         public static Configuration config;
 
@@ -73,13 +73,9 @@ namespace RoadsUnited
         }
 
 
-
-
         public override void OnLevelLoaded(LoadMode mode)
         {
             base.OnLevelLoaded(mode);
-            this.hookGo = new GameObject("Roads United hook");
-            this.hook = this.hookGo.AddComponent<RoadsUnitedHook>();
 
             string modPath = getModPath();
 
@@ -92,12 +88,12 @@ namespace RoadsUnited
                 if (isEmpty)
                 {
                     RoadsUnited.CreateVanillaDictionary();
-                } 
+                }
             }
+
 
             if (ModLoader.config.use_custom_textures == true)
                 RoadsUnited.ReplaceNetTextures();
-
 
             #region.RoadColorChanger
 
@@ -174,12 +170,12 @@ namespace RoadsUnited
                 RoadColourChanger.ChangeColourNetExt(ModLoader.config.highway_ground_brightness, "NExtHighway6L", ModLoader.modPath);
                 RoadColourChanger.ChangeColourNetExt(ModLoader.config.highway_ground_brightness, "NExtHighwayTunnel6LTunnel", ModLoader.modPath);
 
+                RoadColourChanger.ReplaceLodAprAtlas(currentTexturesPath_apr_maps);
             }
             #endregion
 
-            RoadColourChanger.ReplaceLodAprAtlas(currentTexturesPath_apr_maps);
 
-            Resources.UnloadUnusedAssets();
+//            Resources.UnloadUnusedAssets();
 
 
             if (false)
@@ -243,15 +239,14 @@ namespace RoadsUnited
                 // NOT GETTING CALLED
                 button.eventClick += ButtonClick;
 
-                button2.eventClick += Button2Click; 
+                button2.eventClick += Button2Click;
             }
 
         }
 
         public void ButtonClick(UIComponent component, UIMouseEventParameter eventParam)
         {
-                       RoadsUnited.ReplaceNetTextures();
-
+            RoadsUnited.ReplaceNetTextures();
         }
 
         public void Button2Click(UIComponent component, UIMouseEventParameter eventParam)
@@ -261,22 +256,10 @@ namespace RoadsUnited
 
         public override void OnLevelUnloading()
         {
-            RoadsUnited.ApplyVanillaDictionary();
-
             base.OnLevelUnloading();
-            if (this.hook != null)
-            {
-                this.hook.DisableHook();
-            }
 
-            if (this.hookGo != null)
-            {
-                UnityEngine.Object.Destroy(this.hookGo);
-            }
-            this.hook = null;
-
-
-
+            RoadsUnited.ApplyVanillaDictionary();
+            RoadsUnited.vanillaPrefabProperties.Clear();
         }
 
 

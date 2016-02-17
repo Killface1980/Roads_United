@@ -27,7 +27,6 @@ namespace RoadsUnited
 
 
         private static Texture2D defaultmap;
-        private static Texture2D xysmap;
         private static Texture2D aprmap;
 
         public static Texture2D LoadTextureDDS(string fullPath)
@@ -61,15 +60,13 @@ namespace RoadsUnited
 
         public static void CreateVanillaDictionary()
         {
-            NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
-            NetCollection[] array2 = array;
-            for (int i = 0; i < array2.Length; i++)
+            int num;
+            for (int i = 0; i < PrefabCollection<NetInfo>.LoadedCount(); i = num + 1)
             {
-                NetCollection netCollection = array2[i];
-                NetInfo[] prefabs = netCollection.m_prefabs;
-                for (int j = 0; j < prefabs.Length; j++)
+                try
                 {
-                    NetInfo netInfo = prefabs[j];
+                    NetInfo netInfo = PrefabCollection<NetInfo>.GetLoaded((uint)i);
+
                     string prefab_road_name = netInfo.name.Replace(" ", "_").ToLowerInvariant().Trim();
 
                     NetInfo.Node[] nodes = netInfo.m_nodes;
@@ -86,11 +83,10 @@ namespace RoadsUnited
                             netInfo.m_class.name.Contains("Bus Line") ||
                             netInfo.m_class.name.Contains("Airplane") ||
                             netInfo.m_class.name.Contains("Ship")
-
                             ))
 
                         {
-                            if (node.m_nodeMaterial)
+                            if (node.m_nodeMaterial != null)
                             {
                                 vanillaPrefabProperties.Add(prefab_road_name + "_node_" + (k) + "_nodeMaterial" + "_MainTex", node.m_nodeMaterial.GetTexture("_MainTex") as Texture2D);
                                 vanillaPrefabProperties.Add(prefab_road_name + "_node_" + (k) + "_nodeMaterial" + "_XYSMap", node.m_nodeMaterial.GetTexture("_XYSMap") as Texture2D);
@@ -117,7 +113,7 @@ namespace RoadsUnited
                             ))
                         {
 
-                            if (segment.m_segmentMaterial)
+                            if (segment.m_segmentMaterial != null)
                             {
                                 vanillaPrefabProperties.Add(prefab_road_name + "_segment_" + (l) + "_segmentMaterial" + "_MainTex", segment.m_segmentMaterial.GetTexture("_MainTex") as Texture2D);
                                 vanillaPrefabProperties.Add(prefab_road_name + "_segment_" + (l) + "_segmentMaterial" + "_XYSMap", segment.m_segmentMaterial.GetTexture("_XYSMap") as Texture2D);
@@ -126,20 +122,22 @@ namespace RoadsUnited
                         }
                     }
                 }
+                catch (Exception)
+                {
+                }
+                num = i;
             }
         }
 
         public static void ApplyVanillaDictionary()
         {
-            NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
-            NetCollection[] array2 = array;
-            for (int i = 0; i < array2.Length; i++)
+            int num;
+            for (int i = 0; i < PrefabCollection<NetInfo>.LoadedCount(); i = num + 1)
             {
-                NetCollection netCollection = array2[i];
-                NetInfo[] prefabs = netCollection.m_prefabs;
-                for (int j = 0; j < prefabs.Length; j++)
+                try
                 {
-                    NetInfo netInfo = prefabs[j];
+                    NetInfo netInfo = PrefabCollection<NetInfo>.GetLoaded((uint)i);
+
                     string prefab_road_name = netInfo.name.Replace(" ", "_").ToLowerInvariant().Trim();
 
                     NetInfo.Node[] nodes = netInfo.m_nodes;
@@ -150,10 +148,9 @@ namespace RoadsUnited
                         if (!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("rural") || prefab_road_name.Contains("four-lane") || prefab_road_name.Contains("five-lane") || prefab_road_name.Contains("avenue") || prefab_road_name.Contains("large_highway")))
                         {
 
-                            if (node.m_nodeMaterial)
+                            if (node.m_nodeMaterial != null)
                             {
                                 if (vanillaPrefabProperties.TryGetValue(prefab_road_name + "_node_" + (k) + "_nodeMaterial" + "_MainTex", out defaultmap)) node.m_nodeMaterial.SetTexture("_MainTex", defaultmap);
-                                if (vanillaPrefabProperties.TryGetValue(prefab_road_name + "_node_" + (k) + "_nodeMaterial" + "_XYSMap", out xysmap)) node.m_nodeMaterial.SetTexture("_XYSMap", xysmap);
                                 if (vanillaPrefabProperties.TryGetValue(prefab_road_name + "_node_" + (k) + "_nodeMaterial" + "_APRMap", out aprmap)) node.m_nodeMaterial.SetTexture("_APRMap", aprmap);
                             }
                         }
@@ -170,44 +167,36 @@ namespace RoadsUnited
 
                         if (!(prefab_road_name.Contains("tl") || prefab_road_name.Contains("3l") || prefab_road_name.Contains("4l") || prefab_road_name.Contains("rural") || prefab_road_name.Contains("four-lane") || prefab_road_name.Contains("five-lane") || prefab_road_name.Contains("avenue") || prefab_road_name.Contains("large_highway")))
                         {
-                            if (segment.m_segmentMaterial)
+                            if (segment.m_segmentMaterial != null)
                             {
                                 if (vanillaPrefabProperties.TryGetValue(prefab_road_name + "_segment_" + (l) + "_segmentMaterial" + "_MainTex", out defaultmap)) segment.m_segmentMaterial.SetTexture("_MainTex", defaultmap);
-                                if (vanillaPrefabProperties.TryGetValue(prefab_road_name + "_segment_" + (l) + "_segmentMaterial" + "_XYSMap", out xysmap)) segment.m_segmentMaterial.SetTexture("_XYSMap", xysmap);
                                 if (vanillaPrefabProperties.TryGetValue(prefab_road_name + "_segment_" + (l) + "_segmentMaterial" + "_APRMap", out aprmap)) segment.m_segmentMaterial.SetTexture("_APRMap", aprmap);
                             }
                         }
                     }
-
-
                 }
+
+                catch (Exception)
+                {
+                }
+                num = i;
+
             }
         }
 
 
         public static void ReplaceNetTextures()
         {
-            NetCollection[] array = UnityEngine.Object.FindObjectsOfType<NetCollection>();
-            NetCollection[] array2 = array;
-            for (int i = 0; i < array2.Length; i++)
+            int num;
+            for (int i = 0; i < PrefabCollection<NetInfo>.LoadedCount(); i = num + 1)
             {
-                NetCollection netCollection = array2[i];
-                NetInfo[] prefabs = netCollection.m_prefabs;
-                for (int j = 0; j < prefabs.Length; j++)
+                try
                 {
-                    NetInfo netInfo = prefabs[j];
 
-                    if (!(
-                        netInfo.m_class.name.Contains("NExt") ||
-                        netInfo.m_class.name.Contains("Water") ||
-                        netInfo.m_class.name.Contains("Train") ||
-                        netInfo.m_class.name.Contains("Metro") ||
-                        netInfo.m_class.name.Contains("Transport") ||
-                        netInfo.m_class.name.Contains("Bus Line") ||
-                        netInfo.m_class.name.Contains("Airplane") ||
-                        netInfo.m_class.name.Contains("Ship")
 
-                        ))
+                    NetInfo netInfo = PrefabCollection<NetInfo>.GetLoaded((uint)i);
+
+                    if (!(netInfo.m_class.name.Contains("NExt") || netInfo.m_class.name.Contains("Water") || netInfo.m_class.name.Contains("Train") || netInfo.m_class.name.Contains("Metro") || netInfo.m_class.name.Contains("Transport") || netInfo.m_class.name.Contains("Bus Line") || netInfo.m_class.name.Contains("Airplane") || netInfo.m_class.name.Contains("Ship")))
 
                     {
                         NetInfo.Node[] nodes = netInfo.m_nodes;
@@ -221,6 +210,8 @@ namespace RoadsUnited
                                 Debug.Log(nodeMaterialTexture_name);
                                 if (File.Exists(nodeMaterialTexture_name))
                                     node.m_nodeMaterial.SetTexture("_MainTex", LoadTextureDDS(nodeMaterialTexture_name));
+                                node.m_lodRenderDistance = 2500;
+                                node.m_lodMesh = null;
                             }
 
                             if (node.m_nodeMaterial.GetTexture("_APRMap") != null)
@@ -230,11 +221,6 @@ namespace RoadsUnited
                                 if (File.Exists(nodeMaterialAPRMap_name))
                                     node.m_nodeMaterial.SetTexture("_APRMap", LoadTextureDDS(nodeMaterialAPRMap_name));
                             }
-
-
-
-                                
-                            
                         }
 
 
@@ -263,7 +249,7 @@ namespace RoadsUnited
                                         segmentMaterialTexture_name = Path.Combine(ModLoader.currentTexturesPath_default, "RoadLargeOnewaySegment_d_BusBoth.dds");
                                 }
 
-                                    if (segment.m_mesh.name.Equals("SmallRoadSegmentBusSide"))
+                                if (segment.m_mesh.name.Equals("SmallRoadSegmentBusSide"))
                                     if (!(netInfo.name.Contains("Bicycle")))
                                         segmentMaterialTexture_name = Path.Combine(ModLoader.currentTexturesPath_default, "RoadSmall_D_BusSide.dds");
 
@@ -356,7 +342,7 @@ namespace RoadsUnited
                                 }
 
                                 if (
-                                    (ModLoader.config.medium_road_parking == 0) && 
+                                    (ModLoader.config.medium_road_parking == 0) &&
                                     (!(netInfo.name.Contains("Grass") || netInfo.name.Contains("Trees")))
                                     )
                                 {
@@ -402,7 +388,7 @@ namespace RoadsUnited
                                 {
                                     if ((
                                         segmentMaterialTexture_name.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "RoadMediumBusLane.dds")) ||
-                                        segmentMaterialTexture_name.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "RoadMediumBusLane_BusSide.dds")) 
+                                        segmentMaterialTexture_name.Equals(Path.Combine(ModLoader.currentTexturesPath_default, "RoadMediumBusLane_BusSide.dds"))
                                         ))
                                     {
                                         segmentMaterialTexture_name = Path.Combine(ModLoader.currentTexturesPath_noParking, "RoadMediumBusLane_noParking.dds");
@@ -471,21 +457,29 @@ namespace RoadsUnited
                                     segment.m_segmentMaterial.SetTexture("_APRMap", LoadTextureDDS(segmentMaterialAPRMap_name));
                             }
 
-
-
+                            segment.m_lodRenderDistance = 2500;
+                            segment.m_lodMesh = null;
 
 
                         }
 
                     }
                 }
+
+                catch (Exception)
+                {
+                }
+                num = i;
             }
-
-
         }
+
 
     }
 }
+
+
+
+
 
 
 

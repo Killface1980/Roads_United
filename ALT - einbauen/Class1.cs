@@ -21,6 +21,72 @@
 }
 
 
+
+
+//            if (ModLoader.config.create_vanilla_dictionary == true)
+                if (false)
+                {
+                    bool isEmpty;
+                using (var dictionaryEnum = RoadsUnited.vanillaPrefabProperties.GetEnumerator())
+                    isEmpty = !dictionaryEnum.MoveNext();
+
+                if (isEmpty)
+                {
+                    RoadsUnited.CreateVanillaDictionary();
+                } 
+            }
+
+
+
+
+
+                    NetNode[] buffer = Singleton<NetManager>.instance.m_nodes.m_buffer;
+                for (int p = 0; p<buffer.Length; p++)
+                {
+                    NetNode netNode = buffer[p];
+                    if (netNode.Info.m_color != null)
+                    {
+                        if (prefab_road_name.Equals("Train Track"))
+                        {
+                            if (netNode.Info.name.Equals("Train Track"))
+                            {
+                                netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                            }
+                        }
+                        else if (netNode.Info.name.Equals(prefab_road_name))
+                        {
+                            if (netNode.Info.m_color != null)
+                                netNode.Info.m_color = new Color(brightness, brightness, brightness);
+                        }
+                    }
+                }
+                NetSegment[] buffer2 = Singleton<NetManager>.instance.m_segments.m_buffer;
+                for (int p = 0; p<buffer2.Length; p++)
+                {
+                    NetSegment netSegment = buffer2[p];
+                    if (netSegment.Info.m_color != null)
+                    {
+                        if (prefab_road_name.Equals("Train Track"))
+                        {
+                            if (netSegment.Info.name.Equals("Train Track"))
+                            {
+                                netSegment.Info.m_color = new Color(brightness, brightness, brightness);
+                            }
+                        }
+                        else if (netSegment.Info.name.Equals(prefab_road_name))
+                        {
+                            netSegment.Info.m_color = new Color(brightness, brightness, brightness);
+                        }
+                    }
+                }
+
+
+
+
+
+
+
+
                             if (node.m_material.GetTexture("_MainTex") != null)
                             {
                                 string materialTexture_name = Path.Combine(ModLoader.currentTexturesPath_default, node.m_material.GetTexture("_MainTex").name + ".dds");
