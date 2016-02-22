@@ -73,8 +73,17 @@ namespace RoadsUnited
                         netInfo.m_color = new Color(brightness, brightness, brightness);
                 }
 
+                if (netInfo.name.Equals(prefab_road_name + " Slope"))
+                {
+                    if (netInfo.m_color != null)
+                        netInfo.m_color = new Color(brightness, brightness, brightness);
+                }
 
-
+                if (netInfo.name.Equals(prefab_road_name + " Tunnel"))
+                {
+                    if (netInfo.m_color != null)
+                        netInfo.m_color = new Color(brightness, brightness, brightness);
+                }
             }
         }
 
@@ -83,14 +92,14 @@ namespace RoadsUnited
         // RoadsUnited.RoadColourChanger
         public static void ChangeColourNetExt(float brightness, string Prefab_Class_Name, string TextureDir)
         {
-            int num;
-            for (int i = 0; i < PrefabCollection<NetInfo>.LoadedCount(); i = num + 1)
+            for (uint i = 0; i < PrefabCollection<NetInfo>.LoadedCount(); i++)
             {
-                try
-                {
-                    NetInfo netInfo = PrefabCollection<NetInfo>.GetLoaded((uint)i);
+                var netInfo = PrefabCollection<NetInfo>.GetLoaded(i);
 
-                    if (netInfo.m_class.name.Equals(Prefab_Class_Name))
+                if (netInfo == null) continue;
+
+
+                    if (netInfo.m_class.name.Contains(Prefab_Class_Name))
                     {
                         if (netInfo.m_color != null)
                             netInfo.m_color = new Color(brightness, brightness, brightness);
@@ -101,11 +110,7 @@ namespace RoadsUnited
                     //                  netInfo.m_color = new Color(brightness, brightness, brightness);
                     //              }
 
-                }
-                catch (Exception)
-                {
-                }
-                num = i;
+
 
             }
         }

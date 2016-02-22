@@ -62,10 +62,26 @@ namespace RoadsUnited
             ModLoader.SaveConfig();
 
         }
-
         private void EventSmallRoadBicycleBridgeBrightness(float c)
         {
             ModLoader.config.basic_road_bicycle_bridge_brightness = c;
+            ModLoader.SaveConfig();
+
+        }
+
+        private void EventSmallRoadTramBrightness(float c)
+        {
+            ModLoader.config.basic_road_tram_ground_brightness = c;
+            ModLoader.SaveConfig();
+        }
+        private void EventSmallRoadTramElevatedBrightness(float c)
+        {
+            ModLoader.config.basic_road_tram_elevated_brightness = c;
+            ModLoader.SaveConfig();
+        }
+        private void EventSmallRoadTramBridgeBrightness(float c)
+        {
+            ModLoader.config.basic_road_tram_bridge_brightness = c;
             ModLoader.SaveConfig();
 
         }
@@ -115,6 +131,23 @@ namespace RoadsUnited
             ModLoader.config.oneway_road_decoration_trees_brightness = c;
             ModLoader.SaveConfig();
         }
+
+        private void EventOnewayRoadTramBrightness(float c)
+        {
+            ModLoader.config.oneway_road_tram_ground_brightness = c;
+            ModLoader.SaveConfig();
+        }
+        private void EventOnewayRoadTramElevatedBrightness(float c)
+        {
+            ModLoader.config.oneway_road_tram_elevated_brightness = c;
+            ModLoader.SaveConfig();
+        }
+        private void EventOnewayRoadTramBridgeBrightness(float c)
+        {
+            ModLoader.config.oneway_road_tram_bridge_brightness = c;
+            ModLoader.SaveConfig();
+        }
+
 
         #endregion
 
@@ -173,6 +206,21 @@ namespace RoadsUnited
             ModLoader.SaveConfig();
         }
 
+        private void EventMediumRoadTramBrightness(float c)
+        {
+            ModLoader.config.medium_road_tram_ground_brightness = c;
+            ModLoader.SaveConfig();
+        }
+        private void EventMediumRoadTramElevatedBrightness(float c)
+        {
+            ModLoader.config.medium_road_tram_elevated_brightness = c;
+            ModLoader.SaveConfig();
+        }
+        private void EventMediumRoadTramBridgeBrightness(float c)
+        {
+            ModLoader.config.medium_road_tram_bridge_brightness = c;
+            ModLoader.SaveConfig();
+        }
         private void EventMediumRoadDecorationGrassBrightness(float c)
         {
             ModLoader.config.medium_road_decoration_grass_brightness = c;
@@ -488,6 +536,11 @@ namespace RoadsUnited
             uIHelperSmallBikeRoads.AddSlider("Elevated", 0, 1f, 0.0625f, ModLoader.config.basic_road_bicycle_elevated_brightness, new OnValueChanged(EventSmallRoadBicycleElevatedBrightness));
             uIHelperSmallBikeRoads.AddSlider("Bridge", 0, 1f, 0.0625f, ModLoader.config.basic_road_bicycle_bridge_brightness, new OnValueChanged(EventSmallRoadBicycleBridgeBrightness));
 
+            UIHelperBase uIHelperSmallRoadsTram = helper.AddGroup("Small Road with Tram");
+            uIHelperSmallRoadsTram.AddSlider("Ground", 0, 1f, 0.0625f, ModLoader.config.basic_road_tram_ground_brightness, new OnValueChanged(EventSmallRoadTramBrightness));
+            uIHelperSmallRoadsTram.AddSlider("Elevated", 0, 1f, 0.0625f, ModLoader.config.basic_road_tram_elevated_brightness, new OnValueChanged(EventSmallRoadTramElevatedBrightness));
+            uIHelperSmallRoadsTram.AddSlider("Bridge", 0, 1f, 0.0625f, ModLoader.config.basic_road_tram_bridge_brightness, new OnValueChanged(EventSmallRoadTramBridgeBrightness));
+
 
             UIHelperBase uIHelperOnewayRoads = helper.AddGroup("Small Oneway");
             uIHelperOnewayRoads.AddSlider("Ground", 0, 1f, 0.0625f, ModLoader.config.oneway_road_ground_brightness, new OnValueChanged(EventOnewayRoadBrightness));
@@ -496,6 +549,10 @@ namespace RoadsUnited
             uIHelperOnewayRoads.AddSpace(10);
             uIHelperOnewayRoads.AddSlider("Decoration Grass", 0, 1f, 0.0625f, ModLoader.config.oneway_road_decoration_grass_brightness, new OnValueChanged(EventOnewayRoadDecorationGrassBrightness));
             uIHelperOnewayRoads.AddSlider("Decoration Trees ", 0, 1f, 0.0625f, ModLoader.config.oneway_road_decoration_trees_brightness, new OnValueChanged(EventOnewayRoadDecorationTreesBrightness));
+            uIHelperOnewayRoads.AddSpace(10);
+            uIHelperOnewayRoads.AddSlider("Tram Ground", 0, 1f, 0.0625f, ModLoader.config.oneway_road_tram_ground_brightness, new OnValueChanged(EventOnewayRoadTramBrightness));
+            uIHelperOnewayRoads.AddSlider("Tram Elevated", 0, 1f, 0.0625f, ModLoader.config.oneway_road_tram_elevated_brightness, new OnValueChanged(EventOnewayRoadTramElevatedBrightness));
+            uIHelperOnewayRoads.AddSlider("Tram Bridge", 0, 1f, 0.0625f, ModLoader.config.oneway_road_tram_bridge_brightness, new OnValueChanged(EventOnewayRoadTramBridgeBrightness));
 
             UIHelperBase uIHelperMediumRoads = helper.AddGroup("Medium Roads");
             uIHelperMediumRoads.AddSlider("Ground", 0, 1f, 0.0625f, ModLoader.config.medium_road_ground_brightness, new OnValueChanged(EventMediumRoadBrightness));
@@ -505,7 +562,7 @@ namespace RoadsUnited
             uIHelperMediumRoads.AddSlider("Decoration Grass", 0, 1f, 0.0625f, ModLoader.config.medium_road_decoration_grass_brightness, new OnValueChanged(EventMediumRoadDecorationGrassBrightness));
             uIHelperMediumRoads.AddSlider("Decoration Trees", 0, 1f, 0.0625f, ModLoader.config.medium_road_decoration_trees_brightness, new OnValueChanged(EventMediumRoadDecorationTreesBrightness));
 
-            UIHelperBase uIHelperMediumBusBikeRoads = helper.AddGroup("Medium Roads with Bicycle or Bus Lane");
+            UIHelperBase uIHelperMediumBusBikeRoads = helper.AddGroup("Medium Roads with Bicycle, Bus Lane or Tram");
             uIHelperMediumBusBikeRoads.AddSlider("Bike Ground", 0, 1f, 0.0625f, ModLoader.config.medium_road_bicycle_ground_brightness, new OnValueChanged(EventMediumRoadBicycleBrightness));
             uIHelperMediumBusBikeRoads.AddSlider("Bike Elevated", 0, 1f, 0.0625f, ModLoader.config.medium_road_bicycle_elevated_brightness, new OnValueChanged(EventMediumRoadBicycleElevatedBrightness));
             uIHelperMediumBusBikeRoads.AddSlider("Bike Bridge", 0, 1f, 0.0625f, ModLoader.config.medium_road_bicycle_bridge_brightness, new OnValueChanged(EventMediumRoadBicycleBridgeBrightness));
@@ -513,6 +570,10 @@ namespace RoadsUnited
             uIHelperMediumBusBikeRoads.AddSlider("Bus Ground", 0, 1f, 0.0625f, ModLoader.config.medium_road_bus_ground_brightness, new OnValueChanged(EventMediumRoadBusBrightness));
             uIHelperMediumBusBikeRoads.AddSlider("Bus Elevated", 0, 1f, 0.0625f, ModLoader.config.medium_road_bus_elevated_brightness, new OnValueChanged(EventMediumRoadBusElevatedBrightness));
             uIHelperMediumBusBikeRoads.AddSlider("Bus Bridge", 0, 1f, 0.0625f, ModLoader.config.medium_road_bus_bridge_brightness, new OnValueChanged(EventMediumRoadBusBridgeBrightness));
+            uIHelperMediumBusBikeRoads.AddSpace(10);
+            uIHelperMediumBusBikeRoads.AddSlider("Tram Ground", 0, 1f, 0.0625f, ModLoader.config.medium_road_tram_ground_brightness, new OnValueChanged(EventMediumRoadTramBrightness));
+            uIHelperMediumBusBikeRoads.AddSlider("Tram Elevated", 0, 1f, 0.0625f, ModLoader.config.medium_road_tram_elevated_brightness, new OnValueChanged(EventMediumRoadTramElevatedBrightness));
+            uIHelperMediumBusBikeRoads.AddSlider("Tram Bridge", 0, 1f, 0.0625f, ModLoader.config.medium_road_tram_bridge_brightness, new OnValueChanged(EventMediumRoadTramBridgeBrightness));
 
             UIHelperBase uIHelperLargeRoads = helper.AddGroup("Large Roads");
             uIHelperLargeRoads.AddSlider("Ground", 0, 1f, 0.0625f, ModLoader.config.large_road_ground_brightness, new OnValueChanged(EventLargeRoadBrightness));
