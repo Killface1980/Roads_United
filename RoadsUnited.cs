@@ -358,7 +358,56 @@ namespace RoadsUnited
                                 segment.m_lodRenderDistance = 2500;
                             }
 
+                            if (netInfo.name.Contains("Four-Lane Highway"))
+                            {
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Ground"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway4L_Ground_Segment_MainTex.dds")));
 
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Elevated"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway4L_Elevated_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Slope"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway4L_Slope_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Tunnel"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway4L_Tunnel_Segment_MainTex.dds")));
+
+                                segment.m_lodRenderDistance = 2500;
+                            }
+
+                            if (netInfo.name.Contains("Five-Lane Highway"))
+                            {
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Ground"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway5L_Ground_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Elevated"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway5L_Ground_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Slope"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway5L_Slope_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Tunnel"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway5L_Tunnel_Segment_MainTex.dds")));
+
+                                segment.m_lodRenderDistance = 2500;
+                            }
+
+                            if (netInfo.name.Contains("Large Highway"))
+                            {
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Ground"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway6L_Ground_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Elevated"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway6L_Ground_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Slope"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway6L_Slope_Segment_MainTex.dds")));
+
+                                if (segment.m_segmentMaterial.GetTexture("_MainTex").name.Contains("Tunnel"))
+                                    segment.m_segmentMaterial.SetTexture("_MainTex", LoadTextureDDS(Path.Combine(ModLoader.currentTexturesPath_NetExt + "/Highways", "Highway6L_Tunnel_Segment_MainTex.dds")));
+
+                                segment.m_lodRenderDistance = 2500;
+                            }
 
                             #endregion
 
