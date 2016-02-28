@@ -5,8 +5,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{96DC0ADE-7ED5-46C8-A45C-8010DF059C44}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Roads_United</RootNamespace>
-    <AssemblyName>Roads_United</AssemblyName>
+    <RootNamespace>RoadsUnited</RootNamespace>
+    <AssemblyName>RoadsUnited</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -33,47 +33,49 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assetloader\Assetloader.cs" />
-    <Compile Include="Assetloader\Loading.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ModLoader.cs" />
     <Compile Include="ModInfo.cs" />
     <Compile Include="RoadColorChanger\RoadColorChanger.cs" />
     <Compile Include="RoadsUnited.cs" />
-    <Compile Include="RoadsUnitedHook\Configuration.cs" />
-    <None Include="__not used\Detours.cs" />
-    <Compile Include="RoadsUnitedHook\RoadsUnitedHook.cs" />
-    <None Include="__not used\Hook 4.cs" />
-    <None Include="Utilities\StringUtilities.cs" />
+    <Compile Include="Configuration\Configuration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\Steam\SteamApps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
+    </Reference>
     <Reference Include="CimTools">
       <HintPath>Libraries\CimTools.dll</HintPath>
     </Reference>
+    <Reference Include="ColossalManaged, Version=0.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesSkylines.ColossalManaged.1.2.0\lib\net35\ColossalManaged.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="CommonShared, Version=1.3.0.70, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CslCommonShared.1.3.0.70\lib\net35\CommonShared.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ICities, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesSkylines.ICities.1.2.0\lib\net35\ICities.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
-    <Reference Include="UnityEngine">
-      <HintPath>..\..\..\..\..\..\Program Files %28x86%29\Steam\SteamApps\common\Cities_Skylines\Cities_Data\Managed\UnityEngine.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ICities">
-      <HintPath>..\..\..\..\..\..\Program Files %28x86%29\Steam\SteamApps\common\Cities_Skylines\Cities_Data\Managed\ICities.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="ColossalManaged">
-      <HintPath>..\..\..\..\..\..\Program Files %28x86%29\Steam\SteamApps\common\Cities_Skylines\Cities_Data\Managed\ColossalManaged.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\..\..\..\Program Files %28x86%29\Steam\SteamApps\common\Cities_Skylines\Cities_Data\Managed\Assembly-CSharp.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>packages\CitiesSkylines.UnityEngine.1.2.0\lib\net35\UnityEngine.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="RoadsUnitedTheme.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ProjectExtensions>
     <MonoDevelop>
       <Properties>
