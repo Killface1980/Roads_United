@@ -434,11 +434,18 @@ namespace RoadsUnited
 
         #region Config stuff
 
-
-
         private void EventCheckCreateVanillaDictionary(bool c)
         {
             ModLoader.config.create_vanilla_dictionary = c;
+            ModLoader.SaveConfig();
+        }
+
+        private void EventCheckDeactivateMod(bool c)
+        {
+            ModLoader.config.create_vanilla_dictionary = c;
+            ModLoader.config.use_custom_textures = c;
+            ModLoader.config.use_custom_colours = c;
+
             ModLoader.SaveConfig();
         }
 
@@ -502,6 +509,7 @@ namespace RoadsUnited
 
             UIHelperBase uIHelperGeneralSettings = helper.AddGroup("General Settings");
             //            uIHelperGeneralSettings.AddCheckbox("Use mods Vanilla roads texture replacements", ModLoader.config.use_custom_textures, EventCheckUseCustomTextures);
+            uIHelperGeneralSettings.AddCheckbox("Please deactivate when using Roads United Core mod.", ModLoader.config.use_custom_textures, EventCheckDeactivateMod);
             uIHelperGeneralSettings.AddCheckbox("Activate the brightness sliders below. Slider to the right for a lighter colour.", ModLoader.config.use_custom_colours, EventCheckUseCustomColours);
             uIHelperGeneralSettings.AddCheckbox("Create Vanilla road texture backup on level load.", ModLoader.config.create_vanilla_dictionary, EventCheckCreateVanillaDictionary);
             uIHelperGeneralSettings.AddButton("Revert to Vanilla textures (in-game only)", EventRevertVanillaTextures);

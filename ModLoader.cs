@@ -227,9 +227,6 @@ namespace RoadsUnited
             #endregion
 
 
-//            Resources.UnloadUnusedAssets();
-
-
             if (false)
             {
                 // Get the UIView object. This seems to be the top-level object for most
