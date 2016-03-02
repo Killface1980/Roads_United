@@ -1,12 +1,13 @@
-﻿using ICities;
+﻿using ColossalFramework.Plugins;
+using ICities;
 using System;
-
+using UnityEngine;
 
 namespace RoadsUnited
 {
     public class RoadsUnitedMod : IUserMod
     {
-        public const UInt64 workshop_id = 598151121;
+        public const UInt64 workshop_id = 598151121uL;
 
         public const String VersionName = "Update 4";
 
@@ -15,7 +16,7 @@ namespace RoadsUnited
         {
             get
             {
-                return "Roads United";
+                return "Roads United: Germany";
             }
         }
 
@@ -23,7 +24,7 @@ namespace RoadsUnited
         {
             get
             {
-                return "Replaces road textures and other road feature with more European ones.";
+                return "Road texture pack German style.";
             }
         }
 
@@ -498,6 +499,23 @@ namespace RoadsUnited
 
         #endregion
 
+        private bool CoreIsActive()
+        {
+            foreach (PluginManager.PluginInfo current in PluginManager.instance.GetPluginsInfo())
+            {
+                if (current.publishedFileID.AsUInt64 == 633547552uL & current.isEnabled) return true;
+                if (current.name.Equals("Roads United Core") & current.isEnabled) return true;
+            }
+            return false;
+        }
+
+
+
+
+
+
+
+
         public void OnSettingsUI(UIHelperBase helper)
         {
             ModLoader.config = Configuration.Deserialize(ModLoader.configPath);
@@ -507,9 +525,23 @@ namespace RoadsUnited
             }
             ModLoader.SaveConfig();
 
+
+            // do nothing if Core Mod is active
+            if (CoreIsActive())
+            {
+                ModLoader.config.use_custom_colours = false;
+                ModLoader.config.use_custom_textures = false;
+                ModLoader.config.create_vanilla_dictionary = false;
+                ModLoader.SaveConfig();
+                UIHelperBase group = helper.AddGroup("All mod functionality has been transfered to the Roads United Core mod.");
+                UIHelperBase group2 = helper.AddGroup("Please activate and check the options there.");
+                return;
+            }
+
+
+
             UIHelperBase uIHelperGeneralSettings = helper.AddGroup("General Settings");
             //            uIHelperGeneralSettings.AddCheckbox("Use mods Vanilla roads texture replacements", ModLoader.config.use_custom_textures, EventCheckUseCustomTextures);
-            uIHelperGeneralSettings.AddCheckbox("Please deactivate when using Roads United Core mod.", ModLoader.config.use_custom_textures, EventCheckDeactivateMod);
             uIHelperGeneralSettings.AddCheckbox("Activate the brightness sliders below. Slider to the right for a lighter colour.", ModLoader.config.use_custom_colours, EventCheckUseCustomColours);
             uIHelperGeneralSettings.AddCheckbox("Create Vanilla road texture backup on level load.", ModLoader.config.create_vanilla_dictionary, EventCheckCreateVanillaDictionary);
             uIHelperGeneralSettings.AddButton("Revert to Vanilla textures (in-game only)", EventRevertVanillaTextures);
@@ -621,6 +653,8 @@ namespace RoadsUnited
 
 
         }
+
+
 
 
     }

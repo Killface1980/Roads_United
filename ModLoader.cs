@@ -4,6 +4,7 @@ using ICities;
 using System.IO;
 using UnityEngine;
 using ColossalFramework.UI;
+using ColossalFramework.Plugins;
 
 namespace RoadsUnited
 {
@@ -323,12 +324,9 @@ namespace RoadsUnited
         }
 
 
-#if Debug
-        public void ButtonClick(UIComponent component, UIMouseEventParameter eventParam)
-        {
-            RoadsUnited.ReplaceNetTextures(modPath);
-        } 
-#endif
+
+
+
     }
 
 
